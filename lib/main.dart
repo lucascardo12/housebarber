@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'pages/home-page.dart';
 import 'pages/login-page.dart';
 
 void main() {
