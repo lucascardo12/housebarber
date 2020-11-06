@@ -9,14 +9,8 @@ class LoginPage extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-                height: MediaQuery.of(context).size.height / 1.3,
+                height: MediaQuery.of(context).size.height / 1.35,
                 decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                      fit: BoxFit.cover,
-                      colorFilter: new ColorFilter.mode(
-                          Colors.white.withOpacity(0.5), BlendMode.dstATop),
-                      image: AssetImage("assets/barber.jpg"),
-                    ),
                     color: secondary,
                     borderRadius: new BorderRadius.only(
                       bottomLeft: Radius.circular(25),
@@ -24,7 +18,17 @@ class LoginPage extends StatelessWidget {
                     )),
                 child: ListView(
                   children: [
-                    Text('fgafgafg'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                        child: Text(
+                      'House Barber Shop',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    )),
                   ],
                 )),
             ListView(
@@ -33,7 +37,7 @@ class LoginPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height / 1.5,
                 ),
                 Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20),
+                    padding: EdgeInsets.only(left: 40, right: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -47,7 +51,8 @@ class LoginPage extends StatelessWidget {
                               padding: EdgeInsets.only(left: 20, right: 20),
                               child: Text(
                                 'Login',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               )),
                         ),
                         RaisedButton(
@@ -60,7 +65,8 @@ class LoginPage extends StatelessWidget {
                               padding: EdgeInsets.only(left: 20, right: 20),
                               child: Text(
                                 'Sigup',
-                                style: TextStyle(color: Colors.white),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
                               )),
                         ),
                       ],
