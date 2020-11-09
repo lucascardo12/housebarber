@@ -1,3 +1,6 @@
+import 'package:housebarber/model/cliente.dart';
+import 'package:housebarber/model/funcionario.dart';
+
 class Empresa {
   String nome;
   String numero;
@@ -5,8 +8,8 @@ class Empresa {
   String email;
   String senha;
   String fornecedor;
-  List<Clientes> listClient;
-  List<Funcionarios> listFunc;
+  List<Cliente> listClient;
+  List<Funcionario> listFunc;
 
   Empresa(
       {String numero,
@@ -15,8 +18,8 @@ class Empresa {
       String email,
       String cnpj,
       String fornecedor,
-      List<Clientes> listClient,
-      List<Funcionarios> listFunc}) {
+      List<Cliente> listClient,
+      List<Funcionario> listFunc}) {
     this.numero = numero;
     this.nome = nome;
     this.senha = senha;
