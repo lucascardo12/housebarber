@@ -3,34 +3,25 @@ class Cliente {
   String numero;
   String cpf;
   String email;
-  String senha;
 
   Cliente(
       {String nome, String numero, String cpf, String email, String senha}) {
     this.numero = numero;
     this.nome = nome;
-    this.senha = senha;
     this.email = email;
     this.cpf = cpf;
   }
   Cliente.fromJson(Map<String, dynamic> xjson) {
     nome = xjson['nome'];
-    senha = xjson['senha'];
     numero = xjson['numero'];
     email = xjson['email'];
     cpf = xjson['cpf'];
   }
 
-  Map<String, dynamic> toJson() => {
-        'nome': nome,
-        'senha': senha,
-        'numero': numero,
-        'email': email,
-        'cpf': cpf
-      };
+  Map<String, dynamic> toJson() =>
+      {'nome': nome, 'numero': numero, 'email': email, 'cpf': cpf};
   Cliente.toMap(Map<String, dynamic> map) {
     map["nome"] = nome;
-    map["senha"] = senha;
     map["numero"] = numero;
     map['email'] = email;
     map['cpf'] = cpf;
