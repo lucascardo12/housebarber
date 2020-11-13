@@ -18,24 +18,19 @@ class _LoginPageState extends State<LoginPage> {
   int page = 0;
   LiquidController liquidController;
   var screenWidgt;
-  static final style = TextStyle(
-    fontSize: 30,
-    fontFamily: "Billy",
-    fontWeight: FontWeight.w600,
-  );
   UpdateType updateType;
-  test() async {
-    User user =
-        new User(login: 'lucascardo12', senha: 'fuckyuo12', tipoUser: '2');
-    //bacon.alteraUser(user: user);
-    var ret = await bacon.getUser(login: 'lucascardo12', senha: 'fuckyuo12');
-    if (ret.toString() != "Instance of 'Future<dynamic>'") {
-      if (ret != null) {
-        ret.tipoUser = '1';
-        //await bacon.alteraUser(user: ret);
-      }
-    }
-  }
+  // test() async {
+  //   User user =
+  //       new User(login: 'lucascardo12', senha: 'fuckyuo12', tipoUser: '2');
+  //   //bacon.alteraUser(user: user);
+  //   var ret = await bacon.getUser(login: 'lucascardo12', senha: 'fuckyuo12');
+  //   if (ret.toString() != "Instance of 'Future<dynamic>'") {
+  //     if (ret != null) {
+  //       ret.tipoUser = '1';
+  //       //await bacon.alteraUser(user: ret);
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -44,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   List<Container> pages = [
+    //---CONTAINER DE LOGIN---//
     Container(
         color: primaryLight,
         child: Theme(
@@ -51,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: Colors.white,
               primaryColor: Colors.white,
             ),
-            child: Column(
+            child: ListView(
               children: [
                 SizedBox(
                   height: 80,
@@ -138,6 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     )),
               ],
             ))),
+    //---CONTAINER DA TELA DE CADASTRO --- //
     Container(
         color: secondary,
         child: Theme(
@@ -357,27 +354,6 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: FlatButton.icon(
-              label: Text(
-                page == 0 ? "Cadastro" : "Login",
-                style:
-                    TextStyle(color: page == 0 ? Colors.white : Colors.white),
-              ),
-              onPressed: () {
-                liquidController.jumpToPage(page: page + 1);
-              },
-              icon: Icon(
-                Icons.keyboard_arrow_right,
-                color: page == 0 ? Colors.white : Colors.white,
-              ),
-              color: Colors.transparent,
-            ),
-          ),
-        )
       ]),
     );
   }
