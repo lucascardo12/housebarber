@@ -20,24 +20,19 @@ class _LoginPageState extends State<LoginPage> {
   int page = 0;
   LiquidController liquidController;
   var screenWidgt;
-  static final style = TextStyle(
-    fontSize: 30,
-    fontFamily: "Billy",
-    fontWeight: FontWeight.w600,
-  );
   UpdateType updateType;
-  test() async {
-    User user =
-        new User(login: 'lucascardo12', senha: 'fuckyuo12', tipoUser: '2');
-    //bacon.alteraUser(user: user);
-    var ret = await bacon.getUser(login: 'lucascardo12', senha: 'fuckyuo12');
-    if (ret.toString() != "Instance of 'Future<dynamic>'") {
-      if (ret != null) {
-        ret.tipoUser = '1';
-        //await bacon.alteraUser(user: ret);
-      }
-    }
-  }
+  // test() async {
+  //   User user =
+  //       new User(login: 'lucascardo12', senha: 'fuckyuo12', tipoUser: '2');
+  //   //bacon.alteraUser(user: user);
+  //   var ret = await bacon.getUser(login: 'lucascardo12', senha: 'fuckyuo12');
+  //   if (ret.toString() != "Instance of 'Future<dynamic>'") {
+  //     if (ret != null) {
+  //       ret.tipoUser = '1';
+  //       //await bacon.alteraUser(user: ret);
+  //     }
+  //   }
+  // }
 
   @override
   void initState() {
@@ -45,7 +40,275 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
   }
 
+<<<<<<< HEAD
   List<dynamic> pages = [CadastroPage(), SubLoginPage()];
+=======
+  List<Container> pages = [
+    //---CONTAINER DE LOGIN---//
+    Container(
+        color: primaryLight,
+        child: Theme(
+            data: new ThemeData(
+              cursorColor: Colors.white,
+              primaryColor: Colors.white,
+            ),
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 80,
+                ),
+                Center(
+                    child: Text(
+                  'House Barber Shop',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            //controller: loginController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.people_alt,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Login:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Senha:",
+                              hintStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RaisedButton(
+                          padding: EdgeInsets.only(
+                              top: 5, bottom: 5, left: 100, right: 100),
+                          elevation: 12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          color: secondary,
+                          onPressed: () {},
+                          child: Text(
+                            'Login',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ))),
+    //---CONTAINER DA TELA DE CADASTRO --- //
+    Container(
+        color: secondary,
+        child: Theme(
+            data: new ThemeData(
+              cursorColor: Colors.white,
+              primaryColor: Colors.white,
+            ),
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 40,
+                ),
+                Center(
+                    child: Text(
+                  'House Barber Shop',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Cadastro',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            //controller: loginController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.people_alt,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Nome:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            //controller: loginController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.people_alt,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Login:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            //controller: loginController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.phone,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Numero:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            //controller: loginController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.people_alt,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "CPF/CNPJ:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.email,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "E-mail:",
+                              hintStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Tipo de usario:",
+                              hintStyle: TextStyle(color: Colors.white),
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        RaisedButton(
+                          padding: EdgeInsets.only(
+                              top: 5, bottom: 5, left: 100, right: 100),
+                          elevation: 12,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          color: primary,
+                          onPressed: () {},
+                          child: Text(
+                            'Registrar',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ))),
+  ];
+>>>>>>> main
 
   Widget _buildDot(int index) {
     double selectedness = Curves.easeOut.transform(
@@ -97,27 +360,6 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: FlatButton.icon(
-              label: Text(
-                page == 0 ? "Cadastro" : "Login",
-                style:
-                    TextStyle(color: page == 0 ? Colors.white : Colors.white),
-              ),
-              onPressed: () {
-                liquidController.jumpToPage(page: page + 1);
-              },
-              icon: Icon(
-                Icons.keyboard_arrow_right,
-                color: page == 0 ? Colors.white : Colors.white,
-              ),
-              color: Colors.transparent,
-            ),
-          ),
-        )
       ]),
     );
   }
