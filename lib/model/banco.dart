@@ -39,10 +39,7 @@ class BancoMg {
         } else {
           await collection.save(user.toJson());
         }
-
-        print(ret);
         await closeDB();
-
         return ret;
       }
     } catch (e) {
@@ -57,7 +54,6 @@ class BancoMg {
         await openDB();
         var collection = bk.collection('user');
         await collection.remove(where.eq('_id', user.id));
-        print(user.id);
         await closeDB();
         return ret;
       }
