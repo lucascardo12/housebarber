@@ -1,6 +1,8 @@
 import 'package:housebarber/model/user.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
+import 'empresa.dart';
+
 class BancoMg {
   Db bk;
   openDB() async {
@@ -11,6 +13,7 @@ class BancoMg {
     await bk.close();
   }
 
+//FUNÇÕES DE BANCO DA CLASSE USER
   getUser({String senha, String login}) async {
     try {
       if (senha != null && login != null) {
@@ -54,6 +57,58 @@ class BancoMg {
         await openDB();
         var collection = bk.collection('user');
         await collection.remove(where.eq('_id', user.id));
+        await closeDB();
+        return ret;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+//FUNÇÕES DE BANCO DA CLASSE EMPRESA
+  getEmpresa({int idEmpresa}) async {
+    try {
+      if (idEmpresa != null) {
+        var ret;
+        await openDB();
+        var collection = bk.collection('empresa');
+        ret = await collection.findOne({"_id": idEmpresa});
+        Empresa empresa = Empresa.fromJson(ret);
+        await closeDB();
+        return empresa;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  alteraEmpresa({Empresa empresa}) async {
+    try {
+      if (empresa != null) {
+        var ret;
+        await openDB();
+        var collection = bk.collection('empresa');
+        if (empresa.idEmpresa == null) {
+          empresa.idEmpresa = await collection.count() + 1;
+          await collection.insert(empresa.toJson());
+        } else {
+          await collection.save(empresa.toJson());
+        }
+        await closeDB();
+        return ret;
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  removeEmpresa({Empresa empresa}) async {
+    try {
+      if (empresa != null) {
+        var ret;
+        await openDB();
+        var collection = bk.collection('empresa');
+        await collection.remove(where.eq('_id', empresa.idEmpresa));
         await closeDB();
         return ret;
       }
