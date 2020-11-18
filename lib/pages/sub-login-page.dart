@@ -1,12 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:housebarber/model/user.dart';
-import 'package:liquid_swipe/Helpers/Helpers.dart';
-import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
 
 class SubLoginPage extends StatefulWidget {
   @override
@@ -14,6 +7,7 @@ class SubLoginPage extends StatefulWidget {
 }
 
 class _SubLoginPageState extends State<SubLoginPage> {
+  TextEditingController loginController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(

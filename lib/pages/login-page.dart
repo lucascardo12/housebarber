@@ -16,31 +16,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController loginController = TextEditingController();
   int page = 0;
   LiquidController liquidController;
   var screenWidgt;
   UpdateType updateType;
-  // test() async {
-  //   User user =
-  //       new User(login: 'lucascardo12', senha: 'fuckyuo12', tipoUser: '2');
-  //   //bacon.alteraUser(user: user);
-  //   var ret = await bacon.getUser(login: 'lucascardo12', senha: 'fuckyuo12');
-  //   if (ret.toString() != "Instance of 'Future<dynamic>'") {
-  //     if (ret != null) {
-  //       ret.tipoUser = '1';
-  //       //await bacon.alteraUser(user: ret);
-  //     }
-  //   }
-  // }
 
   @override
   void initState() {
     liquidController = LiquidController();
     super.initState();
   }
-
-  List<dynamic> pages = [CadastroPage(), SubLoginPage()];
 
   Widget _buildDot(int index) {
     double selectedness = Curves.easeOut.transform(
@@ -67,14 +52,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    var page = 0;
-    if (liquidController.provider != null) {
-      page = liquidController.currentPage;
-    }
     return Scaffold(
       body: Stack(children: [
         LiquidSwipe(
-          pages: pages,
+          pages: [new SubLoginPage(), new CadastroPage()],
           onPageChangeCallback: pageChangeCallback,
           waveType: WaveType.liquidReveal,
           liquidController: liquidController,
@@ -87,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(child: SizedBox()),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List<Widget>.generate(pages.length, _buildDot),
+                children: List<Widget>.generate(2, _buildDot),
               ),
             ],
           ),

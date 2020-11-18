@@ -1,12 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:housebarber/model/user.dart';
-import 'package:liquid_swipe/Helpers/Helpers.dart';
-import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -14,6 +7,7 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
+  String tipoUser = "Tipo de Usuario";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -146,21 +140,32 @@ class _CadastroPageState extends State<CadastroPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.white,
-                                size: 28,
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: new DropdownButton<String>(
+                              isExpanded: true,
+                              hint: Text(
+                                tipoUser,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
                               ),
-                              labelText: "Tipo de usario:",
-                              hintStyle: TextStyle(color: Colors.white),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
+                              items: <String>[
+                                'Empresa',
+                                'Funcionario',
+                                'Cliente'
+                              ].map((String value) {
+                                return new DropdownMenuItem<String>(
+                                  value: value,
+                                  child: new Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  tipoUser = value;
+                                });
+                              },
                             )),
                         SizedBox(
                           height: 20,
