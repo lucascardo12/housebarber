@@ -1,9 +1,8 @@
-import 'package:housebarber/model/cliente.dart';
-import 'package:housebarber/model/funcionario.dart';
+import 'package:housebarber/model/user.dart';
 
 class Empresa {
   int idEmpresa;
-  int idUser;
+  User idUser;
   String nome;
   String numero;
   String cnpj;
@@ -14,7 +13,7 @@ class Empresa {
 
   Empresa(
       {int idEmpresa,
-      int idUser,
+      User idUser,
       String numero,
       String nome,
       String senha,
@@ -23,8 +22,8 @@ class Empresa {
       String fornecedor,
       List<int> listClient,
       List<int> listFunc}) {
-    this.numero = numero;
-    this.numero = numero;
+    this.idEmpresa = idEmpresa;
+    this.idUser = idUser;
     this.numero = numero;
     this.nome = nome;
     this.email = email;
@@ -32,6 +31,8 @@ class Empresa {
     this.listFunc = listFunc;
   }
   Empresa.fromJson(Map<String, dynamic> xjson) {
+    idEmpresa = xjson['_id'];
+    idUser = User.fromJson(xjson['idUser']);
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];
@@ -40,6 +41,8 @@ class Empresa {
   }
 
   Map<String, dynamic> toJson() => {
+        '_id': idEmpresa,
+        'idUser': idUser,
         'nome': nome,
         'numero': numero,
         'email': email,
@@ -47,8 +50,10 @@ class Empresa {
         'listFunc': listFunc,
       };
   Empresa.toMap(Map<String, dynamic> map) {
-    map["nome"] = nome;
-    map["numero"] = numero;
+    map['_id'] = idEmpresa;
+    map['idUser'] = idUser;
+    map['nome'] = nome;
+    map['numero'] = numero;
     map['email'] = email;
     map['listClient'] = listClient;
     map['listFunc'] = listFunc;

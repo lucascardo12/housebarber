@@ -37,9 +37,9 @@ class Agendamento {
         'funcionario': funcionario
       };
   Agendamento.toMap(Map<String, dynamic> map) {
-    map["valor"] = valor;
-    map["diaHora"] = diaHora;
-    map["empresa"] = empresa;
+    map['valor'] = valor;
+    map['diaHora'] = diaHora;
+    map['empresa'] = empresa;
     map['cliente'] = cliente;
     map['funcionario'] = funcionario;
   }
