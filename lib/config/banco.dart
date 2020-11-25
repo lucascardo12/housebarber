@@ -3,7 +3,7 @@ import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-import 'empresa.dart';
+import '../model/empresa.dart';
 
 class BancoMg {
   Db bk;
@@ -16,15 +16,18 @@ class BancoMg {
   }
 
 //FUNÇÕES DE BANCO DA CLASSE USER
-  getUser({String senha, String login}) async {
+  getUser({String senha, String login, String tipoUser}) async {
+    User user = new User();
     try {
       if (senha != null && login != null) {
         var ret;
         await openDB();
         var collection = bk.collection('user');
         ret = await collection.findOne({"senha": senha, 'login': login});
-        User user = User.fromJson(ret);
+        user = User.fromJson(ret);
         await closeDB();
+        return user;
+      } else {
         return user;
       }
     } catch (e) {
@@ -39,7 +42,8 @@ class BancoMg {
         await openDB();
         var collection = bk.collection('user');
         if (user.idUser == null) {
-          user.idUser = await collection.count() + 1;
+          var i = await collection.count() + 1;
+          user.idUser = i.toString();
           await collection.insert(user.toJson());
         } else {
           await collection.save(user.toJson());
@@ -91,7 +95,8 @@ class BancoMg {
         await openDB();
         var collection = bk.collection('empresa');
         if (empresa.idEmpresa == null) {
-          empresa.idEmpresa = await collection.count() + 1;
+          var i = await collection.count() + 1;
+          empresa.idEmpresa = i.toString();
           await collection.insert(empresa.toJson());
         } else {
           await collection.save(empresa.toJson());

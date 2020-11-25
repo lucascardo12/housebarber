@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
+import 'package:housebarber/config/custom-functions.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -7,7 +8,13 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  String tipoUser = "Tipo de Usuario";
+  int tipoUser = 1;
+  TextEditingController nomeController = TextEditingController();
+  TextEditingController usuarioController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController numeroController = TextEditingController();
+  TextEditingController cpfcnpjController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +58,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
-                            //controller: loginController,
+                            controller: nomeController,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.people_alt,
@@ -69,14 +76,29 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
-                            //controller: loginController,
+                            controller: usuarioController,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.people_alt,
                                 color: Colors.white,
                                 size: 28,
                               ),
-                              labelText: "Cadastro:",
+                              labelText: "Usuario:",
+                              labelStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            )),
+                        TextField(
+                            style: TextStyle(color: Colors.white),
+                            controller: senhaController,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.people_alt,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                              labelText: "Senha:",
                               labelStyle: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -87,7 +109,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
-                            //controller: loginController,
+                            controller: numeroController,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.phone,
@@ -105,7 +127,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
-                            //controller: loginController,
+                            controller: cpfcnpjController,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.people_alt,
@@ -123,6 +145,7 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
+                            controller: emailController,
                             keyboardType: TextInputType.text,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
@@ -142,31 +165,32 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         Align(
                             alignment: Alignment.centerLeft,
-                            child: new DropdownButton<String>(
-                              isExpanded: true,
-                              hint: Text(
-                                tipoUser,
+                            child: DropdownButton(
+                                dropdownColor: secondary,
+                                value: tipoUser ?? 1,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                 ),
-                              ),
-                              items: <String>[
-                                'Empresa',
-                                'Funcionario',
-                                'Cliente'
-                              ].map((String value) {
-                                return new DropdownMenuItem<String>(
-                                  value: value,
-                                  child: new Text(value),
-                                );
-                              }).toList(),
-                              onChanged: (value) {
-                                setState(() {
-                                  tipoUser = value;
-                                });
-                              },
-                            )),
+                                items: [
+                                  DropdownMenuItem(
+                                    child: Text(
+                                      "Empresa",
+                                    ),
+                                    value: 1,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("Funcionario"),
+                                    value: 2,
+                                  ),
+                                  DropdownMenuItem(
+                                      child: Text("Cliente"), value: 3),
+                                ],
+                                onChanged: (value) {
+                                  setState(() {
+                                    tipoUser = value;
+                                  });
+                                })),
                         SizedBox(
                           height: 20,
                         ),
@@ -178,7 +202,19 @@ class _CadastroPageState extends State<CadastroPage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           color: primary,
-                          onPressed: () {},
+                          onPressed: () {
+                            Map<String, String> infoArray = {
+                              'nome': nomeController.text,
+                              'usuario': usuarioController.text,
+                              'senha': senhaController.text,
+                              'numero': numeroController.text,
+                              'cpfcnpj': cpfcnpjController.text,
+                              'email': emailController.text,
+                              'tipoUser': tipoUser.toString()
+                            };
+                            Customfunctions.validaCadastro(
+                                infoArray: infoArray);
+                          },
                           child: Text(
                             'Registrar',
                             style: TextStyle(color: Colors.white, fontSize: 18),

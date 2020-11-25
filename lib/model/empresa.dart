@@ -1,8 +1,8 @@
 import 'package:housebarber/model/user.dart';
 
 class Empresa {
-  int idEmpresa;
-  User idUser;
+  String idEmpresa;
+  String idUser;
   String nome;
   String numero;
   String cnpj;
@@ -12,11 +12,10 @@ class Empresa {
   List<int> listFunc;
 
   Empresa(
-      {int idEmpresa,
-      User idUser,
+      {String idEmpresa,
+      String idUser,
       String numero,
       String nome,
-      String senha,
       String email,
       String cnpj,
       String fornecedor,
@@ -32,7 +31,7 @@ class Empresa {
   }
   Empresa.fromJson(Map<String, dynamic> xjson) {
     idEmpresa = xjson['_id'];
-    idUser = User.fromJson(xjson['idUser']);
+    idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];

@@ -1,10 +1,10 @@
 class User {
-  int idUser;
+  String idUser;
   String tipoUser;
   String login;
   String senha;
 
-  User({String tipoUser, String login, String senha, int idUser}) {
+  User({String tipoUser, String login, String senha, String idUser}) {
     this.tipoUser = tipoUser;
     this.login = login;
     this.senha = senha;
