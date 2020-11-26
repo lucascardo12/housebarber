@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
@@ -15,6 +16,7 @@ class Customfunctions {
     var numero = infoArray["numero"];
     var cnpj = infoArray["cpfcnpj"];
     var email = infoArray["email"];
+    var tipoUser = infoArray["tipoUser"];
     var mensagem = "";
     if (nome == "") {
       mensagem += "Nome é Obrigatório";
@@ -35,9 +37,18 @@ class Customfunctions {
       mensagem += "senha é Obrigatório";
     }
     if (mensagem == "") {
-      cadastraEmpresa(infoArray: infoArray);
+      if (tipoUser == "1") {
+        //EMPRESA
+        cadastraEmpresa(infoArray: infoArray);
+      } else if (tipoUser == "2") {
+        //FUNCIONARIO
+        cadastraFuncionario(infoArray: infoArray);
+      } else if (tipoUser == "3") {
+        //CLIENTE
+        cadastraCliente(infoArray: infoArray);
+      }
     } else {
-      //Retorn mensagem para tela de usuario.
+      //Retorna mensagem para tela de usuario.
     }
   }
 
@@ -73,7 +84,7 @@ class Customfunctions {
             nome: infoArray['nome'],
             numero: infoArray['numero'],
             idUser: value.idUser,
-            cnpj: infoArray['cpfcnpj'],
+            cpf: infoArray['cpfcnpj'],
             email: infoArray['email']);
 
         bacon.alteraFuncionario(funcionario: funcionario);
@@ -81,7 +92,7 @@ class Customfunctions {
     });
   }
 
-  static cadastraEmpresa({var infoArray}) async {
+  static cadastraCliente({var infoArray}) async {
     User user = new User(
         login: infoArray['usuario'],
         senha: infoArray['senha'],
@@ -89,14 +100,14 @@ class Customfunctions {
 
     await bacon.alteraUser(user: user).then((value) {
       if (value != null) {
-        Empresa empresa = new Empresa(
+        Cliente cliente = new Cliente(
             nome: infoArray['nome'],
             numero: infoArray['numero'],
             idUser: value.idUser,
-            cnpj: infoArray['cpfcnpj'],
+            cpf: infoArray['cpfcnpj'],
             email: infoArray['email']);
 
-        bacon.alteraEmpresa(empresa: empresa);
+        bacon.alteraCliente(cliente: cliente);
       }
     });
   }

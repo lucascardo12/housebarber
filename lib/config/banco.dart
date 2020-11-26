@@ -92,10 +92,10 @@ class BancoMg {
     }
   }
 
-  alteraEmpresa({Empresa empresa}) async {
+  Future<Empresa> alteraEmpresa({Empresa empresa}) async {
+    Empresa ret = new Empresa();
     try {
       if (empresa != null) {
-        var ret;
         await openDB();
         var collection = bk.collection('empresa');
         if (empresa.idEmpresa == null) {
@@ -107,10 +107,13 @@ class BancoMg {
         }
         await closeDB();
         return ret;
+      } else {
+        return ret;
       }
     } catch (e) {
       print(e);
     }
+    return ret;
   }
 
   removeEmpresa({Empresa empresa}) async {
@@ -145,24 +148,28 @@ class BancoMg {
     }
   }
 
-  alteraFuncionario({Funcionario funcionario}) async {
+  Future<Funcionario> alteraFuncionario({Funcionario funcionario}) async {
+    Funcionario ret = new Funcionario();
     try {
       if (funcionario != null) {
-        var ret;
         await openDB();
         var collection = bk.collection('funcionario');
         if (funcionario.idFuncionario == null) {
-          funcionario.idFuncionario = await collection.count() + 1;
+          var i = await collection.count() + 1;
+          funcionario.idFuncionario = i.toString();
           await collection.insert(funcionario.toJson());
         } else {
           await collection.save(funcionario.toJson());
         }
         await closeDB();
         return ret;
+      } else {
+        return ret;
       }
     } catch (e) {
       print(e);
     }
+    return ret;
   }
 
   removeFuncionario({Funcionario funcionario}) async {
@@ -197,24 +204,28 @@ class BancoMg {
     }
   }
 
-  alteraCliente({Cliente cliente}) async {
+  Future<Cliente> alteraCliente({Cliente cliente}) async {
+    Cliente ret = new Cliente();
     try {
       if (cliente != null) {
-        var ret;
         await openDB();
         var collection = bk.collection('cliente');
         if (cliente.idCliente == null) {
-          cliente.idCliente = await collection.count() + 1;
+          var i = await collection.count() + 1;
+          cliente.idCliente = i.toString();
           await collection.insert(cliente.toJson());
         } else {
           await collection.save(cliente.toJson());
         }
         await closeDB();
         return ret;
+      } else {
+        return ret;
       }
     } catch (e) {
       print(e);
     }
+    return ret;
   }
 
   removeCliente({Cliente cliente}) async {

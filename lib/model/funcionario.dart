@@ -1,7 +1,7 @@
 import 'package:housebarber/model/user.dart';
 
 class Funcionario {
-  int idFuncionario;
+  String idFuncionario;
   String idUser;
   String nome;
   String numero;
@@ -9,8 +9,8 @@ class Funcionario {
   String email;
 
   Funcionario(
-      {int idFuncionario,
-      User idUser,
+      {String idFuncionario,
+      String idUser,
       String nome,
       String numero,
       String cpf,
@@ -25,7 +25,7 @@ class Funcionario {
   }
   Funcionario.fromJson(Map<String, dynamic> xjson) {
     idFuncionario = xjson['_id'];
-    idUser = User.fromJson(xjson['idUser']);
+    idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];
