@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
@@ -96,5 +99,9 @@ class Customfunctions {
         bacon.alteraEmpresa(empresa: empresa);
       }
     });
+  }
+
+  static String textToMd5(String text) {
+    return md5.convert(utf8.encode(text)).toString();
   }
 }

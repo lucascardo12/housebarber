@@ -31,7 +31,7 @@ dependencies:
   flutter_money_formatter: ^0.8.3
   mongo_dart: ^0.4.4
   liquid_swipe: ^1.5.0
-
+  crypto: ^2.0.6
 
 dev_dependencies:
   flutter_test:
