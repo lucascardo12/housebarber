@@ -1,5 +1,6 @@
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/empresa.dart';
+import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 
 class Customfunctions {
@@ -37,20 +38,63 @@ class Customfunctions {
     }
   }
 
-  static cadastraEmpresa({var infoArray}) {
-    User user = bacon.getUser(
+  static cadastraEmpresa({var infoArray}) async {
+    User user = new User(
         login: infoArray['usuario'],
         senha: infoArray['senha'],
         tipoUser: infoArray['tipoUser']);
-    if (user != null) {
-      Empresa empresa = new Empresa(
-          nome: infoArray['nome'],
-          numero: infoArray['numero'],
-          idUser: user.idUser,
-          cnpj: infoArray['cpfcnpj'],
-          email: infoArray['email']);
 
-      bacon.alteraEmpresa(empresa: empresa);
-    }
+    await bacon.alteraUser(user: user).then((value) {
+      if (value != null) {
+        Empresa empresa = new Empresa(
+            nome: infoArray['nome'],
+            numero: infoArray['numero'],
+            idUser: value.idUser,
+            cnpj: infoArray['cpfcnpj'],
+            email: infoArray['email']);
+
+        bacon.alteraEmpresa(empresa: empresa);
+      }
+    });
+  }
+
+  static cadastraFuncionario({var infoArray}) async {
+    User user = new User(
+        login: infoArray['usuario'],
+        senha: infoArray['senha'],
+        tipoUser: infoArray['tipoUser']);
+
+    await bacon.alteraUser(user: user).then((value) {
+      if (value != null) {
+        Funcionario funcionario = new Funcionario(
+            nome: infoArray['nome'],
+            numero: infoArray['numero'],
+            idUser: value.idUser,
+            cnpj: infoArray['cpfcnpj'],
+            email: infoArray['email']);
+
+        bacon.alteraFuncionario(funcionario: funcionario);
+      }
+    });
+  }
+
+  static cadastraEmpresa({var infoArray}) async {
+    User user = new User(
+        login: infoArray['usuario'],
+        senha: infoArray['senha'],
+        tipoUser: infoArray['tipoUser']);
+
+    await bacon.alteraUser(user: user).then((value) {
+      if (value != null) {
+        Empresa empresa = new Empresa(
+            nome: infoArray['nome'],
+            numero: infoArray['numero'],
+            idUser: value.idUser,
+            cnpj: infoArray['cpfcnpj'],
+            email: infoArray['email']);
+
+        bacon.alteraEmpresa(empresa: empresa);
+      }
+    });
   }
 }

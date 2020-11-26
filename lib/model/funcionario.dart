@@ -2,7 +2,7 @@ import 'package:housebarber/model/user.dart';
 
 class Funcionario {
   int idFuncionario;
-  User idUser;
+  String idUser;
   String nome;
   String numero;
   String cpf;

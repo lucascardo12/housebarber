@@ -16,14 +16,15 @@ class BancoMg {
   }
 
 //FUNÇÕES DE BANCO DA CLASSE USER
-  getUser({String senha, String login, String tipoUser}) async {
+  getUser({var infoArray}) async {
     User user = new User();
     try {
-      if (senha != null && login != null) {
+      if (infoArray['senha'] != null && infoArray['login'] != null) {
         var ret;
         await openDB();
         var collection = bk.collection('user');
-        ret = await collection.findOne({"senha": senha, 'login': login});
+        ret = await collection.findOne(
+            {"senha": infoArray['senha'], 'login': infoArray['login']});
         user = User.fromJson(ret);
         await closeDB();
         return user;
@@ -35,10 +36,10 @@ class BancoMg {
     }
   }
 
-  alteraUser({User user}) async {
+  Future<User> alteraUser({User user}) async {
+    User ret = new User();
     try {
       if (user != null) {
-        var ret;
         await openDB();
         var collection = bk.collection('user');
         if (user.idUser == null) {
@@ -50,10 +51,13 @@ class BancoMg {
         }
         await closeDB();
         return ret;
+      } else {
+        return ret;
       }
     } catch (e) {
       print(e);
     }
+    return ret;
   }
 
   removeUser({User user}) async {
