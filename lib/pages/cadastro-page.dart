@@ -226,7 +226,8 @@ class _CadastroPageState extends State<CadastroPage> {
                             Map<String, String> infoArray = {
                               'nome': nomeController.text,
                               'usuario': usuarioController.text,
-                              'senha': senhaController.text,
+                              'senha': Customfunctions.textToMd5(
+                                  senhaController.text),
                               'numero': numeroController.text,
                               'cpfcnpj': cpfcnpjController.text,
                               'email': emailController.text,

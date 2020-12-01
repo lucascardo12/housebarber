@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
+import 'package:housebarber/pages/home-page.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:housebarber/config/global.dart';
 import 'pages/login-page.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           // MAIN /
           //'/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),
+          '/home': (context) => HomePage(),
         });
   }
 }

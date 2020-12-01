@@ -11,7 +11,7 @@ import 'package:housebarber/model/user.dart';
 class Customfunctions {
   static validaLogin({var infoArray, BuildContext context}) async {
     var login = infoArray["login"];
-    var senha = infoArray["senha"];
+    var senha = Customfunctions.textToMd5(infoArray["senha"]);
     var mensagem = "";
 
     if (login == "") {
@@ -23,16 +23,16 @@ class Customfunctions {
     if (mensagem == "") {
       await bacon.getUser(infoArray: infoArray).then((value) {
         if (value != null) {
-          var tpuser = value["tipoUser"];
-          if (tpuser == '1') {
+          if (value.tipoUser == '1') {
             //EMPRESA
-            Navigator.pushReplacementNamed(context, "/home");
+            // Navigator.pushReplacementNamed(context, "/home");
             print('EMPRESA');
-          } else if (tpuser == '2') {
+          } else if (value.tipoUser == '2') {
             //FUNCIONARIO
             print('FUNCIONARIO');
-          } else if (tpuser == '3') {
+          } else if (value.tipoUser == '3') {
             //CLIENTE
+            Navigator.pushReplacementNamed(context, "/home");
             print('CLIENTE');
           }
         } else {

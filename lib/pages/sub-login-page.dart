@@ -83,9 +83,10 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                Icons.remove_red_eye,
-                                color:
-                                    _showPassword ? Colors.white : Colors.white,
+                                _showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.white,
                               ),
                               onPressed: () {
                                 setState(() => _showPassword = !_showPassword);

@@ -19,7 +19,7 @@ class User {
 
   Map<String, dynamic> toJson() => {
         'tipoUser': tipoUser,
-        'login': login,
+        'login': login.toLowerCase(),
         'senha': senha,
         '_id': idUser,
       };

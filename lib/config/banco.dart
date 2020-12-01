@@ -23,11 +23,13 @@ class BancoMg {
         var ret;
         await openDB();
         var collection = bk.collection('user');
-        ret = await collection.findOne(
-            {"senha": infoArray['senha'], 'login': infoArray['login']});
+        ret = await collection.findOne({
+          "senha": infoArray['senha'],
+          'login': infoArray['login'].toLowerCase()
+        });
         user = User.fromJson(ret);
         await closeDB();
-        return ret;
+        return user;
       } else {
         return user;
       }
@@ -43,6 +45,7 @@ class BancoMg {
         var collection = bk.collection('user');
         if (user.idUser == null) {
           var i = await collection.count() + 1;
+          //FAZER VALIDAÇÃO DE LOGIN EXISTENTE
           user.idUser = i.toString();
           await collection.insert(user.toJson());
         } else {
