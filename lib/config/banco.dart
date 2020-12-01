@@ -37,7 +37,6 @@ class BancoMg {
   }
 
   Future<User> alteraUser({User user}) async {
-    User ret = new User();
     try {
       if (user != null) {
         await openDB();
@@ -50,14 +49,14 @@ class BancoMg {
           await collection.save(user.toJson());
         }
         await closeDB();
-        return ret;
+        return user;
       } else {
-        return ret;
+        return user;
       }
     } catch (e) {
       print(e);
     }
-    return ret;
+    return user;
   }
 
   removeUser({User user}) async {

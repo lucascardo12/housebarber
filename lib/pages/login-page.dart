@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/user.dart';
@@ -20,34 +21,10 @@ class _LoginPageState extends State<LoginPage> {
   LiquidController liquidController;
   var screenWidgt;
   UpdateType updateType;
-
   @override
   void initState() {
     liquidController = LiquidController();
     super.initState();
-  }
-
-  Widget _buildDot(int index) {
-    double selectedness = Curves.easeOut.transform(
-      max(
-        0.0,
-        1.0 - ((page ?? 0) - index).abs(),
-      ),
-    );
-    double zoom = 1.0 + (2.0 - 1.0) * selectedness;
-    return new Container(
-      width: 25.0,
-      child: new Center(
-        child: new Material(
-          color: Colors.white,
-          type: MaterialType.circle,
-          child: new Container(
-            width: 8.0 * zoom,
-            height: 8.0 * zoom,
-          ),
-        ),
-      ),
-    );
   }
 
   @override
@@ -66,10 +43,15 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: <Widget>[
               Expanded(child: SizedBox()),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List<Widget>.generate(2, _buildDot),
-              ),
+              Align(
+                child: Image.asset(
+                  "assets/arraste_lados.gif",
+                  color: Colors.white,
+                  height: 80.0,
+                  width: 80.0,
+                ),
+                alignment: Alignment.centerRight,
+              )
             ],
           ),
         ),

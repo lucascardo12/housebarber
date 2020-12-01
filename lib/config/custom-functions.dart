@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:housebarber/pages/home-page-cliente.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
@@ -54,22 +54,23 @@ class Customfunctions {
     var tipoUser = infoArray["tipoUser"];
     var mensagem = "";
     if (nome == "") {
-      mensagem += "Nome é Obrigatório";
+      mensagem += "Nome é Obrigatório\n";
     }
     if (numero == "") {
-      mensagem += "numero é Obrigatório";
+      mensagem += "numero é Obrigatório\n";
     }
     if (cnpj == "") {
-      mensagem += "cnpj é Obrigatório";
+      mensagem += "cnpj é Obrigatório\n";
+    }
+
+    if (usuario == "") {
+      mensagem += "usuario é Obrigatório\n";
+    }
+    if (senha == "") {
+      mensagem += "senha é Obrigatório\n";
     }
     if (email == "") {
       mensagem += "email é Obrigatório";
-    }
-    if (usuario == "") {
-      mensagem += "usuario é Obrigatório";
-    }
-    if (senha == "") {
-      mensagem += "senha é Obrigatório";
     }
     if (mensagem == "") {
       if (tipoUser == "1") {
@@ -83,7 +84,14 @@ class Customfunctions {
         cadastraCliente(infoArray: infoArray);
       }
     } else {
-      //Retorna mensagem para tela de usuario.
+      Fluttertoast.showToast(
+          msg: mensagem,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.SNACKBAR,
+          timeInSecForIosWeb: 8,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 18.0);
     }
   }
 
@@ -94,7 +102,7 @@ class Customfunctions {
         tipoUser: infoArray['tipoUser']);
 
     await bacon.alteraUser(user: user).then((value) {
-      if (value != null) {
+      if (value.idUser != null) {
         Empresa empresa = new Empresa(
             nome: infoArray['nome'],
             numero: infoArray['numero'],
@@ -114,7 +122,7 @@ class Customfunctions {
         tipoUser: infoArray['tipoUser']);
 
     await bacon.alteraUser(user: user).then((value) {
-      if (value != null) {
+      if (value.idUser != null) {
         Funcionario funcionario = new Funcionario(
             nome: infoArray['nome'],
             numero: infoArray['numero'],
