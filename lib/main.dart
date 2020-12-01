@@ -15,17 +15,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'House Barber',
-      theme: ThemeData(
-        backgroundColor: primaryLight,
-        brightness: Brightness.light,
-        primaryColor: primary,
-        primaryColorDark: primaryDark,
-        primaryColorLight: primaryLight,
-        accentColor: secondary,
-      ),
-      home: LoginPage(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'House Barber',
+        theme: ThemeData(
+          backgroundColor: primaryLight,
+          brightness: Brightness.light,
+          primaryColor: primary,
+          primaryColorDark: primaryDark,
+          primaryColorLight: primaryLight,
+          accentColor: secondary,
+        ),
+        home: LoginPage(),
+        routes: {
+          // MAIN /
+          //'/': (context) => LoginPage(),
+          '/login': (context) => LoginPage(),
+        });
   }
 }

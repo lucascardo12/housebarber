@@ -27,7 +27,7 @@ class BancoMg {
             {"senha": infoArray['senha'], 'login': infoArray['login']});
         user = User.fromJson(ret);
         await closeDB();
-        return user;
+        return ret;
       } else {
         return user;
       }

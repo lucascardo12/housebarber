@@ -1,6 +1,7 @@
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
+import 'package:flutter/material.dart';
+import 'package:housebarber/pages/home-page-cliente.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
@@ -8,8 +9,42 @@ import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 
 class Customfunctions {
+  static validaLogin({var infoArray, BuildContext context}) async {
+    var login = infoArray["login"];
+    var senha = infoArray["senha"];
+    var mensagem = "";
+
+    if (login == "") {
+      mensagem += "O Login é Obrigatório";
+    }
+    if (senha == "") {
+      mensagem += "A Senha é Obrigatória";
+    }
+    if (mensagem == "") {
+      await bacon.getUser(infoArray: infoArray).then((value) {
+        if (value != null) {
+          var tpuser = value["tipoUser"];
+          if (tpuser == '1') {
+            //EMPRESA
+            Navigator.pushReplacementNamed(context, "/home");
+            print('EMPRESA');
+          } else if (tpuser == '2') {
+            //FUNCIONARIO
+            print('FUNCIONARIO');
+          } else if (tpuser == '3') {
+            //CLIENTE
+            print('CLIENTE');
+          }
+        } else {
+          //USUARIO NÃO ENCONTRADO
+        }
+      });
+    } else {
+      //retorno msg para a tela do usuario
+    }
+  }
+
   static validaCadastro({var infoArray}) {
-    print(infoArray);
     var nome = infoArray["nome"];
     var usuario = infoArray["usuario"];
     var senha = infoArray["senha"];

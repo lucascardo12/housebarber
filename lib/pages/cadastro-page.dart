@@ -15,6 +15,7 @@ class _CadastroPageState extends State<CadastroPage> {
   TextEditingController numeroController = TextEditingController();
   TextEditingController cpfcnpjController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  bool _showPassword = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -90,20 +91,32 @@ class _CadastroPageState extends State<CadastroPage> {
                               ),
                             )),
                         TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: senhaController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: Colors.white,
-                                size: 28,
+                          obscureText: !_showPassword,
+                          controller: senhaController,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Senha:',
+                            prefixIcon: const Icon(
+                              Icons.security,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color:
+                                    _showPassword ? Colors.white : Colors.white,
                               ),
-                              labelText: "Senha:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
+                              onPressed: () {
+                                setState(() => _showPassword = !_showPassword);
+                              },
+                            ),
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -165,32 +178,39 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         Align(
                             alignment: Alignment.centerLeft,
-                            child: DropdownButton(
-                                dropdownColor: secondary,
-                                value: tipoUser ?? 1,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                                items: [
-                                  DropdownMenuItem(
-                                    child: Text(
-                                      "Empresa",
+                            child: Padding(
+                                padding: EdgeInsets.only(left: 10),
+                                child: DropdownButton(
+                                    isExpanded: true,
+                                    dropdownColor: secondary,
+                                    icon: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      color: Colors.white,
                                     ),
-                                    value: 1,
-                                  ),
-                                  DropdownMenuItem(
-                                    child: Text("Funcionario"),
-                                    value: 2,
-                                  ),
-                                  DropdownMenuItem(
-                                      child: Text("Cliente"), value: 3),
-                                ],
-                                onChanged: (value) {
-                                  setState(() {
-                                    tipoUser = value;
-                                  });
-                                })),
+                                    value: tipoUser ?? 1,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
+                                    items: [
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          "Empresa",
+                                        ),
+                                        value: 1,
+                                      ),
+                                      DropdownMenuItem(
+                                        child: Text("Funcionario"),
+                                        value: 2,
+                                      ),
+                                      DropdownMenuItem(
+                                          child: Text("Cliente"), value: 3),
+                                    ],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        tipoUser = value;
+                                      });
+                                    }))),
                         SizedBox(
                           height: 20,
                         ),

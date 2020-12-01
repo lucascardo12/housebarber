@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
+import 'package:housebarber/config/custom-functions.dart';
 
 class SubLoginPage extends StatefulWidget {
   @override
@@ -8,6 +9,8 @@ class SubLoginPage extends StatefulWidget {
 
 class _SubLoginPageState extends State<SubLoginPage> {
   TextEditingController loginController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  bool _showPassword = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +20,7 @@ class _SubLoginPageState extends State<SubLoginPage> {
               cursorColor: Colors.white,
               primaryColor: Colors.white,
             ),
-            child: Column(
+            child: ListView(
               children: [
                 SizedBox(
                   height: 80,
@@ -51,7 +54,7 @@ class _SubLoginPageState extends State<SubLoginPage> {
                         ),
                         TextField(
                             style: TextStyle(color: Colors.white),
-                            //controller: loginController,
+                            controller: loginController,
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.people_alt,
@@ -68,21 +71,32 @@ class _SubLoginPageState extends State<SubLoginPage> {
                           height: 20,
                         ),
                         TextField(
-                            style: TextStyle(color: Colors.white),
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: Colors.white,
-                                size: 28,
+                          obscureText: !_showPassword,
+                          controller: senhaController,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Senha:',
+                            prefixIcon: const Icon(
+                              Icons.security,
+                              color: Colors.white,
+                              size: 28,
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.remove_red_eye,
+                                color:
+                                    _showPassword ? Colors.white : Colors.white,
                               ),
-                              labelText: "Senha:",
-                              hintStyle: TextStyle(color: Colors.white),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
+                              onPressed: () {
+                                setState(() => _showPassword = !_showPassword);
+                              },
+                            ),
+                            labelStyle: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -94,7 +108,14 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             borderRadius: BorderRadius.circular(25),
                           ),
                           color: secondary,
-                          onPressed: () {},
+                          onPressed: () {
+                            Map<String, String> infoArray = {
+                              'login': loginController.text,
+                              'senha': senhaController.text
+                            };
+                            Customfunctions.validaLogin(
+                                infoArray: infoArray, context: context);
+                          },
                           child: Text(
                             'Login',
                             style: TextStyle(color: Colors.white, fontSize: 18),
