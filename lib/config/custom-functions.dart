@@ -158,4 +158,9 @@ class Customfunctions {
   static String textToMd5(String text) {
     return md5.convert(utf8.encode(text)).toString();
   }
+
+  static String capitalize(String palavra) {
+    var up = palavra.substring(0, 1).toUpperCase();
+    return palavra.replaceFirst(palavra.substring(0, 1), up);
+  }
 }

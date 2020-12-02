@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home-page.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -27,6 +28,13 @@ class MyApp extends StatelessWidget {
           accentColor: secondary,
         ),
         home: LoginPage(),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [
+          const Locale('pt', 'BR')
+        ],
         routes: {
           // MAIN /
           //'/': (context) => LoginPage(),

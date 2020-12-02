@@ -34,7 +34,11 @@ dependencies:
   crypto: ^2.0.6
   flutter_gifimage: ^1.0.0
   fluttertoast: ^7.1.5
-
+  calendar_views: ^0.5.2
+  flutter_calendar_carousel: ^1.5.1
+  convex_bottom_bar: ^2.6.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
