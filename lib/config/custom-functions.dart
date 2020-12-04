@@ -54,23 +54,23 @@ class Customfunctions {
     var tipoUser = infoArray["tipoUser"];
     var mensagem = "";
     if (nome == "") {
-      mensagem += "Nome é Obrigatório\n";
+      mensagem += "\nNome é Obrigatório\n";
     }
     if (numero == "") {
-      mensagem += "numero é Obrigatório\n";
+      mensagem += "\nnumero é Obrigatório\n";
     }
     if (cnpj == "") {
-      mensagem += "cnpj é Obrigatório\n";
+      mensagem += "\ncnpj é Obrigatório\n";
     }
 
     if (usuario == "") {
-      mensagem += "usuario é Obrigatório\n";
+      mensagem += "\nusuario é Obrigatório\n";
     }
     if (senha == "") {
-      mensagem += "senha é Obrigatório\n";
+      mensagem += "\nsenha é Obrigatório\n";
     }
     if (email == "") {
-      mensagem += "email é Obrigatório";
+      mensagem += "\nemail é Obrigatório\n";
     }
     if (mensagem == "") {
       if (tipoUser == "1") {
@@ -87,10 +87,11 @@ class Customfunctions {
       Fluttertoast.showToast(
           msg: mensagem,
           toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.SNACKBAR,
+          gravity: ToastGravity.CENTER_LEFT,
           timeInSecForIosWeb: 8,
           backgroundColor: Colors.red,
           textColor: Colors.white,
+          webPosition: 'left',
           fontSize: 18.0);
     }
   }
