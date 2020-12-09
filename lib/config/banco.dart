@@ -25,7 +25,7 @@ class BancoMg {
         var collection = bk.collection('user');
         ret = await collection.findOne({
           "senha": infoArray['senha'],
-          'login': infoArray['login'].toLowerCase()
+          "login": infoArray['login'].toLowerCase()
         });
         user = User.fromJson(ret);
         await closeDB();
@@ -243,5 +243,29 @@ class BancoMg {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<bool> existeUser({String login}) async {
+    bool exist = false;
+    try {
+      if (login != null) {
+        await openDB();
+        var collection = bk.collection('user');
+        await collection.findOne(where.eq('login', login)).then((value) {
+          if (value != null) {
+            exist = true;
+            return exist;
+          } else {
+            return exist;
+          }
+        });
+        await closeDB();
+        return exist;
+      }
+    } catch (e) {
+      print(e);
+      return exist;
+    }
+    return exist;
   }
 }

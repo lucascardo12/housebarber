@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
@@ -11,24 +11,27 @@ import 'package:housebarber/model/user.dart';
 class Customfunctions {
   static validaLogin({var infoArray, BuildContext context}) async {
     var login = infoArray["login"];
-    var senha = Customfunctions.textToMd5(infoArray["senha"]);
+    var senha = infoArray["senha"];
     var mensagem = "";
 
     if (login == "") {
-      mensagem += "O Login é Obrigatório";
+      mensagem += "\nPor favor, digite o login\n";
     }
     if (senha == "") {
-      mensagem += "A Senha é Obrigatória";
+      mensagem += "\nPor favor, digite a Senha\n";
     }
     if (mensagem == "") {
-      await bacon.getUser(infoArray: infoArray).then((value) {
+      senha = Customfunctions.textToMd5(infoArray["senha"]);
+      var dadosLogin = {"login": login, "senha": senha};
+      await bacon.getUser(infoArray: dadosLogin).then((value) {
         if (value != null) {
           if (value.tipoUser == '1') {
             //EMPRESA
-            // Navigator.pushReplacementNamed(context, "/home");
+            Navigator.pushReplacementNamed(context, "/home");
             print('EMPRESA');
           } else if (value.tipoUser == '2') {
             //FUNCIONARIO
+            Navigator.pushReplacementNamed(context, "/home");
             print('FUNCIONARIO');
           } else if (value.tipoUser == '3') {
             //CLIENTE
@@ -36,11 +39,19 @@ class Customfunctions {
             print('CLIENTE');
           }
         } else {
-          //USUARIO NÃO ENCONTRADO
+          FlutterToastAlert.showToastAndAlert(
+              type: Type.Warning,
+              androidToast: "Usuario ou Senha Inválido",
+              toastDuration: 6,
+              toastShowIcon: false);
         }
       });
     } else {
-      //retorno msg para a tela do usuario
+      FlutterToastAlert.showToastAndAlert(
+          type: Type.Warning,
+          androidToast: mensagem,
+          toastDuration: 5,
+          toastShowIcon: false);
     }
   }
 
@@ -57,42 +68,48 @@ class Customfunctions {
       mensagem += "\nNome é Obrigatório\n";
     }
     if (numero == "") {
-      mensagem += "\nnumero é Obrigatório\n";
+      mensagem += "\nNumero é Obrigatório\n";
     }
     if (cnpj == "") {
-      mensagem += "\ncnpj é Obrigatório\n";
+      mensagem += "\nCNPJ é Obrigatório\n";
     }
 
     if (usuario == "") {
-      mensagem += "\nusuario é Obrigatório\n";
+      mensagem += "\nUsuário é Obrigatório\n";
     }
     if (senha == "") {
-      mensagem += "\nsenha é Obrigatório\n";
+      mensagem += "\nSenha é Obrigatório\n";
     }
     if (email == "") {
-      mensagem += "\nemail é Obrigatório\n";
+      mensagem += "\nE-mail é Obrigatório\n";
     }
     if (mensagem == "") {
-      if (tipoUser == "1") {
-        //EMPRESA
-        cadastraEmpresa(infoArray: infoArray);
-      } else if (tipoUser == "2") {
-        //FUNCIONARIO
-        cadastraFuncionario(infoArray: infoArray);
-      } else if (tipoUser == "3") {
-        //CLIENTE
-        cadastraCliente(infoArray: infoArray);
-      }
+      bacon.existeUser(login: usuario).then((value) {
+        if (value == false) {
+          if (tipoUser == "1") {
+            //EMPRESA
+            cadastraEmpresa(infoArray: infoArray);
+          } else if (tipoUser == "2") {
+            //FUNCIONARIO
+            cadastraFuncionario(infoArray: infoArray);
+          } else if (tipoUser == "3") {
+            //CLIENTE
+            cadastraCliente(infoArray: infoArray);
+          }
+        } else {
+          FlutterToastAlert.showToastAndAlert(
+              type: Type.Warning,
+              androidToast: "Usuario já Cadastrado",
+              toastDuration: 5,
+              toastShowIcon: false);
+        }
+      });
     } else {
-      Fluttertoast.showToast(
-          msg: mensagem,
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER_LEFT,
-          timeInSecForIosWeb: 8,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          webPosition: 'left',
-          fontSize: 18.0);
+      FlutterToastAlert.showToastAndAlert(
+          type: Type.Warning,
+          androidToast: mensagem,
+          toastDuration: 5,
+          toastShowIcon: false);
     }
   }
 
@@ -112,6 +129,12 @@ class Customfunctions {
             email: infoArray['email']);
 
         bacon.alteraEmpresa(empresa: empresa);
+
+        FlutterToastAlert.showToastAndAlert(
+            type: Type.Success,
+            androidToast: "Usuario Cadastrado com Sucesso",
+            toastDuration: 5,
+            toastShowIcon: true);
       }
     });
   }

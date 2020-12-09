@@ -6,6 +6,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:housebarber/config/custom-functions.dart';
+import 'package:housebarber/pages/login-page.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 class HomePage extends StatefulWidget {
@@ -200,77 +201,91 @@ class _HomePageState extends State<HomePage> {
 
     return new Scaffold(
         appBar: new AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (BuildContext context) => new LoginPage())),
+          ),
           title: new Text('Home'),
         ),
         bottomNavigationBar: ConvexAppBar(
           style: TabStyle.react,
           items: [
-            TabItem(icon: Icons.home, title: 'Home'),
-            TabItem(icon: Icons.map, title: 'Discovery'),
-            TabItem(icon: Icons.add, title: 'Add'),
+            TabItem(icon: Icons.home, title: 'Diario'),
+            TabItem(icon: Icons.map, title: 'Semanal'),
+            TabItem(icon: Icons.add, title: 'Mensal'),
             TabItem(icon: Icons.message, title: 'Message'),
-            TabItem(icon: Icons.people, title: 'Profile'),
+            TabItem(icon: Icons.settings, title: 'Opções'),
           ],
           initialActiveIndex: 0,
           onTap: (int i) => print('click index=$i'),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              // Container(
-              //   margin: EdgeInsets.symmetric(horizontal: 16.0),
-              //   child: _calendarCarouselSemanal,
-              // ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: 30.0,
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: new Row(
-                  children: <Widget>[
-                    FlatButton(
-                      child: Icon(Icons.keyboard_arrow_left),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month - 1);
-                          _currentMonth = Customfunctions.capitalize(
-                              DateFormat.yMMM('pt').format(_targetDateTime));
-                        });
-                      },
+        body: WillPopScope(
+            onWillPop: () => Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (BuildContext context) => new LoginPage())),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  //   child: _calendarCarouselSemanal,
+                  // ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: 30.0,
+                      bottom: 16.0,
+                      left: 16.0,
+                      right: 16.0,
                     ),
-                    Expanded(
-                        child: Text(
-                      _currentMonth,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ),
-                    )),
-                    FlatButton(
-                      child: Icon(Icons.keyboard_arrow_right),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month + 1);
-                          _currentMonth = Customfunctions.capitalize(
-                              DateFormat.yMMMM('pt').format(_targetDateTime));
-                        });
-                      },
-                    )
-                  ],
-                ),
+                    child: new Row(
+                      children: <Widget>[
+                        FlatButton(
+                          child: Icon(Icons.keyboard_arrow_left),
+                          onPressed: () {
+                            setState(() {
+                              _targetDateTime = DateTime(_targetDateTime.year,
+                                  _targetDateTime.month - 1);
+                              _currentMonth = Customfunctions.capitalize(
+                                  DateFormat.yMMM('pt')
+                                      .format(_targetDateTime));
+                            });
+                          },
+                        ),
+                        Expanded(
+                            child: Text(
+                          _currentMonth,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24.0,
+                          ),
+                        )),
+                        FlatButton(
+                          child: Icon(Icons.keyboard_arrow_right),
+                          onPressed: () {
+                            setState(() {
+                              _targetDateTime = DateTime(_targetDateTime.year,
+                                  _targetDateTime.month + 1);
+                              _currentMonth = Customfunctions.capitalize(
+                                  DateFormat.yMMMM('pt')
+                                      .format(_targetDateTime));
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: _calendarCarouselMensal,
+                  ), //
+                ],
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                child: _calendarCarouselMensal,
-              ), //
-            ],
-          ),
-        ));
+            )));
   }
 }
