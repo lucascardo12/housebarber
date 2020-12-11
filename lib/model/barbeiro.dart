@@ -1,4 +1,4 @@
-class Empresa {
+class Barbeiro {
   String idEmpresa;
   String idUser;
   String nome;
@@ -6,10 +6,8 @@ class Empresa {
   String cnpj;
   String email;
   String fornecedor;
-  List<int> listClient;
-  List<int> listFunc;
 
-  Empresa(
+  Barbeiro(
       {String idEmpresa,
       String idUser,
       String numero,
@@ -24,17 +22,13 @@ class Empresa {
     this.numero = numero;
     this.nome = nome;
     this.email = email;
-    this.listClient = listClient;
-    this.listFunc = listFunc;
   }
-  Empresa.fromJson(Map<String, dynamic> xjson) {
+  Barbeiro.fromJson(Map<String, dynamic> xjson) {
     idEmpresa = xjson['_id'];
     idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];
-    listClient = xjson['listClient'];
-    listFunc = xjson['listFunc'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -43,16 +37,12 @@ class Empresa {
         'nome': nome,
         'numero': numero,
         'email': email,
-        'listClient': listClient,
-        'listFunc': listFunc,
       };
-  Empresa.toMap(Map<String, dynamic> map) {
+  Barbeiro.toMap(Map<String, dynamic> map) {
     map['_id'] = idEmpresa;
     map['idUser'] = idUser;
     map['nome'] = nome;
     map['numero'] = numero;
     map['email'] = email;
-    map['listClient'] = listClient;
-    map['listFunc'] = listFunc;
   }
 }

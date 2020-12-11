@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gifimage/flutter_gifimage.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/user.dart';

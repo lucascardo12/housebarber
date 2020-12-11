@@ -1,5 +1,3 @@
-import 'package:housebarber/model/user.dart';
-
 class Cliente {
   String idCliente;
   String idUser;

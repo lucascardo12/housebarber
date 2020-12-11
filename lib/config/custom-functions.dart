@@ -62,7 +62,6 @@ class Customfunctions {
     var numero = infoArray["numero"];
     var cnpj = infoArray["cpfcnpj"];
     var email = infoArray["email"];
-    var tipoUser = infoArray["tipoUser"];
     var mensagem = "";
     if (nome == "") {
       mensagem += "\nNome é Obrigatório\n";
@@ -86,16 +85,7 @@ class Customfunctions {
     if (mensagem == "") {
       bacon.existeUser(login: usuario).then((value) {
         if (value == false) {
-          if (tipoUser == "1") {
-            //EMPRESA
-            cadastraEmpresa(infoArray: infoArray);
-          } else if (tipoUser == "2") {
-            //FUNCIONARIO
-            cadastraFuncionario(infoArray: infoArray);
-          } else if (tipoUser == "3") {
-            //CLIENTE
-            cadastraCliente(infoArray: infoArray);
-          }
+          cadastraEmpresa(infoArray: infoArray);
         } else {
           FlutterToastAlert.showToastAndAlert(
               type: Type.Warning,

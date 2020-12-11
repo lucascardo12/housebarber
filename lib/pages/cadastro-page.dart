@@ -176,41 +176,41 @@ class _CadastroPageState extends State<CadastroPage> {
                         SizedBox(
                           height: 20,
                         ),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: DropdownButton(
-                                    isExpanded: true,
-                                    dropdownColor: secondary,
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down,
-                                      color: Colors.white,
-                                    ),
-                                    value: tipoUser ?? 1,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text(
-                                          "Empresa",
-                                        ),
-                                        value: 1,
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("Funcionario"),
-                                        value: 2,
-                                      ),
-                                      DropdownMenuItem(
-                                          child: Text("Cliente"), value: 3),
-                                    ],
-                                    onChanged: (value) {
-                                      setState(() {
-                                        tipoUser = value;
-                                      });
-                                    }))),
+                        // Align(
+                        //     alignment: Alignment.centerLeft,
+                        //     child: Padding(
+                        //         padding: EdgeInsets.only(left: 10),
+                        //         child: DropdownButton(
+                        //             isExpanded: true,
+                        //             dropdownColor: secondary,
+                        //             icon: Icon(
+                        //               Icons.keyboard_arrow_down,
+                        //               color: Colors.white,
+                        //             ),
+                        //             value: tipoUser ?? 1,
+                        //             style: TextStyle(
+                        //               color: Colors.white,
+                        //               fontSize: 16,
+                        //             ),
+                        //             items: [
+                        //               DropdownMenuItem(
+                        //                 child: Text(
+                        //                   "Empresa",
+                        //                 ),
+                        //                 value: 1,
+                        //               ),
+                        //               DropdownMenuItem(
+                        //                 child: Text("Funcionario"),
+                        //                 value: 2,
+                        //               ),
+                        //               DropdownMenuItem(
+                        //                   child: Text("Cliente"), value: 3),
+                        //             ],
+                        //             onChanged: (value) {
+                        //               setState(() {
+                        //                 tipoUser = value;
+                        //               });
+                        //             }))),
                         SizedBox(
                           height: 20,
                         ),
@@ -231,7 +231,6 @@ class _CadastroPageState extends State<CadastroPage> {
                               'numero': numeroController.text,
                               'cpfcnpj': cpfcnpjController.text,
                               'email': emailController.text,
-                              'tipoUser': tipoUser.toString()
                             };
                             Customfunctions.validaCadastro(
                                 infoArray: infoArray);

@@ -245,7 +245,7 @@ class BancoMg {
     }
   }
 
-  Future<bool> existeUser({String login}) async {
+  existeUser({String login}) async {
     bool exist = false;
     try {
       if (login != null) {
@@ -266,6 +266,5 @@ class BancoMg {
       print(e);
       return exist;
     }
-    return exist;
   }
 }

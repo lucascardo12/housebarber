@@ -6,6 +6,8 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:housebarber/config/custom-functions.dart';
+import 'package:housebarber/pages/addEvento-page.dart';
+import 'package:housebarber/pages/dayView-page.dart';
 import 'package:housebarber/pages/login-page.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
@@ -18,8 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   DateTime _currentDate = DateTime.now();
   DateTime _currentDate2 = DateTime.now();
-  String _currentMonth = DateFormat.yMMM('pt').format(DateTime.now());
-  DateTime _targetDateTime = DateTime.now();
+  int xi = 1;
   static Widget _eventIcon = new Container(
     decoration: new BoxDecoration(
         color: Colors.white,
@@ -104,6 +105,7 @@ class _HomePageState extends State<HomePage> {
     _calendarCarouselSemanal = CalendarCarousel<Event>(
       locale: 'pt',
       onDayPressed: (DateTime date, List<Event> events) {
+        print(_currentDate);
         this.setState(() => _currentDate = date);
         events.forEach((event) => print(event.title));
       },
@@ -123,80 +125,22 @@ class _HomePageState extends State<HomePage> {
       markedDateIconMaxShown: 2,
       selectedDayTextStyle: TextStyle(
         locale: Locale('pt', 'BR'),
-        color: Colors.yellow,
+        color: Colors.white,
       ),
       todayTextStyle: TextStyle(
         locale: Locale('pt', 'BR'),
-        color: Colors.blue,
+        color: secondary,
       ),
       markedDateIconBuilder: (event) {
         return event.icon;
       },
+      weekdayTextStyle: TextStyle(color: Colors.white),
       minSelectedDate: _currentDate.subtract(Duration(days: 360)),
       maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      todayButtonColor: Colors.transparent,
-      todayBorderColor: Colors.green,
+      todayButtonColor: primary,
+      todayBorderColor: secondary,
+      selectedDayButtonColor: secondary,
       markedDateMoreShowTotal: true,
-    );
-    _calendarCarouselMensal = CalendarCarousel<Event>(
-      locale: 'pt',
-      todayBorderColor: Colors.green,
-      onDayPressed: (DateTime date, List<Event> events) {
-        this.setState(() => _currentDate2 = date);
-        events.forEach((event) => print(event.title));
-      },
-      daysHaveCircularBorder: true,
-      showOnlyCurrentMonthDate: false,
-      weekendTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        color: Colors.red,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
-      weekFormat: false,
-      markedDatesMap: _markedDateMap,
-      height: 420.0,
-      selectedDateTime: _currentDate2,
-      targetDateTime: _targetDateTime,
-      customGridViewPhysics: NeverScrollableScrollPhysics(),
-      markedDateCustomShapeBorder:
-          CircleBorder(side: BorderSide(color: Colors.red)),
-      markedDateCustomTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        fontSize: 18,
-        color: Colors.blue,
-      ),
-      showHeader: false,
-      todayTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        color: Colors.blue,
-      ),
-      todayButtonColor: Colors.yellow,
-      selectedDayTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        color: Colors.yellow,
-      ),
-      minSelectedDate: _currentDate.subtract(Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(Duration(days: 360)),
-      prevDaysTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        fontSize: 16,
-        color: Colors.pinkAccent,
-      ),
-      inactiveDaysTextStyle: TextStyle(
-        locale: Locale('pt', 'BR'),
-        color: Colors.tealAccent,
-        fontSize: 16,
-      ),
-      onCalendarChanged: (DateTime date) {
-        this.setState(() {
-          _targetDateTime = date;
-          _currentMonth = Customfunctions.capitalize(
-              DateFormat.yMMMM('pt').format(_targetDateTime));
-        });
-      },
-      onDayLongPressed: (DateTime date) {
-        print('long pressed date $date');
-      },
     );
 
     return new Scaffold(
@@ -210,82 +154,99 @@ class _HomePageState extends State<HomePage> {
           ),
           title: new Text('Home'),
         ),
+        floatingActionButton: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (BuildContext context) => new AddEventoPage())),
+          color: Colors.blue,
+          iconSize: 38,
+        ),
         bottomNavigationBar: ConvexAppBar(
           style: TabStyle.react,
           items: [
             TabItem(icon: Icons.home, title: 'Diario'),
             TabItem(icon: Icons.map, title: 'Semanal'),
-            TabItem(icon: Icons.add, title: 'Mensal'),
-            TabItem(icon: Icons.message, title: 'Message'),
             TabItem(icon: Icons.settings, title: 'Opções'),
           ],
           initialActiveIndex: 0,
-          onTap: (int i) => print('click index=$i'),
+          onTap: (int i) {
+            setState(() {
+              xi = i + 1;
+            });
+          },
         ),
+        backgroundColor: primaryLight,
         body: WillPopScope(
             onWillPop: () => Navigator.push(
                 context,
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new LoginPage())),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  // Container(
-                  //   margin: EdgeInsets.symmetric(horizontal: 16.0),
-                  //   child: _calendarCarouselSemanal,
-                  // ),
-                  Container(
-                    margin: EdgeInsets.only(
-                      top: 30.0,
-                      bottom: 16.0,
-                      left: 16.0,
-                      right: 16.0,
+            child: SingleChildScrollView(child: body(i: xi))));
+  }
+
+  Widget eventosDoDia({DateTime dia}) {
+    return Container(
+      margin: EdgeInsets.all(20),
+      child: Card(
+        color: primary,
+        child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Cliente",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    child: new Row(
-                      children: <Widget>[
-                        FlatButton(
-                          child: Icon(Icons.keyboard_arrow_left),
-                          onPressed: () {
-                            setState(() {
-                              _targetDateTime = DateTime(_targetDateTime.year,
-                                  _targetDateTime.month - 1);
-                              _currentMonth = Customfunctions.capitalize(
-                                  DateFormat.yMMM('pt')
-                                      .format(_targetDateTime));
-                            });
-                          },
-                        ),
-                        Expanded(
-                            child: Text(
-                          _currentMonth,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 24.0,
-                          ),
-                        )),
-                        FlatButton(
-                          child: Icon(Icons.keyboard_arrow_right),
-                          onPressed: () {
-                            setState(() {
-                              _targetDateTime = DateTime(_targetDateTime.year,
-                                  _targetDateTime.month + 1);
-                              _currentMonth = Customfunctions.capitalize(
-                                  DateFormat.yMMMM('pt')
-                                      .format(_targetDateTime));
-                            });
-                          },
-                        )
-                      ],
+                    Text(
+                      "Hora Inicio",
+                      style: TextStyle(color: Colors.white),
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: _calendarCarouselMensal,
-                  ), //
-                ],
-              ),
-            )));
+                    Text(
+                      "Hora Fim",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Serviço",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Valor",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ))),
+      ),
+    );
+  }
+
+  Widget body({int i}) {
+    switch (i) {
+      case 1:
+        return new DayView();
+        break;
+      case 2:
+        return new Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              color: primaryLight,
+              margin: EdgeInsets.symmetric(horizontal: 16.0),
+              child: _calendarCarouselSemanal,
+            ),
+            eventosDoDia(dia: _currentDate)
+          ],
+        );
+        break;
+      default:
+        return new Container(
+          child: Center(child: Text('Em Construção')),
+        );
+    }
   }
 }

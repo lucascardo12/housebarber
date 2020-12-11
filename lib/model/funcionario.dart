@@ -1,5 +1,3 @@
-import 'package:housebarber/model/user.dart';
-
 class Funcionario {
   String idFuncionario;
   String idUser;
