@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 class CustomWidgets {
@@ -17,5 +17,26 @@ class CustomWidgets {
           symbolAndNumberSeparator: ' ',
           fractionDigits: 2,
         )).output.symbolOnLeft;
+  }
+
+  static Widget loading() {
+    return Container(
+      color: Color.fromRGBO(252, 252, 255, 1),
+      child: Center(
+          child: Container(
+              child: Wrap(
+                  alignment: WrapAlignment.center,
+                  direction: Axis.vertical,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+            Image.asset(
+              'assets/barber-shop.gif',
+              height: 100,
+              width: 100,
+            ),
+            Text('Carregando...')
+          ]))),
+    );
   }
 }
