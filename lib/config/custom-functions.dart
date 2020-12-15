@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoastalert/FlutterToastAlert.dart';
@@ -9,7 +10,7 @@ import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 
 class Customfunctions {
-  static validaLogin({var infoArray, BuildContext context}) async {
+  static Future<void> validaLogin({var infoArray, BuildContext context}) async {
     var login = infoArray["login"];
     var senha = infoArray["senha"];
     var mensagem = "";
@@ -55,7 +56,8 @@ class Customfunctions {
     }
   }
 
-  static validaCadastro({var infoArray}) {
+  static Future<void> validaCadastro(
+      {var infoArray, BuildContext context}) async {
     var nome = infoArray["nome"];
     var usuario = infoArray["usuario"];
     var senha = infoArray["senha"];
@@ -83,9 +85,9 @@ class Customfunctions {
       mensagem += "\nE-mail é Obrigatório\n";
     }
     if (mensagem == "") {
-      bacon.existeUser(login: usuario).then((value) {
+      await bacon.existeUser(login: usuario).then((value) {
         if (value == false) {
-          cadastraEmpresa(infoArray: infoArray);
+          cadastraEmpresa(infoArray: infoArray, context: context);
         } else {
           FlutterToastAlert.showToastAndAlert(
               type: Type.Warning,
@@ -103,7 +105,7 @@ class Customfunctions {
     }
   }
 
-  static cadastraEmpresa({var infoArray}) async {
+  static cadastraEmpresa({var infoArray, BuildContext context}) async {
     User user = new User(
         login: infoArray['usuario'],
         senha: infoArray['senha'],
@@ -125,6 +127,7 @@ class Customfunctions {
             androidToast: "Usuario Cadastrado com Sucesso",
             toastDuration: 5,
             toastShowIcon: true);
+        Navigator.pushReplacementNamed(context, "/home");
       }
     });
   }
@@ -176,5 +179,22 @@ class Customfunctions {
   static String capitalize(String palavra) {
     var up = palavra.substring(0, 1).toUpperCase();
     return palavra.replaceFirst(palavra.substring(0, 1), up);
+  }
+
+  static Future<bool> verificarConexao() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        return true;
+      }
+    } on SocketException catch (_) {
+      FlutterToastAlert.showToastAndAlert(
+          type: Type.Warning,
+          androidToast: "Sem conexão",
+          toastDuration: 5,
+          toastShowIcon: true);
+      return false;
+    }
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
+import 'package:housebarber/config/custom-widgets.dart';
+import 'package:housebarber/config/global.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -18,231 +20,219 @@ class _CadastroPageState extends State<CadastroPage> {
   bool _showPassword = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: secondary,
-        child: Theme(
-            data: new ThemeData(
-              cursorColor: Colors.white,
-              primaryColor: Colors.white,
-            ),
-            child: ListView(
-              children: [
-                SizedBox(
-                  height: 40,
+    return isLoading
+        ? CustomWidgets.loading()
+        : Container(
+            color: secondary,
+            child: Theme(
+                data: new ThemeData(
+                  cursorColor: Colors.white,
+                  primaryColor: Colors.white,
                 ),
-                Center(
-                    child: Text(
-                  'House Barber Shop',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                )),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Cadastro',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: nomeController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              labelText: "Nome:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: usuarioController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              labelText: "Usuario:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
-                        TextField(
-                          obscureText: !_showPassword,
-                          controller: senhaController,
-                          style: TextStyle(color: Colors.white),
-                          decoration: InputDecoration(
-                            labelText: 'Senha:',
-                            prefixIcon: const Icon(
-                              Icons.security,
-                              color: Colors.white,
-                              size: 28,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.remove_red_eye,
-                                color:
-                                    _showPassword ? Colors.white : Colors.white,
-                              ),
-                              onPressed: () {
-                                setState(() => _showPassword = !_showPassword);
-                              },
-                            ),
-                            labelStyle: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: numeroController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.phone,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              labelText: "Numero:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: cpfcnpjController,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              labelText: "CPF/CNPJ:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: emailController,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: Colors.white,
-                                size: 28,
-                              ),
-                              labelText: "E-mail:",
-                              hintStyle: TextStyle(color: Colors.white),
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // Align(
-                        //     alignment: Alignment.centerLeft,
-                        //     child: Padding(
-                        //         padding: EdgeInsets.only(left: 10),
-                        //         child: DropdownButton(
-                        //             isExpanded: true,
-                        //             dropdownColor: secondary,
-                        //             icon: Icon(
-                        //               Icons.keyboard_arrow_down,
-                        //               color: Colors.white,
-                        //             ),
-                        //             value: tipoUser ?? 1,
-                        //             style: TextStyle(
-                        //               color: Colors.white,
-                        //               fontSize: 16,
-                        //             ),
-                        //             items: [
-                        //               DropdownMenuItem(
-                        //                 child: Text(
-                        //                   "Empresa",
-                        //                 ),
-                        //                 value: 1,
-                        //               ),
-                        //               DropdownMenuItem(
-                        //                 child: Text("Funcionario"),
-                        //                 value: 2,
-                        //               ),
-                        //               DropdownMenuItem(
-                        //                   child: Text("Cliente"), value: 3),
-                        //             ],
-                        //             onChanged: (value) {
-                        //               setState(() {
-                        //                 tipoUser = value;
-                        //               });
-                        //             }))),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        RaisedButton(
-                          padding: EdgeInsets.only(
-                              top: 5, bottom: 5, left: 100, right: 100),
-                          elevation: 12,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          color: primary,
-                          onPressed: () {
-                            Map<String, String> infoArray = {
-                              'nome': nomeController.text,
-                              'usuario': usuarioController.text,
-                              'senha': Customfunctions.textToMd5(
-                                  senhaController.text),
-                              'numero': numeroController.text,
-                              'cpfcnpj': cpfcnpjController.text,
-                              'email': emailController.text,
-                            };
-                            Customfunctions.validaCadastro(
-                                infoArray: infoArray);
-                          },
-                          child: Text(
-                            'Registrar',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                        ),
-                      ],
+                child: ListView(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Center(
+                        child: Text(
+                      'House Barber Shop',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     )),
-              ],
-            )));
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Cadastro',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 32,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextField(
+                                style: TextStyle(color: Colors.white),
+                                controller: nomeController,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.people_alt,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  labelText: "Nome:",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextField(
+                                style: TextStyle(color: Colors.white),
+                                controller: usuarioController,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.people_alt,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  labelText: "Usuario:",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )),
+                            TextField(
+                              obscureText: !_showPassword,
+                              controller: senhaController,
+                              style: TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                labelText: 'Senha:',
+                                prefixIcon: const Icon(
+                                  Icons.security,
+                                  color: Colors.white,
+                                  size: 28,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.remove_red_eye,
+                                    color: _showPassword
+                                        ? Colors.white
+                                        : Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    setState(
+                                        () => _showPassword = !_showPassword);
+                                  },
+                                ),
+                                labelStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextField(
+                                style: TextStyle(color: Colors.white),
+                                controller: numeroController,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.phone,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  labelText: "Numero:",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextField(
+                                style: TextStyle(color: Colors.white),
+                                controller: cpfcnpjController,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.people_alt,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  labelText: "CPF/CNPJ:",
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextField(
+                                style: TextStyle(color: Colors.white),
+                                controller: emailController,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    Icons.email,
+                                    color: Colors.white,
+                                    size: 28,
+                                  ),
+                                  labelText: "E-mail:",
+                                  hintStyle: TextStyle(color: Colors.white),
+                                  labelStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            RaisedButton(
+                              padding: EdgeInsets.only(
+                                  top: 5, bottom: 5, left: 100, right: 100),
+                              elevation: 12,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              color: primary,
+                              onPressed: () {
+                                setState(() {
+                                  isLoading = !isLoading;
+                                });
+                                Map<String, String> infoArray = {
+                                  'nome': nomeController.text,
+                                  'usuario': usuarioController.text,
+                                  'senha': Customfunctions.textToMd5(
+                                      senhaController.text),
+                                  'numero': numeroController.text,
+                                  'cpfcnpj': cpfcnpjController.text,
+                                  'email': emailController.text,
+                                };
+                                Customfunctions.verificarConexao()
+                                    .then((value) {
+                                  if (value && value != null) {
+                                    Customfunctions.validaCadastro(
+                                            infoArray: infoArray,
+                                            context: context)
+                                        .then((value) {
+                                      setState(() {
+                                        isLoading = !isLoading;
+                                      });
+                                    });
+                                  } else {
+                                    setState(() {
+                                      isLoading = !isLoading;
+                                    });
+                                  }
+                                });
+                              },
+                              child: Text(
+                                'Registrar',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ],
+                )));
   }
 }

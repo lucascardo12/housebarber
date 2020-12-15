@@ -123,13 +123,22 @@ class _SubLoginPageState extends State<SubLoginPage> {
                                   'login': loginController.text,
                                   'senha': senhaController.text
                                 };
-                                Customfunctions.validaLogin(
-                                    infoArray: infoArray, context: context);
-                                Future.delayed(Duration(minutes: 1))
+                                Customfunctions.verificarConexao()
                                     .then((value) {
-                                  setState(() {
-                                    isLoading = !isLoading;
-                                  });
+                                  if (value && value != null) {
+                                    Customfunctions.validaLogin(
+                                            infoArray: infoArray,
+                                            context: context)
+                                        .then((value) {
+                                      setState(() {
+                                        isLoading = !isLoading;
+                                      });
+                                    });
+                                  } else {
+                                    setState(() {
+                                      isLoading = !isLoading;
+                                    });
+                                  }
                                 });
                               },
                               child: Text(
