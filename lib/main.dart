@@ -4,11 +4,16 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home-page.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/login-page.dart';
 
-Future<void> main() async {
-  bacon.bk = await Db.create(
-      "mongodb+srv://lucascardo12:fuckyuo12@cluster0.p6s2p.mongodb.net/Cluster0?retryWrites=true&w=majority");
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    prefs = await SharedPreferences.getInstance();
+    bacon.bk = await Db.create(
+        "mongodb+srv://lucascardo12:fuckyuo12@cluster0.p6s2p.mongodb.net/Cluster0?retryWrites=true&w=majority");
+  } catch (e) {}
   runApp(MyApp());
 }
 

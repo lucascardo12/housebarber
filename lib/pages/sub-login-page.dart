@@ -11,8 +11,9 @@ class SubLoginPage extends StatefulWidget {
 
 class _SubLoginPageState extends State<SubLoginPage> {
   TextEditingController loginController =
-      TextEditingController(text: 'hugo.alves');
-  TextEditingController senhaController = TextEditingController(text: '123456');
+      TextEditingController(text: prefs.getString('login') ?? '');
+  TextEditingController senhaController =
+      TextEditingController(text: prefs.getString('senha') ?? '');
   bool _showPassword = false;
   @override
   Widget build(BuildContext context) {

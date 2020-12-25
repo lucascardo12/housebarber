@@ -129,6 +129,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             TextField(
                                 style: TextStyle(color: Colors.white),
                                 controller: numeroController,
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.phone,
@@ -147,6 +148,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             TextField(
                                 style: TextStyle(color: Colors.white),
                                 controller: cpfcnpjController,
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
                                     Icons.people_alt,

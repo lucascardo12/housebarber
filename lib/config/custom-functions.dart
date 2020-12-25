@@ -8,6 +8,7 @@ import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
+import 'package:intl/intl.dart';
 
 class Customfunctions {
   static Future<void> validaLogin({var infoArray, BuildContext context}) async {
@@ -26,19 +27,10 @@ class Customfunctions {
       var dadosLogin = {"login": login, "senha": senha};
       await bacon.getUser(infoArray: dadosLogin).then((value) {
         if (value != null) {
-          if (value.tipoUser == '1') {
-            //EMPRESA
-            Navigator.pushReplacementNamed(context, "/home");
-            print('EMPRESA');
-          } else if (value.tipoUser == '2') {
-            //FUNCIONARIO
-            Navigator.pushReplacementNamed(context, "/home");
-            print('FUNCIONARIO');
-          } else if (value.tipoUser == '3') {
-            //CLIENTE
-            Navigator.pushReplacementNamed(context, "/home");
-            print('CLIENTE');
-          }
+          prefs.setString('login', login);
+          prefs.setString('senha', infoArray["senha"]);
+          Navigator.pushReplacementNamed(context, "/home");
+          print('EMPRESA');
         } else {
           FlutterToastAlert.showToastAndAlert(
               type: Type.Warning,
@@ -196,5 +188,37 @@ class Customfunctions {
           toastShowIcon: true);
       return false;
     }
+  }
+
+  //converte Data para String
+  static String stringData(DateTime date) {
+    if (date != null) {
+      final f = new DateFormat('dd/MM/yyyy');
+      return f.format(date);
+    } else {
+      return null;
+    }
+  }
+
+  static String stringHora(TimeOfDay hora) {
+    if (hora != null) {
+      return hora.hour.toString() + ":" + hora.minute.toString();
+    } else {
+      return null;
+    }
+  }
+
+  //converte String em data
+  static DateTime dataString({@required String data}) {
+    DateTime date;
+
+    String datt = data.substring(6, 10) +
+        '-' +
+        data.substring(3, 5) +
+        '-' +
+        data.substring(0, 2);
+    date = DateTime.parse(datt);
+
+    return date;
   }
 }

@@ -3,44 +3,64 @@ import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
 
 class Agendamento {
+  int id;
   String valor;
-  String diaHora;
-  Empresa empresa;
-  Cliente cliente;
-  Funcionario funcionario;
+  String dia;
+  String title;
+  String idBarbeiro;
+  String idCliente;
+  String horaInicio;
+  String horaFim;
+  String servico;
 
-  Agendamento(
-      {String valor,
-      String diaHora,
-      Empresa empresa,
-      Cliente cliente,
-      Funcionario funcionario}) {
+  Agendamento({
+    String valor,
+    String dia,
+    String idBarbeiro,
+    String idCliente,
+    int id,
+    String horaInicio,
+    String servico,
+    String horaFim,
+  }) {
     this.valor = valor;
-    this.diaHora = diaHora;
-    this.empresa = empresa;
-    this.cliente = cliente;
-    this.funcionario = funcionario;
+    this.dia = dia;
+    this.idBarbeiro = idBarbeiro;
+    this.idCliente = idCliente;
+    this.id = id;
+    this.horaFim = horaFim;
+    this.horaInicio = horaInicio;
+    this.servico = servico;
   }
   Agendamento.fromJson(Map<String, dynamic> xjson) {
     valor = xjson['valor'];
-    diaHora = xjson['diaHora'];
-    empresa = Empresa.fromJson(xjson['empresa']);
-    cliente = Cliente.fromJson(xjson['cliente']);
-    funcionario = Funcionario.fromJson(xjson['funcionario']);
+    dia = xjson['dia'];
+    idBarbeiro = xjson['idBarbeiro'];
+    idCliente = xjson['idCliente'];
+    id = xjson['id'];
+    horaFim = xjson['horaFim'];
+    horaInicio = xjson['horaInicio'];
+    servico = xjson['servico'];
   }
 
   Map<String, dynamic> toJson() => {
         'valor': valor,
-        'diaHora': diaHora,
-        'empresa': empresa,
-        'cliente': cliente,
-        'funcionario': funcionario
+        'dia': dia,
+        'idBarbeiro': idBarbeiro,
+        'idCliente': idCliente,
+        'id': id,
+        'horaFim': horaFim,
+        'horaInicio': horaInicio,
+        'servico': servico
       };
   Agendamento.toMap(Map<String, dynamic> map) {
     map['valor'] = valor;
-    map['diaHora'] = diaHora;
-    map['empresa'] = empresa;
-    map['cliente'] = cliente;
-    map['funcionario'] = funcionario;
+    map['dia'] = dia;
+    map['idBarbeiro'] = idBarbeiro;
+    map['idCliente'] = idCliente;
+    map['id'] = id;
+    map['horaFim'] = horaFim;
+    map['horaInicio'] = horaInicio;
+    map['servico'] = servico;
   }
 }
