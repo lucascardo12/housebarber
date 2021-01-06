@@ -13,28 +13,11 @@ class DayView extends StatefulWidget {
 
 class _DayViewState extends State<DayView> {
   TimetableController<BasicEvent> _controller;
-  List<BasicEvent> listBasec = new List<BasicEvent>();
+
   @override
   void initState() {
     super.initState();
-    for (Agendamento item in listAgenda) {
-      BasicEvent auxi = new BasicEvent(
-          id: item.id + 1,
-          title: item.title ?? 'fdgsdfg',
-          color: secondary,
-          start: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(
-                  item.horaInicio.substring(0, item.horaInicio.indexOf(':'))),
-              int.parse(item.horaInicio.substring(
-                  item.horaInicio.indexOf(':') + 1, item.horaInicio.length)),
-              0)),
-          end: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(item.horaFim.substring(0, item.horaFim.indexOf(':'))),
-              int.parse(item.horaFim.substring(
-                  item.horaFim.indexOf(':') + 1, item.horaFim.length)),
-              0)));
-      listBasec.add(auxi);
-    }
+    Customfunctions.atualizaListaDayView();
     _controller = TimetableController(
       eventProvider: EventProvider.list(listBasec),
       initialTimeRange: InitialTimeRange.range(

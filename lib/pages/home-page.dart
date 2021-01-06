@@ -6,6 +6,7 @@ import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart'
 import 'package:flutter_calendar_carousel/classes/event.dart';
 import 'package:flutter_calendar_carousel/classes/event_list.dart';
 import 'package:housebarber/config/custom-functions.dart';
+import 'package:housebarber/config/global.dart';
 import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:housebarber/pages/dayView-page.dart';
 import 'package:housebarber/pages/login-page.dart';
@@ -157,9 +158,19 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: IconButton(
           icon: Icon(Icons.add),
           onPressed: () => Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => new AddEventoPage())),
+                  context,
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new AddEventoPage()))
+              .then((value) async {
+            await bacon.getAgendamentos().then((value) {
+              if (value != null) {
+                listAgenda = value;
+              }
+            });
+            setState(() {
+              Customfunctions.atualizaListaDayView();
+            });
+          }),
           color: Colors.blue,
           iconSize: 38,
         ),

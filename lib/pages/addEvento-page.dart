@@ -193,13 +193,14 @@ class _AddEventoPageState extends State<AddEventoPage> {
                       color: secondary,
                       onPressed: () {
                         Agendamento auxi = new Agendamento(
-                            id: 01,
+                            idUser: user.idUser,
                             idCliente: clienteControler.text,
                             dia: dateControler.text,
                             horaFim: horaFimControler.text,
                             horaInicio: horaInicControler.text,
                             servico: servicoControler.text);
-                        listAgenda.add(auxi);
+                        bacon.alteraAgendamento(agendamento: auxi);
+                        Navigator.pop(context);
                       },
                       child: Text(
                         'Salvar',

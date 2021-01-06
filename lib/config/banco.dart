@@ -1,3 +1,5 @@
+import 'package:housebarber/config/global.dart';
+import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
@@ -7,28 +9,20 @@ import '../model/empresa.dart';
 
 class BancoMg {
   Db bk;
-  openDB() async {
-    await bk.open();
-  }
-
-  closeDB() async {
-    await bk.close();
-  }
-
 //FUNÇÕES DE BANCO DA CLASSE USER
   getUser({var infoArray}) async {
     User user = new User();
     try {
       if (infoArray['senha'] != null && infoArray['login'] != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('user');
         ret = await collection.findOne({
           "senha": infoArray['senha'],
           "login": infoArray['login'].toLowerCase()
         });
         user = User.fromJson(ret);
-        await closeDB();
+
         return user;
       } else {
         return user;
@@ -41,7 +35,6 @@ class BancoMg {
   Future<User> alteraUser({User user}) async {
     try {
       if (user != null) {
-        await openDB();
         var collection = bk.collection('user');
         if (user.idUser == null) {
           var i = await collection.count() + 1;
@@ -51,7 +44,7 @@ class BancoMg {
         } else {
           await collection.save(user.toJson());
         }
-        await closeDB();
+
         return user;
       } else {
         return user;
@@ -66,10 +59,10 @@ class BancoMg {
     try {
       if (user != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('user');
         await collection.remove(where.eq('_id', user.idUser));
-        await closeDB();
+
         return ret;
       }
     } catch (e) {
@@ -82,11 +75,11 @@ class BancoMg {
     try {
       if (idEmpresa != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('empresa');
         ret = await collection.findOne({"_id": idEmpresa});
         Empresa empresa = Empresa.fromJson(ret);
-        await closeDB();
+
         return empresa;
       }
     } catch (e) {
@@ -98,7 +91,6 @@ class BancoMg {
     Empresa ret = new Empresa();
     try {
       if (empresa != null) {
-        await openDB();
         var collection = bk.collection('empresa');
         if (empresa.idEmpresa == null) {
           var i = await collection.count() + 1;
@@ -107,7 +99,7 @@ class BancoMg {
         } else {
           await collection.save(empresa.toJson());
         }
-        await closeDB();
+
         return ret;
       } else {
         return ret;
@@ -122,10 +114,10 @@ class BancoMg {
     try {
       if (empresa != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('empresa');
         await collection.remove(where.eq('_id', empresa.idEmpresa));
-        await closeDB();
+
         return ret;
       }
     } catch (e) {
@@ -138,11 +130,11 @@ class BancoMg {
     try {
       if (idFuncionario != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('funcionario');
         ret = await collection.findOne({"_id": idFuncionario});
         Funcionario funcionario = Funcionario.fromJson(ret);
-        await closeDB();
+
         return funcionario;
       }
     } catch (e) {
@@ -154,7 +146,6 @@ class BancoMg {
     Funcionario ret = new Funcionario();
     try {
       if (funcionario != null) {
-        await openDB();
         var collection = bk.collection('funcionario');
         if (funcionario.idFuncionario == null) {
           var i = await collection.count() + 1;
@@ -163,7 +154,7 @@ class BancoMg {
         } else {
           await collection.save(funcionario.toJson());
         }
-        await closeDB();
+
         return ret;
       } else {
         return ret;
@@ -178,10 +169,10 @@ class BancoMg {
     try {
       if (funcionario != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('funcionario');
         await collection.remove(where.eq('_id', funcionario.idFuncionario));
-        await closeDB();
+
         return ret;
       }
     } catch (e) {
@@ -194,11 +185,11 @@ class BancoMg {
     try {
       if (idCliente != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('cliente');
         ret = await collection.findOne({"_id": idCliente});
         Cliente cliente = Cliente.fromJson(ret);
-        await closeDB();
+
         return cliente;
       }
     } catch (e) {
@@ -210,7 +201,6 @@ class BancoMg {
     Cliente ret = new Cliente();
     try {
       if (cliente != null) {
-        await openDB();
         var collection = bk.collection('cliente');
         if (cliente.idCliente == null) {
           var i = await collection.count() + 1;
@@ -219,7 +209,7 @@ class BancoMg {
         } else {
           await collection.save(cliente.toJson());
         }
-        await closeDB();
+
         return ret;
       } else {
         return ret;
@@ -234,10 +224,10 @@ class BancoMg {
     try {
       if (cliente != null) {
         var ret;
-        await openDB();
+
         var collection = bk.collection('cliente');
         await collection.remove(where.eq('_id', cliente.idCliente));
-        await closeDB();
+
         return ret;
       }
     } catch (e) {
@@ -249,7 +239,6 @@ class BancoMg {
     bool exist = false;
     try {
       if (login != null) {
-        await openDB();
         var collection = bk.collection('user');
         await collection.findOne(where.eq('login', login)).then((value) {
           if (value != null) {
@@ -259,12 +248,75 @@ class BancoMg {
             return exist;
           }
         });
-        await closeDB();
+
         return exist;
       }
     } catch (e) {
       print(e);
       return exist;
+    }
+  }
+
+  Future<List<Agendamento>> getAgendamentos() async {
+    List<Agendamento> agendamento = <Agendamento>[];
+    try {
+      var collection = bk.collection('agendamento');
+      await collection.find({'idUser': user.idUser}).forEach((element) {
+        agendamento.add(Agendamento.fromJson(element));
+      });
+
+      return agendamento;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  // ignore: missing_return
+  Future<Agendamento> alteraAgendamento({Agendamento agendamento}) async {
+    try {
+      if (agendamento != null) {
+        var collection = bk.collection('agendamento');
+        if (agendamento.id == null) {
+          var i = await collection.count() + 1;
+          agendamento.id = i;
+          await collection.insert(agendamento.toJson());
+        } else {
+          await collection.save(agendamento.toJson());
+        }
+        return agendamento;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<bool> agendamentoExistente(Agendamento agendamento) async {
+    try {
+      if (agendamento != null) {
+        var collection = bk
+            .collection('agendamento')
+            .find({'idUser': agendamento.idUser, 'dia': agendamento.dia});
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  removeAgendamento({Agendamento agendamento}) async {
+    try {
+      if (agendamento != null) {
+        var ret;
+
+        var collection = bk.collection('agendamento');
+        await collection.remove(where.eq('_id', agendamento.id));
+
+        return ret;
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

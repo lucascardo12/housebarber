@@ -62,6 +62,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 20,
                             ),
                             TextField(
+                                cursorColor: Colors.white,
                                 style: TextStyle(color: Colors.white),
                                 controller: nomeController,
                                 decoration: InputDecoration(
@@ -80,6 +81,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 20,
                             ),
                             TextField(
+                                cursorColor: Colors.white,
                                 style: TextStyle(color: Colors.white),
                                 controller: usuarioController,
                                 decoration: InputDecoration(
@@ -95,6 +97,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                   ),
                                 )),
                             TextField(
+                              cursorColor: Colors.white,
                               obscureText: !_showPassword,
                               controller: senhaController,
                               style: TextStyle(color: Colors.white),
@@ -127,6 +130,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 20,
                             ),
                             TextField(
+                                cursorColor: Colors.white,
                                 style: TextStyle(color: Colors.white),
                                 controller: numeroController,
                                 keyboardType: TextInputType.number,
@@ -146,6 +150,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 20,
                             ),
                             TextField(
+                                cursorColor: Colors.white,
                                 style: TextStyle(color: Colors.white),
                                 controller: cpfcnpjController,
                                 keyboardType: TextInputType.number,
@@ -165,6 +170,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 20,
                             ),
                             TextField(
+                                cursorColor: Colors.white,
                                 style: TextStyle(color: Colors.white),
                                 controller: emailController,
                                 keyboardType: TextInputType.text,

@@ -60,7 +60,9 @@ flutter:
     - assets/barber.jpg
     - assets/arraste_lados.gif
     - assets/barber-shop.gif
-  #   - images/a_dot_ham.jpeg
+    - packages/time_machine/data/cultures/cultures.bin
+    - packages/time_machine/data/tzdb/tzdb.bin
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
