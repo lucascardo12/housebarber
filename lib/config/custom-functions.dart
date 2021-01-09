@@ -33,6 +33,7 @@ class Customfunctions {
         if (value != null) {
           prefs.setString('login', login);
           prefs.setString('senha', infoArray["senha"]);
+          user = value;
           await bacon.getAgendamentos().then((value) => listAgenda = value);
           Navigator.pushReplacementNamed(context, "/home");
           print('EMPRESA');
@@ -178,6 +179,7 @@ class Customfunctions {
     return palavra.replaceFirst(palavra.substring(0, 1), up);
   }
 
+  // ignore: missing_return
   static Future<bool> verificarConexao() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -227,7 +229,7 @@ class Customfunctions {
     return date;
   }
 
-  static atualizaListaDayView() {
+  static atualizaListaDayView() async {
     listBasec.clear();
     for (Agendamento item in listAgenda) {
       BasicEvent auxi = new BasicEvent(
@@ -251,6 +253,28 @@ class Customfunctions {
               int.parse(item.horaFim.substring(0, item.horaFim.indexOf(':'))),
               int.parse(item.horaFim
                   .substring(item.horaFim.indexOf(':') + 1, item.horaFim.length)),
+              0)));
+      listBasec.add(auxi);
+    }
+  }
+
+  static atualizaListaWeekView() async {
+    listBasec.clear();
+    for (Agendamento item in listAgenda) {
+      BasicEvent auxi = new BasicEvent(
+          id: item.id,
+          title: item.title ?? item.idCliente,
+          color: secondary,
+          start: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
+              int.parse(
+                  item.horaInicio.substring(0, item.horaInicio.indexOf(':'))),
+              int.parse(item.horaInicio.substring(
+                  item.horaInicio.indexOf(':') + 1, item.horaInicio.length)),
+              0)),
+          end: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
+              int.parse(item.horaFim.substring(0, item.horaFim.indexOf(':'))),
+              int.parse(item.horaFim.substring(
+                  item.horaFim.indexOf(':') + 1, item.horaFim.length)),
               0)));
       listBasec.add(auxi);
     }

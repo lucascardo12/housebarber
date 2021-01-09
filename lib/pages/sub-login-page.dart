@@ -23,7 +23,8 @@ class _SubLoginPageState extends State<SubLoginPage> {
             color: primaryLight,
             child: Theme(
                 data: new ThemeData(
-                  cursorColor: Colors.white,
+                  textSelectionTheme:
+                      TextSelectionThemeData(cursorColor: Colors.white),
                   primaryColor: Colors.white,
                 ),
                 child: ListView(

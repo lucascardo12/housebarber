@@ -257,6 +257,7 @@ class BancoMg {
     }
   }
 
+  // ignore: missing_return
   Future<List<Agendamento>> getAgendamentos() async {
     List<Agendamento> agendamento = <Agendamento>[];
     try {

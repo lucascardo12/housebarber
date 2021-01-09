@@ -3,36 +3,37 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:timetable/timetable.dart';
 
-class DayView extends StatefulWidget {
+class WeekView extends StatefulWidget {
   @override
-  _DayViewState createState() => _DayViewState();
+  _WeekViewState createState() => _WeekViewState();
 }
 
-class _DayViewState extends State<DayView> {
-  TimetableController<BasicEvent> _controller;
+class _WeekViewState extends State<WeekView> {
+  TimetableController<BasicEvent> _controllerW;
 
   @override
   void initState() {
     super.initState();
-    Customfunctions.atualizaListaDayView();
-    _controller = TimetableController(
+    Customfunctions.atualizaListaWeekView();
+    _controllerW = TimetableController(
       eventProvider: EventProvider.list(listBasec),
       initialTimeRange: InitialTimeRange.range(
         startTime: LocalTime(DateTime.now().hour - 1, 0, 0),
         endTime: LocalTime(DateTime.now().hour + 6, 0, 0),
       ),
       initialDate: LocalDate.today(),
-      visibleRange: VisibleRange.days(1),
+      visibleRange: VisibleRange.days(7),
       firstDayOfWeek: DayOfWeek.monday,
     );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controllerW.dispose();
     super.dispose();
   }
 
@@ -43,10 +44,25 @@ class _DayViewState extends State<DayView> {
         height: MediaQuery.of(context).size.height - 200,
         child: Timetable<BasicEvent>(
           theme: TimetableThemeData(
+              dateIndicatorTextStyle:
+                  MaterialStateProperty.all(TextStyle(fontSize: 12)),
+              enablePartDayEventStacking: false,
               hourTextStyle: TextStyle(color: Colors.blue),
               dividerColor: secondary),
-          controller: _controller,
-          onEventBackgroundTap: (start, isAllDay) {},
+          controller: _controllerW,
+          onEventBackgroundTap: (start, isAllDay) {
+            print(start.hourOfDay);
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (BuildContext context) => new AddEventoPage(
+                          horaIni: start.hourOfDay,
+                        ))).then((value) async {
+              setState(() {
+                Customfunctions.atualizaListaWeekView();
+              });
+            });
+          },
           eventBuilder: (event) {
             return BasicEventWidget(
               event,
@@ -56,5 +72,7 @@ class _DayViewState extends State<DayView> {
         ));
   }
 
-  showEvent() {}
+  showEvent() {
+    print('fdsfdgsdf');
+  }
 }

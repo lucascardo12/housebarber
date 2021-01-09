@@ -5,6 +5,9 @@ import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 
 class AddEventoPage extends StatefulWidget {
+  final int horaIni;
+
+  const AddEventoPage({Key key, this.horaIni}) : super(key: key);
   @override
   _AddEventoPageState createState() => _AddEventoPageState();
 }
@@ -15,6 +18,13 @@ class _AddEventoPageState extends State<AddEventoPage> {
   TextEditingController horaFimControler = TextEditingController();
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
+
+  @override
+  void initState() {
+    horaInicControler.text = widget.horaIni.toString();
+    horaFimControler.text = (widget.horaIni + 1).toString();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +209,15 @@ class _AddEventoPageState extends State<AddEventoPage> {
                             horaFim: horaFimControler.text,
                             horaInicio: horaInicControler.text,
                             servico: servicoControler.text);
-                        bacon.alteraAgendamento(agendamento: auxi);
+                        bacon
+                            .alteraAgendamento(agendamento: auxi)
+                            .then((value) async {
+                          if (value != null) {
+                            await bacon
+                                .getAgendamentos()
+                                .then((value) => listAgenda = value);
+                          }
+                        });
                         Navigator.pop(context);
                       },
                       child: Text(
