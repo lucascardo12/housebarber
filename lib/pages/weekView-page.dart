@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/dayView-controller.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:time_machine/time_machine.dart';
@@ -22,8 +23,8 @@ class _WeekViewState extends State<WeekView> {
     _controllerW = TimetableController(
       eventProvider: EventProvider.list(listBasec),
       initialTimeRange: InitialTimeRange.range(
-        startTime: LocalTime(DateTime.now().hour - 1, 0, 0),
-        endTime: LocalTime(DateTime.now().hour + 6, 0, 0),
+        startTime: LocalTime(retornaHoraMenos(), 0, 0),
+        endTime: LocalTime(retornaHoraMais(), 0, 0),
       ),
       initialDate: LocalDate.today(),
       visibleRange: VisibleRange.days(7),

@@ -22,8 +22,8 @@ class _DayViewState extends State<DayView> {
     _controller = TimetableController(
       eventProvider: EventProvider.list(listBasec),
       initialTimeRange: InitialTimeRange.range(
-        startTime: LocalTime(DateTime.now().hour - 1, 0, 0),
-        endTime: LocalTime(DateTime.now().hour + 2, 0, 0),
+        startTime: LocalTime(retornaHoraMenos(), 0, 0),
+        endTime: LocalTime(retornaHoraMais(), 0, 0),
       ),
       initialDate: LocalDate.today(),
       visibleRange: VisibleRange.days(1),
