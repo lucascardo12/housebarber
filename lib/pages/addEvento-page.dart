@@ -7,7 +7,7 @@ import 'package:housebarber/model/agendamento.dart';
 class AddEventoPage extends StatefulWidget {
   final int horaIni;
 
-  const AddEventoPage({Key key, this.horaIni}) : super(key: key);
+  const AddEventoPage({Key key, this.horaIni = 0}) : super(key: key);
   @override
   _AddEventoPageState createState() => _AddEventoPageState();
 }
@@ -21,8 +21,8 @@ class _AddEventoPageState extends State<AddEventoPage> {
 
   @override
   void initState() {
-    horaInicControler.text = widget.horaIni.toString();
-    horaFimControler.text = (widget.horaIni + 1).toString();
+    horaInicControler.text = widget.horaIni.toString().padLeft(2, '0') + ':00';
+
     super.initState();
   }
 

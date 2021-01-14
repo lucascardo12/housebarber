@@ -209,7 +209,9 @@ class Customfunctions {
 
   static String stringHora(TimeOfDay hora) {
     if (hora != null) {
-      return hora.hour.toString() + ":" + hora.minute.toString();
+      return hora.hour.toString().padLeft(2, '0') +
+          ":" +
+          hora.minute.toString().padLeft(2, '0');
     } else {
       return null;
     }
