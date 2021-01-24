@@ -40,7 +40,7 @@ class _WeekViewState extends State<WeekView> {
               iconSize: 38,
             ),
             body: SfCalendar(
-              dataSource: MeetingDataSource(getDataSource()),
+              dataSource: MeetingDataSource(getDataSource(tipo: 2)),
               headerStyle: CalendarHeaderStyle(
                   textStyle: TextStyle(color: Colors.white, fontSize: 20)),
               backgroundColor: primaryLight,
