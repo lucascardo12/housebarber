@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/custom-functions.dart';
-import 'package:housebarber/controller/dayView-controller.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/pages/addEvento-page.dart';
-import 'package:time_machine/time_machine.dart';
-import 'package:timetable/timetable.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DayView extends StatefulWidget {
   @override
@@ -14,27 +8,14 @@ class DayView extends StatefulWidget {
 }
 
 class _DayViewState extends State<DayView> {
-  TimetableController<BasicEvent> _controller;
-
   @override
   void initState() {
     super.initState();
-    Customfunctions.atualizaListaDayView();
-    _controller = TimetableController(
-      eventProvider: EventProvider.list(listBasec),
-      initialTimeRange: InitialTimeRange.range(
-        startTime: LocalTime(retornaHoraMenos(), 0, 0),
-        endTime: LocalTime(retornaHoraMais(), 0, 0),
-      ),
-      initialDate: LocalDate.today(),
-      visibleRange: VisibleRange.days(1),
-      firstDayOfWeek: DayOfWeek.monday,
-    );
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    ;
     super.dispose();
   }
 
@@ -43,18 +24,9 @@ class _DayViewState extends State<DayView> {
     return Container(
         color: primaryLight,
         height: MediaQuery.of(context).size.height - 200,
-        child: Timetable<BasicEvent>(
-          theme: TimetableThemeData(
-              hourTextStyle: TextStyle(color: Colors.blue),
-              dividerColor: secondary),
-          controller: _controller,
-          onEventBackgroundTap: (start, isAllDay) => dialogCriaeAlteraEvent(),
-          eventBuilder: (event) {
-            return BasicEventWidget(
-              event,
-              onTap: () => dialogCriaeAlteraEvent(),
-            );
-          },
+        child: SfCalendar(
+          timeSlotViewSettings: TimeSlotViewSettings(timeFormat: 'H'),
+          view: CalendarView.day,
         ));
   }
 }

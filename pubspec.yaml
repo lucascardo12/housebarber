@@ -34,11 +34,10 @@ dependencies:
   crypto: ^2.0.6
   intl: ^0.16.1
   convex_bottom_bar: ^2.6.0
-  timetable: ^0.2.9
   shared_preferences: ^0.5.12+4
   flutter_localizations:
     sdk: flutter
-  # syncfusion_flutter_calendar: ^18.4.35
+  syncfusion_flutter_calendar: ^18.4.35
 dependency_overrides:
   intl: ^0.16.0
 dev_dependencies:
@@ -60,8 +59,7 @@ flutter:
     - assets/barber.jpg
     - assets/arraste_lados.gif
     - assets/barber-shop.gif
-    - packages/time_machine/data/cultures/cultures.bin
-    - packages/time_machine/data/tzdb/tzdb.bin
+
   
 
   # An image asset can refer to one or more resolution-specific "variants", see

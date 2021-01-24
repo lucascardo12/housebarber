@@ -3,16 +3,12 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoastalert/FlutterToastAlert.dart';
-import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/global.dart';
-import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:intl/intl.dart';
-import 'package:timetable/timetable.dart';
-import 'package:time_machine/time_machine.dart';
 
 class Customfunctions {
   static Future<void> validaLogin({var infoArray, BuildContext context}) async {
@@ -237,56 +233,5 @@ class Customfunctions {
     date = DateTime.parse(datt);
 
     return date;
-  }
-
-  static atualizaListaDayView() async {
-    listBasec.clear();
-    for (Agendamento item in listAgenda) {
-      BasicEvent auxi = new BasicEvent(
-          id: item.id,
-          title: item.title ??
-              item.idCliente +
-                  ' - ' +
-                  item.servico +
-                  ' - hora inicio:' +
-                  item.horaInicio +
-                  ' - hora fim:' +
-                  item.horaFim,
-          color: secondary,
-          start: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(
-                  item.horaInicio.substring(0, item.horaInicio.indexOf(':'))),
-              int.parse(item.horaInicio.substring(
-                  item.horaInicio.indexOf(':') + 1, item.horaInicio.length)),
-              0)),
-          end: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(item.horaFim.substring(0, item.horaFim.indexOf(':'))),
-              int.parse(item.horaFim
-                  .substring(item.horaFim.indexOf(':') + 1, item.horaFim.length)),
-              0)));
-      listBasec.add(auxi);
-    }
-  }
-
-  static atualizaListaWeekView() async {
-
-    for (Agendamento item in listAgenda) {
-      BasicEvent auxi = new BasicEvent(
-          id: item.id,
-          title: item.title ?? item.idCliente,
-          color: secondary,
-          start: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(
-                  item.horaInicio.substring(0, item.horaInicio.indexOf(':'))),
-              int.parse(item.horaInicio.substring(
-                  item.horaInicio.indexOf(':') + 1, item.horaInicio.length)),
-              0)),
-          end: LocalDate.dateTime(Customfunctions.dataString(data: item.dia)).at(LocalTime(
-              int.parse(item.horaFim.substring(0, item.horaFim.indexOf(':'))),
-              int.parse(item.horaFim.substring(
-                  item.horaFim.indexOf(':') + 1, item.horaFim.length)),
-              0)));
-      listBasec.add(auxi);
-    }
   }
 }
