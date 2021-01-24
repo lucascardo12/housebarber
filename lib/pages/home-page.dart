@@ -6,6 +6,7 @@ import 'package:housebarber/config/global.dart';
 import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:housebarber/pages/dayView-page.dart';
 import 'package:housebarber/pages/login-page.dart';
+import 'package:housebarber/pages/register-new-product-page.dart';
 import 'package:housebarber/pages/weekView-page.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
           items: [
             TabItem(icon: Icons.home, title: 'Diario'),
             TabItem(icon: Icons.map, title: 'Semanal'),
+            TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
             TabItem(icon: Icons.settings, title: 'Opções'),
           ],
           initialActiveIndex: 0,
@@ -67,6 +69,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case 2:
         return new WeekView();
+        break;
+      case 3:
+        return new RegisterNewProduct();
         break;
       default:
         return new Container(
