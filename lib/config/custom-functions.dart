@@ -211,9 +211,17 @@ class Customfunctions {
     if (hora != null) {
       return hora.hour.toString().padLeft(2, '0') +
           ":" +
-          hora.minute.toString().padLeft(2, '0');
+          aredonda(hora.minute).toString().padLeft(2, '0');
     } else {
       return null;
+    }
+  }
+
+  static int aredonda(int minuto) {
+    if (minuto > 30) {
+      return 0;
+    } else {
+      return 30;
     }
   }
 
@@ -261,7 +269,7 @@ class Customfunctions {
   }
 
   static atualizaListaWeekView() async {
-    listBasec.clear();
+
     for (Agendamento item in listAgenda) {
       BasicEvent auxi = new BasicEvent(
           id: item.id,

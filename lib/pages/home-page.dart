@@ -10,26 +10,13 @@ import 'package:housebarber/pages/weekView-page.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 class HomePage extends StatefulWidget {
-  HomePage();
+  HomePage(this.xi);
+  int xi = 1;
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  DateTime _currentDate = DateTime.now();
-  DateTime _currentDate2 = DateTime.now();
-  int xi = 1;
-  static Widget _eventIcon = new Container(
-    decoration: new BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(1000)),
-        border: Border.all(color: Colors.blue, width: 2.0)),
-    child: new Icon(
-      Icons.person,
-      color: Colors.amber,
-    ),
-  );
-
   @override
   void initState() {
     super.initState();
@@ -50,15 +37,7 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: IconButton(
           icon: Icon(Icons.add),
-          onPressed: () => Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new AddEventoPage()))
-              .then((value) async {
-            setState(() {
-              Customfunctions.atualizaListaDayView();
-            });
-          }),
+          onPressed: () => dialogCriaeAlteraEvent(context: context),
           color: Colors.blue,
           iconSize: 38,
         ),
@@ -72,7 +51,7 @@ class _HomePageState extends State<HomePage> {
           initialActiveIndex: 0,
           onTap: (int i) {
             setState(() {
-              xi = i + 1;
+              widget.xi = i + 1;
             });
           },
         ),
@@ -82,45 +61,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new LoginPage())),
-            child: SingleChildScrollView(child: body(i: xi))));
-  }
-
-  Widget eventosDoDia({DateTime dia}) {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Card(
-        color: primary,
-        child: Padding(
-            padding: EdgeInsets.all(10),
-            child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Cliente",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      "Hora Inicio",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      "Hora Fim",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      "Serviço",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      "Valor",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ))),
-      ),
-    );
+            child: SingleChildScrollView(child: body(i: widget.xi))));
   }
 
   Widget body({int i}) {

@@ -51,29 +51,12 @@ class _WeekViewState extends State<WeekView> {
               hourTextStyle: TextStyle(color: Colors.blue),
               dividerColor: secondary),
           controller: _controllerW,
-          onEventBackgroundTap: (start, isAllDay) {
-            print(start.hourOfDay);
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new AddEventoPage(
-                          horaIni: start.hourOfDay,
-                        ))).then((value) async {
-              setState(() {
-                Customfunctions.atualizaListaWeekView();
-              });
-            });
-          },
+          onEventBackgroundTap: (start, isAllDay) =>
+              dialogCriaeAlteraEvent(context: context),
           eventBuilder: (event) {
-            return BasicEventWidget(
-              event,
-              onTap: () => showEvent(),
-            );
+            return BasicEventWidget(event,
+                onTap: () => dialogCriaeAlteraEvent(context: context));
           },
         ));
-  }
-
-  showEvent() {
-    print('fdsfdgsdf');
   }
 }

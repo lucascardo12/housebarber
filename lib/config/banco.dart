@@ -1,3 +1,4 @@
+import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
@@ -291,16 +292,21 @@ class BancoMg {
     }
   }
 
-  Future<bool> agendamentoExistente(Agendamento agendamento) async {
+  Future<List<Agendamento>> agendamentoExistente(
+      Agendamento agendamento) async {
+    List<Agendamento> agendamentoAuxi = <Agendamento>[];
     try {
       if (agendamento != null) {
         var collection = bk
             .collection('agendamento')
             .find({'idUser': agendamento.idUser, 'dia': agendamento.dia});
-        return true;
-      }
+        await collection.forEach((element) {
+          agendamentoAuxi.add(Agendamento.fromJson(element));
+        });
 
-      return false;
+        return agendamentoAuxi;
+      }
+      return null;
     } catch (e) {
       return null;
     }

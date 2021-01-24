@@ -4,6 +4,7 @@ import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/controller/dayView-controller.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:time_machine/time_machine.dart';
 import 'package:timetable/timetable.dart';
 
@@ -47,15 +48,13 @@ class _DayViewState extends State<DayView> {
               hourTextStyle: TextStyle(color: Colors.blue),
               dividerColor: secondary),
           controller: _controller,
-          onEventBackgroundTap: (start, isAllDay) {},
+          onEventBackgroundTap: (start, isAllDay) => dialogCriaeAlteraEvent(),
           eventBuilder: (event) {
             return BasicEventWidget(
               event,
-              onTap: () => showEvent(),
+              onTap: () => dialogCriaeAlteraEvent(),
             );
           },
         ));
   }
-
-  showEvent() {}
 }
