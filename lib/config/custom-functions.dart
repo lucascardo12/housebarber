@@ -207,17 +207,9 @@ class Customfunctions {
     if (hora != null) {
       return hora.hour.toString().padLeft(2, '0') +
           ":" +
-          aredonda(hora.minute).toString().padLeft(2, '0');
+          hora.minute.toString().padLeft(2, '0');
     } else {
       return null;
-    }
-  }
-
-  static int aredonda(int minuto) {
-    if (minuto > 30) {
-      return 0;
-    } else {
-      return 30;
     }
   }
 

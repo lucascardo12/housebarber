@@ -13,7 +13,7 @@ Future<void> dialogCriaeAlteraEvent(
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
-  showGeneralDialog(
+  return showGeneralDialog(
     barrierLabel: "Barrier",
     barrierDismissible: true,
     barrierColor: Colors.black.withOpacity(0.5),
@@ -190,16 +190,30 @@ Future<void> dialogCriaeAlteraEvent(
                             borderRadius: BorderRadius.circular(25),
                           ),
                           color: secondary,
-                          onPressed: () {
+                          onPressed: () async {
+                            var dia = Customfunctions.dataString(
+                                data: dateControler.text);
+                            var endTime = DateTime(
+                                dia.year,
+                                dia.month,
+                                dia.day,
+                                int.parse(
+                                    horaFimControler.text.substring(0, 2)));
+                            var starTime = DateTime(
+                                dia.year,
+                                dia.month,
+                                dia.day,
+                                int.parse(
+                                    horaInicControler.text.substring(0, 2)));
                             Agendamento auxi = new Agendamento(
                                 idUser: user.idUser,
                                 idCliente: clienteControler.text,
-                                dia: dateControler.text,
-                                horaFim: horaFimControler.text,
-                                horaInicio: horaInicControler.text,
+                                dia: dia.toString(),
+                                endTime: endTime.toString(),
+                                startTime: starTime.toString(),
                                 servico: servicoControler.text);
 
-                            bacon
+                            await bacon
                                 .alteraAgendamento(agendamento: auxi)
                                 .then((value) async {
                               if (value != null) {

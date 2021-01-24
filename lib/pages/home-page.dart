@@ -10,15 +10,17 @@ import 'package:housebarber/pages/weekView-page.dart';
 import 'package:intl/intl.dart' show DateFormat;
 
 class HomePage extends StatefulWidget {
-  HomePage(this.xi);
-  int xi = 1;
+  HomePage();
+
   @override
   _HomePageState createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  int xi;
   @override
   void initState() {
+    xi = 1;
     super.initState();
   }
 
@@ -35,12 +37,6 @@ class _HomePageState extends State<HomePage> {
           ),
           title: new Text('Home'),
         ),
-        floatingActionButton: IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => dialogCriaeAlteraEvent(context: context),
-          color: Colors.blue,
-          iconSize: 38,
-        ),
         bottomNavigationBar: ConvexAppBar(
           style: TabStyle.react,
           items: [
@@ -51,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           initialActiveIndex: 0,
           onTap: (int i) {
             setState(() {
-              widget.xi = i + 1;
+              xi = i + 1;
             });
           },
         ),
@@ -61,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                 context,
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new LoginPage())),
-            child: SingleChildScrollView(child: body(i: widget.xi))));
+            child: SingleChildScrollView(child: body(i: xi))));
   }
 
   Widget body({int i}) {

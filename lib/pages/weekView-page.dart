@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
+import 'package:housebarber/controller/dayView-controller.dart';
+import 'package:housebarber/model/meets.dart';
+import 'package:housebarber/model/meetsData.dart';
+import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class WeekView extends StatefulWidget {
@@ -22,10 +26,31 @@ class _WeekViewState extends State<WeekView> {
   Widget build(BuildContext context) {
     return Container(
         color: primaryLight,
-        height: MediaQuery.of(context).size.height - 200,
-        child: SfCalendar(
-          timeSlotViewSettings: TimeSlotViewSettings(timeFormat: 'H'),
-          view: CalendarView.week,
-        ));
+        height: MediaQuery.of(context).size.height * 0.80,
+        child: Scaffold(
+            floatingActionButton: IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () async {
+                await dialogCriaeAlteraEvent(context: context);
+                setState(() {
+                  print('test');
+                });
+              },
+              color: Colors.blue,
+              iconSize: 38,
+            ),
+            body: SfCalendar(
+              dataSource: MeetingDataSource(getDataSource()),
+              headerStyle: CalendarHeaderStyle(
+                  textStyle: TextStyle(color: Colors.white, fontSize: 20)),
+              backgroundColor: primaryLight,
+              timeSlotViewSettings: TimeSlotViewSettings(
+                  timeFormat: 'H',
+                  timeTextStyle: TextStyle(color: secondary, fontSize: 14)),
+              view: CalendarView.week,
+              cellBorderColor: secondary,
+              viewHeaderStyle: ViewHeaderStyle(
+                  dayTextStyle: TextStyle(color: Colors.white, fontSize: 12)),
+            )));
   }
 }

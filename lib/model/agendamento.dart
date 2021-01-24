@@ -1,7 +1,3 @@
-import 'package:housebarber/model/cliente.dart';
-import 'package:housebarber/model/empresa.dart';
-import 'package:housebarber/model/funcionario.dart';
-
 class Agendamento {
   int id;
   String valor;
@@ -9,8 +5,8 @@ class Agendamento {
   String title;
   String idUser;
   String idCliente;
-  String horaInicio;
-  String horaFim;
+  String startTime;
+  String endTime;
   String servico;
 
   Agendamento({
@@ -19,17 +15,17 @@ class Agendamento {
     String idUser,
     String idCliente,
     int id,
-    String horaInicio,
+    String startTime,
     String servico,
-    String horaFim,
+    String endTime,
   }) {
     this.valor = valor;
     this.dia = dia;
     this.idUser = idUser;
     this.idCliente = idCliente;
     this.id = id;
-    this.horaFim = horaFim;
-    this.horaInicio = horaInicio;
+    this.endTime = endTime;
+    this.startTime = startTime;
     this.servico = servico;
   }
   Agendamento.fromJson(Map<String, dynamic> xjson) {
@@ -38,8 +34,8 @@ class Agendamento {
     idUser = xjson['idUser'];
     idCliente = xjson['idCliente'];
     id = xjson['_id'];
-    horaFim = xjson['horaFim'];
-    horaInicio = xjson['horaInicio'];
+    endTime = xjson['endTime'];
+    startTime = xjson['startTime'];
     servico = xjson['servico'];
   }
 
@@ -49,8 +45,8 @@ class Agendamento {
         'idUser': idUser,
         'idCliente': idCliente,
         '_id': id,
-        'horaFim': horaFim,
-        'horaInicio': horaInicio,
+        'endTime': endTime,
+        'startTime': startTime,
         'servico': servico
       };
   Agendamento.toMap(Map<String, dynamic> map) {
@@ -59,8 +55,8 @@ class Agendamento {
     map['idUser'] = idUser;
     map['idCliente'] = idCliente;
     map['_id'] = id;
-    map['horaFim'] = horaFim;
-    map['horaInicio'] = horaInicio;
+    map['endTime'] = endTime;
+    map['startTime'] = startTime;
     map['servico'] = servico;
   }
 }
