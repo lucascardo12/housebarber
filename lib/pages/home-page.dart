@@ -1,14 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/custom-functions.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:housebarber/pages/dayView-page.dart';
 import 'package:housebarber/pages/login-page.dart';
+import 'package:housebarber/pages/monthView-page.dart';
 import 'package:housebarber/pages/register-new-product-page.dart';
 import 'package:housebarber/pages/weekView-page.dart';
-import 'package:intl/intl.dart' show DateFormat;
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -43,6 +40,7 @@ class _HomePageState extends State<HomePage> {
           items: [
             TabItem(icon: Icons.home, title: 'Diario'),
             TabItem(icon: Icons.map, title: 'Semanal'),
+            TabItem(icon: Icons.calendar_today, title: 'Mensal'),
             TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
             TabItem(icon: Icons.settings, title: 'Opções'),
           ],
@@ -71,6 +69,9 @@ class _HomePageState extends State<HomePage> {
         return new WeekView();
         break;
       case 3:
+        return new MonthView();
+        break;
+      case 4:
         return new RegisterNewProduct();
         break;
       default:

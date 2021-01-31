@@ -6,19 +6,22 @@ import 'package:housebarber/pages/addEvento-page.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class WeekView extends StatefulWidget {
+class MonthView extends StatefulWidget {
   @override
-  _WeekViewState createState() => _WeekViewState();
+  _MonthViewState createState() => _MonthViewState();
 }
 
-class _WeekViewState extends State<WeekView> {
+class _MonthViewState extends State<MonthView> {
+  CalendarController _controller;
   @override
   void initState() {
+    _controller = CalendarController();
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -50,22 +53,31 @@ class _WeekViewState extends State<WeekView> {
                   iconSize: 38,
                 )),
             body: SfCalendar(
-                onTap: (calendarTapDetails) async {
-                  if (calendarTapDetails.appointments != null) {
+                onTap: (CalendarTapDetails details) async {
+                  print(details.targetElement.toString());
+                  if (details.appointments != null &&
+                      details.targetElement.toString() ==
+                          'CalendarElement.appointment') {
                     await dialogCriaeAlteraEvent(
                             context: context,
-                            evento: calendarTapDetails.appointments.first)
+                            evento: details.appointments.first)
                         .then((value) => setState(() {}));
                   }
                 },
+                monthViewSettings: MonthViewSettings(
+                    showAgenda: true,
+                    monthCellStyle: MonthCellStyle(
+                        textStyle:
+                            TextStyle(color: Colors.white, fontSize: 14))),
                 dataSource: AgendamentoDataSource(listAgenda),
+                showNavigationArrow: true,
                 headerStyle: CalendarHeaderStyle(
                     textStyle: TextStyle(color: Colors.white, fontSize: 20)),
                 backgroundColor: primaryLight,
                 timeSlotViewSettings: TimeSlotViewSettings(
                     timeFormat: 'H',
                     timeTextStyle: TextStyle(color: secondary, fontSize: 14)),
-                view: CalendarView.week,
+                view: CalendarView.month,
                 cellBorderColor: secondary,
                 viewHeaderStyle: ViewHeaderStyle(
                     dayTextStyle: TextStyle(color: Colors.white, fontSize: 12)),
@@ -82,7 +94,11 @@ class _WeekViewState extends State<WeekView> {
                       ),
                       child: Center(
                           child: Text(
-                        agenda.idCliente,
+                        agenda.idCliente +
+                            ' das ' +
+                            DateFormat('kk:mm').format(agenda.startTime) +
+                            ' as ' +
+                            DateFormat('kk:mm').format(agenda.endTime),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,

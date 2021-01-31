@@ -4,7 +4,6 @@ import 'package:housebarber/pages/sub-login-page.dart';
 import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override

@@ -1,3 +1,5 @@
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
 class Agendamento {
   int id;
   String valor;
@@ -5,8 +7,8 @@ class Agendamento {
   String title;
   String idUser;
   String idCliente;
-  String startTime;
-  String endTime;
+  DateTime startTime;
+  DateTime endTime;
   String servico;
 
   Agendamento({
@@ -15,9 +17,9 @@ class Agendamento {
     String idUser,
     String idCliente,
     int id,
-    String startTime,
+    DateTime startTime,
     String servico,
-    String endTime,
+    DateTime endTime,
   }) {
     this.valor = valor;
     this.dia = dia;
@@ -58,5 +60,32 @@ class Agendamento {
     map['endTime'] = endTime;
     map['startTime'] = startTime;
     map['servico'] = servico;
+  }
+}
+
+class AgendamentoDataSource extends CalendarDataSource {
+  /// Creates a meeting data source, which used to set the appointment
+  /// collection to the calendar
+  AgendamentoDataSource(List<Agendamento> source) {
+    appointments = source;
+  }
+
+  @override
+  DateTime getStartTime(int index) {
+    return appointments[index].startTime;
+  }
+
+  int getIds(int index) {
+    return appointments[index].id;
+  }
+
+  @override
+  DateTime getEndTime(int index) {
+    return appointments[index].endTime;
+  }
+
+  @override
+  String getSubject(int index) {
+    return appointments[index].idCliente;
   }
 }

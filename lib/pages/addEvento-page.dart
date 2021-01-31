@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:intl/intl.dart';
 
 Future<void> dialogCriaeAlteraEvent(
-    {BuildContext context, int horaIni = 0}) async {
+    {BuildContext context, int horaIni = 0, Agendamento evento}) async {
   TextEditingController dateControler = TextEditingController();
   TextEditingController horaInicControler = TextEditingController();
   TextEditingController horaFimControler = TextEditingController();
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
+  if (evento != null) {
+    horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
+    horaFimControler.text = DateFormat('kk:mm').format(evento.endTime);
+    dateControler.text = DateFormat('dd/MM/yyyy').format(evento.endTime);
+    clienteControler.text = evento.idCliente;
+    servicoControler.text = evento.servico;
+  }
   return showGeneralDialog(
     barrierLabel: "Barrier",
     barrierDismissible: true,
@@ -206,11 +213,12 @@ Future<void> dialogCriaeAlteraEvent(
                                 int.parse(
                                     horaInicControler.text.substring(0, 2)));
                             Agendamento auxi = new Agendamento(
+                                id: evento != null ? evento.id : null,
                                 idUser: user.idUser,
                                 idCliente: clienteControler.text,
                                 dia: dia.toString(),
-                                endTime: endTime.toString(),
-                                startTime: starTime.toString(),
+                                endTime: endTime,
+                                startTime: starTime,
                                 servico: servicoControler.text);
 
                             await bacon

@@ -1,4 +1,3 @@
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
