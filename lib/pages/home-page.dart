@@ -4,7 +4,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/dayView-page.dart';
 import 'package:housebarber/pages/login-page.dart';
 import 'package:housebarber/pages/monthView-page.dart';
-import 'package:housebarber/pages/register-new-product-page.dart';
+import 'package:housebarber/pages/new-registers-page.dart';
 import 'package:housebarber/pages/weekView-page.dart';
 
 class HomePage extends StatefulWidget {
@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
         return new MonthView();
         break;
       case 4:
-        return new RegisterNewProduct();
+        return new NewRegisters();
         break;
       default:
         return new Container(

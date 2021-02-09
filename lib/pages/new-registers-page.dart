@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 
-class RegisterNewProduct extends StatefulWidget {
+class NewRegisters extends StatefulWidget {
   @override
-  _RegisterNewProductPageState createState() => _RegisterNewProductPageState();
+  _NewRegisterPageState createState() => _NewRegisterPageState();
 }
 
-class _RegisterNewProductPageState extends State<RegisterNewProduct> {
+class _NewRegisterPageState extends State<NewRegisters> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +19,9 @@ class _RegisterNewProductPageState extends State<RegisterNewProduct> {
             FlatButton.icon(
               icon: Icon(Icons.person_add),
               color: secondaryLight,
-              onPressed: () => null,
+              onPressed: () {
+                Navigator.pushNamed(context, '/newClient');
+              },
               label: Text('Clientes'),
             ),
             FlatButton.icon(

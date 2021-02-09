@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home-page.dart';
+import 'package:housebarber/pages/new-registers-page.dart';
+import 'package:housebarber/pages/register-new-client-page.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,6 +48,8 @@ class MyApp extends StatelessWidget {
           //'/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),
           '/home': (context) => HomePage(),
+          '/newRegisters': (context) => NewRegisters(),
+          '/newClient': (context) => RegisterNewClient(),
         });
   }
 }

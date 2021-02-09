@@ -9,6 +9,7 @@ import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/cupertino.dart';
 
 class Customfunctions {
   static Future<void> validaLogin({var infoArray, BuildContext context}) async {
@@ -146,24 +147,54 @@ class Customfunctions {
     });
   }
 
-  static cadastraCliente({var infoArray}) async {
-    User user = new User(
-        login: infoArray['usuario'],
-        senha: infoArray['senha'],
-        tipoUser: infoArray['tipoUser']);
+  static cadastraCliente({var infoArray, BuildContext context}) async {
+    String mensagem = "";
 
-    await bacon.alteraUser(user: user).then((value) {
-      if (value != null) {
-        Cliente cliente = new Cliente(
-            nome: infoArray['nome'],
-            numero: infoArray['numero'],
-            idUser: value.idUser,
-            cpf: infoArray['cpfcnpj'],
-            email: infoArray['email']);
+    if (infoArray["nome"] == "" || infoArray["nome"] == null) {
+      mensagem += "\nNome é Obrigatório\n";
+    }
+    if (infoArray["numero"] == "" || infoArray["numero"] == null) {
+      mensagem += "\nNumero é Obrigatório\n";
+    }
+    if (infoArray["email"] == "" || infoArray["numero"] == null) {
+      mensagem += "\nE-mail é obrigatório\n";
+    }
 
-        bacon.alteraCliente(cliente: cliente);
-      }
-    });
+    if (infoArray["cpf"] == "" || infoArray["cpf"] == null) {
+      mensagem += "\nCNPJ é Obrigatório\n";
+    }
+
+    if (mensagem == "") {
+      Cliente cliente = new Cliente(
+          nome: infoArray['nome'],
+          numero: infoArray['numero'],
+          email: infoArray['email'],
+          cpf: infoArray['cpf']);
+
+      await bacon.alteraCliente(cliente: cliente).then((value) {
+        if (value != null) {
+          Cliente cliente = new Cliente(
+              nome: infoArray['nome'],
+              numero: infoArray['numero'],
+              cpf: infoArray['cpfcnpj'],
+              email: infoArray['email']);
+
+          // bacon.alteraCliente(cliente: cliente);
+          FlutterToastAlert.showToastAndAlert(
+              type: Type.Success,
+              androidToast: "Cliente Cadastrado com Sucesso",
+              toastDuration: 6,
+              toastShowIcon: true);
+          Navigator.pushNamed(context, '/newRegisters');
+        }
+      });
+    } else {
+      FlutterToastAlert.showToastAndAlert(
+          type: Type.Warning,
+          androidToast: mensagem,
+          toastDuration: 5,
+          toastShowIcon: false);
+    }
   }
 
   static String textToMd5(String text) {

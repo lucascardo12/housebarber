@@ -1,6 +1,5 @@
 class Cliente {
   String idCliente;
-  String idUser;
   String nome;
   String numero;
   String cpf;
@@ -8,14 +7,12 @@ class Cliente {
 
   Cliente(
       {String idCliente,
-      String idUser,
       String nome,
       String numero,
       String cpf,
       String email,
       String senha}) {
     this.idCliente = idCliente;
-    this.idUser = idUser;
     this.numero = numero;
     this.nome = nome;
     this.email = email;
@@ -23,7 +20,6 @@ class Cliente {
   }
   Cliente.fromJson(Map<String, dynamic> xjson) {
     idCliente = xjson['_id'];
-    idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];
@@ -32,7 +28,6 @@ class Cliente {
 
   Map<String, dynamic> toJson() => {
         '_id': idCliente,
-        'idUser': idUser,
         'nome': nome,
         'numero': numero,
         'email': email,
@@ -40,7 +35,6 @@ class Cliente {
       };
   Cliente.toMap(Map<String, dynamic> map) {
     map['_id'] = idCliente;
-    map['idUser'] = idUser;
     map['nome'] = nome;
     map['numero'] = numero;
     map['email'] = email;
