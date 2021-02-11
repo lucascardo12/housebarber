@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/model/user.dart';
 
 class RegisterNewClient extends StatefulWidget {
   @override
@@ -106,22 +108,31 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                       'numero': numero.text,
                       'email': email.text,
                       'cpf': cpf.text,
+                      'idUser': user.idUser,
                     };
-                    Customfunctions.verificarConexao().then((value) {
-                      if (value && value != null) {
-                        Customfunctions.cadastraCliente(
-                                infoArray: infoArray, context: context)
-                            .then((value) {
+                    if (_formKey.currentState.validate()) {
+                      Customfunctions.verificarConexao().then((value) {
+                        if (value && value != null) {
+                          Customfunctions.cadastraCliente(
+                                  infoArray: infoArray, context: context)
+                              .then((value) {
+                            setState(() {
+                              isLoading = !isLoading;
+                            });
+                          });
+                        } else {
                           setState(() {
                             isLoading = !isLoading;
                           });
-                        });
-                      } else {
-                        setState(() {
-                          isLoading = !isLoading;
-                        });
-                      }
-                    });
+                        }
+                      });
+                    } else {
+                      FlutterToastAlert.showToastAndAlert(
+                          type: Type.Warning,
+                          androidToast: 'Um ou mais campos são obrigatórios',
+                          toastDuration: 5,
+                          toastShowIcon: false);
+                    }
                   },
                   child: Text('Salvar'),
                 ),

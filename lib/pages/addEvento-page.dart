@@ -1,8 +1,10 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/model/cliente.dart';
 import 'package:intl/intl.dart';
 
 Future<void> dialogCriaeAlteraEvent(
@@ -58,19 +60,20 @@ Future<void> dialogCriaeAlteraEvent(
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         )),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: clienteControler,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: secondary,
-                              ),
-                              labelText: "Cliente:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
+                        DropdownSearch<String>(
+                            mode: Mode.MENU,
+                            showSelectedItem: true,
+                            items: [
+                              "Brazil",
+                              "Italia (Disabled)",
+                              "Tunisia",
+                              'Canada'
+                            ],
+                            label: "Menu mode",
+                            hint: "country in menu mode",
+                            popupItemDisabled: (String s) => s.startsWith('I'),
+                            onChanged: print,
+                            selectedItem: "Brazil"),
                         TextField(
                             style: TextStyle(color: Colors.white),
                             controller: servicoControler,

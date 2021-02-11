@@ -181,13 +181,13 @@ class BancoMg {
   }
 
   //FUNÇÕES DE BANCO DA CLASSE CLIENTE
-  getCliente({int idCliente}) async {
+  getCliente({String idUser}) async {
     try {
-      if (idCliente != null) {
+      if (idUser != null) {
         var ret;
 
         var collection = bk.collection('cliente');
-        ret = await collection.findOne({"_id": idCliente});
+        ret = collection.find({"idUser": idUser});
         Cliente cliente = Cliente.fromJson(ret);
 
         return cliente;

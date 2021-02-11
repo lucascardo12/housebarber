@@ -141,60 +141,29 @@ class Customfunctions {
             idUser: value.idUser,
             cpf: infoArray['cpfcnpj'],
             email: infoArray['email']);
-
         bacon.alteraFuncionario(funcionario: funcionario);
       }
     });
   }
 
   static cadastraCliente({var infoArray, BuildContext context}) async {
-    String mensagem = "";
+    Cliente cliente = new Cliente(
+        nome: infoArray['nome'],
+        numero: infoArray['numero'],
+        email: infoArray['email'],
+        cpf: infoArray['cpf'],
+        idUser: infoArray['idUser']);
 
-    if (infoArray["nome"] == "" || infoArray["nome"] == null) {
-      mensagem += "\nNome é Obrigatório\n";
-    }
-    if (infoArray["numero"] == "" || infoArray["numero"] == null) {
-      mensagem += "\nNumero é Obrigatório\n";
-    }
-    if (infoArray["email"] == "" || infoArray["numero"] == null) {
-      mensagem += "\nE-mail é obrigatório\n";
-    }
-
-    if (infoArray["cpf"] == "" || infoArray["cpf"] == null) {
-      mensagem += "\nCNPJ é Obrigatório\n";
-    }
-
-    if (mensagem == "") {
-      Cliente cliente = new Cliente(
-          nome: infoArray['nome'],
-          numero: infoArray['numero'],
-          email: infoArray['email'],
-          cpf: infoArray['cpf']);
-
-      await bacon.alteraCliente(cliente: cliente).then((value) {
-        if (value != null) {
-          Cliente cliente = new Cliente(
-              nome: infoArray['nome'],
-              numero: infoArray['numero'],
-              cpf: infoArray['cpfcnpj'],
-              email: infoArray['email']);
-
-          // bacon.alteraCliente(cliente: cliente);
-          FlutterToastAlert.showToastAndAlert(
-              type: Type.Success,
-              androidToast: "Cliente Cadastrado com Sucesso",
-              toastDuration: 6,
-              toastShowIcon: true);
-          Navigator.pushNamed(context, '/newRegisters');
-        }
-      });
-    } else {
-      FlutterToastAlert.showToastAndAlert(
-          type: Type.Warning,
-          androidToast: mensagem,
-          toastDuration: 5,
-          toastShowIcon: false);
-    }
+    await bacon.alteraCliente(cliente: cliente).then((value) {
+      if (value != null) {
+        FlutterToastAlert.showToastAndAlert(
+            type: Type.Success,
+            androidToast: "Cliente Cadastrado com Sucesso",
+            toastDuration: 6,
+            toastShowIcon: true);
+        Navigator.pushNamed(context, '/newRegisters');
+      }
+    });
   }
 
   static String textToMd5(String text) {
