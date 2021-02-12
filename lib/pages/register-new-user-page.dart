@@ -3,6 +3,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/custom-widgets.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/register-new-user-controller.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -217,7 +218,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                 Customfunctions.verificarConexao()
                                     .then((value) {
                                   if (value && value != null) {
-                                    Customfunctions.validaCadastro(
+                                    validaCadastro(
                                             infoArray: infoArray,
                                             context: context)
                                         .then((value) {

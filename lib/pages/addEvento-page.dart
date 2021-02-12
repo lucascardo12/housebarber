@@ -14,6 +14,7 @@ Future<void> dialogCriaeAlteraEvent(
   TextEditingController horaFimControler = TextEditingController();
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
+  String select = "";
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
   if (evento != null) {
     horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
@@ -60,20 +61,25 @@ Future<void> dialogCriaeAlteraEvent(
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         )),
+                        SizedBox(
+                          height: 20,
+                        ),
                         DropdownSearch<String>(
-                            mode: Mode.MENU,
-                            showSelectedItem: true,
-                            items: [
-                              "Brazil",
-                              "Italia (Disabled)",
-                              "Tunisia",
-                              'Canada'
-                            ],
-                            label: "Menu mode",
-                            hint: "country in menu mode",
-                            popupItemDisabled: (String s) => s.startsWith('I'),
-                            onChanged: print,
-                            selectedItem: "Brazil"),
+                            mode: Mode.BOTTOM_SHEET,
+                            showSearchBox: true,
+                            showSelectedItem: false,
+                            popupBackgroundColor: primaryLight,
+                            label: 'sfdgsfd',
+                            dropdownSearchDecoration: InputDecoration(
+                                fillColor: Colors.white,
+                                counterStyle: TextStyle(color: secondary),
+                                hintStyle: TextStyle(color: secondary),
+                                labelStyle: TextStyle(color: secondary)),
+                            items: ["lucas", "hugo", "vagabundo", 'doido'],
+                            onChanged: (value) {
+                              select = value;
+                            },
+                            selectedItem: select),
                         TextField(
                             style: TextStyle(color: Colors.white),
                             controller: servicoControler,

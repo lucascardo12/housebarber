@@ -4,6 +4,7 @@ import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/register-new-client-controller.dart';
 import 'package:housebarber/model/user.dart';
 
 class RegisterNewClient extends StatefulWidget {
@@ -113,7 +114,7 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                     if (_formKey.currentState.validate()) {
                       Customfunctions.verificarConexao().then((value) {
                         if (value && value != null) {
-                          Customfunctions.cadastraCliente(
+                          cadastraCliente(
                                   infoArray: infoArray, context: context)
                               .then((value) {
                             setState(() {
