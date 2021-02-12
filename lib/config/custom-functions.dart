@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/empresa.dart';
 import 'package:housebarber/model/funcionario.dart';
@@ -25,13 +26,14 @@ class Customfunctions {
     }
     if (mensagem == "") {
       senha = Customfunctions.textToMd5(infoArray["senha"]);
-      var dadosLogin = {"login": login, "senha": senha};
-      await bacon.getUser(infoArray: dadosLogin).then((value) async {
+      await User.getData(selector: {"login": login, "senha": senha})
+          .then((value) async {
         if (value != null) {
           prefs.setString('login', login);
           prefs.setString('senha', infoArray["senha"]);
-          user = value;
-          await bacon.getAgendamentos().then((value) => listAgenda = value);
+          user = value.first;
+          await Agendamento.getData(selector: {'idUser': user.id})
+              .then((value) => listAgenda = value);
           Navigator.pushReplacementNamed(context, "/home");
           print('EMPRESA');
         } else {
@@ -80,8 +82,8 @@ class Customfunctions {
       mensagem += "\nE-mail é Obrigatório\n";
     }
     if (mensagem == "") {
-      await bacon.existeUser(login: usuario).then((value) {
-        if (value == false) {
+      await User.getData(selector: {"login": usuario}).then((value) {
+        if (value == null || value.isEmpty) {
           cadastraEmpresa(infoArray: infoArray, context: context);
         } else {
           FlutterToastAlert.showToastAndAlert(
@@ -106,16 +108,16 @@ class Customfunctions {
         senha: infoArray['senha'],
         tipoUser: infoArray['tipoUser']);
 
-    await bacon.alteraUser(user: user).then((value) {
-      if (value.idUser != null) {
+    await bacon.insertUpdate(objeto: user, tabela: 'User').then((value) {
+      if (value.id != null) {
         Empresa empresa = new Empresa(
             nome: infoArray['nome'],
             numero: infoArray['numero'],
-            idUser: value.idUser,
+            idUser: value.id,
             cnpj: infoArray['cpfcnpj'],
             email: infoArray['email']);
 
-        bacon.alteraEmpresa(empresa: empresa);
+        bacon.insertUpdate(objeto: empresa, tabela: "Empresa");
 
         FlutterToastAlert.showToastAndAlert(
             type: Type.Success,
@@ -133,15 +135,15 @@ class Customfunctions {
         senha: infoArray['senha'],
         tipoUser: infoArray['tipoUser']);
 
-    await bacon.alteraUser(user: user).then((value) {
-      if (value.idUser != null) {
+    await bacon.insertUpdate(objeto: user, tabela: 'User').then((value) {
+      if (value.id != null) {
         Funcionario funcionario = new Funcionario(
             nome: infoArray['nome'],
             numero: infoArray['numero'],
-            idUser: value.idUser,
+            idUser: value.id,
             cpf: infoArray['cpfcnpj'],
             email: infoArray['email']);
-        bacon.alteraFuncionario(funcionario: funcionario);
+        bacon.insertUpdate(objeto: funcionario, tabela: "Funcionario");
       }
     });
   }
@@ -154,7 +156,7 @@ class Customfunctions {
         cpf: infoArray['cpf'],
         idUser: infoArray['idUser']);
 
-    await bacon.alteraCliente(cliente: cliente).then((value) {
+    await bacon.insertUpdate(objeto: cliente, tabela: "Cliente").then((value) {
       if (value != null) {
         FlutterToastAlert.showToastAndAlert(
             type: Type.Success,

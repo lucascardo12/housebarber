@@ -1,58 +1,61 @@
+import 'package:housebarber/config/global.dart';
+
 class Empresa {
-  String idEmpresa;
-  String idUser;
+  int id;
+  int idUser;
   String nome;
   String numero;
   String cnpj;
   String email;
   String fornecedor;
-  List<int> listClient;
-  List<int> listFunc;
 
-  Empresa(
-      {String idEmpresa,
-      String idUser,
-      String numero,
-      String nome,
-      String email,
-      String cnpj,
-      String fornecedor,
-      List<int> listClient,
-      List<int> listFunc}) {
-    this.idEmpresa = idEmpresa;
-    this.idUser = idUser;
-    this.numero = numero;
-    this.nome = nome;
-    this.email = email;
-    this.listClient = listClient;
-    this.listFunc = listFunc;
-  }
+  Empresa({
+    this.id,
+    this.idUser,
+    this.numero,
+    this.nome,
+    this.email,
+    this.cnpj,
+  });
+
   Empresa.fromJson(Map<String, dynamic> xjson) {
-    idEmpresa = xjson['_id'];
+    id = xjson['_id'];
     idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
     email = xjson['email'];
-    listClient = xjson['listClient'];
-    listFunc = xjson['listFunc'];
+    cnpj = xjson['cnpj'];
   }
 
   Map<String, dynamic> toJson() => {
-        '_id': idEmpresa,
+        '_id': id,
         'idUser': idUser,
         'nome': nome,
         'numero': numero,
         'email': email,
-        'listClient': listClient,
-        'listFunc': listFunc,
+        'cnpj': cnpj
       };
   Empresa.toMap(Map<String, dynamic> map) {
-    map['_id'] = idEmpresa;
+    map['_id'] = id;
     map['idUser'] = idUser;
     map['nome'] = nome;
     map['numero'] = numero;
     map['email'] = email;
-    map['listClient'] = listClient;
-    map['listFunc'] = listFunc;
+    map['cnpj'] = cnpj;
+  }
+
+  static Future<List<Empresa>> getData({dynamic selector}) async {
+    //{'_id': data.id} selector
+    try {
+      List<Empresa> data = <Empresa>[];
+      var collection = bacon.bk.collection('Empresa');
+      await collection.find(selector).forEach((element) {
+        data.add(Empresa.fromJson(element));
+      });
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

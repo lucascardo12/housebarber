@@ -1,3 +1,4 @@
+import 'package:housebarber/config/global.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agendamento {
@@ -5,31 +6,22 @@ class Agendamento {
   String valor;
   String dia;
   String title;
-  String idUser;
+  int idUser;
   String idCliente;
   DateTime startTime;
   DateTime endTime;
   String servico;
 
-  Agendamento({
-    String valor,
-    String dia,
-    String idUser,
-    String idCliente,
-    int id,
-    DateTime startTime,
-    String servico,
-    DateTime endTime,
-  }) {
-    this.valor = valor;
-    this.dia = dia;
-    this.idUser = idUser;
-    this.idCliente = idCliente;
-    this.id = id;
-    this.endTime = endTime;
-    this.startTime = startTime;
-    this.servico = servico;
-  }
+  Agendamento(
+      {this.valor,
+      this.dia,
+      this.idUser,
+      this.idCliente,
+      this.id,
+      this.endTime,
+      this.startTime,
+      this.servico});
+
   Agendamento.fromJson(Map<String, dynamic> xjson) {
     valor = xjson['valor'];
     dia = xjson['dia'];
@@ -60,6 +52,21 @@ class Agendamento {
     map['endTime'] = endTime;
     map['startTime'] = startTime;
     map['servico'] = servico;
+  }
+
+  static Future<List<Agendamento>> getData({dynamic selector}) async {
+    //{'_id': data.id} selector
+    try {
+      List<Agendamento> data = <Agendamento>[];
+      var collection = bacon.bk.collection('Agendamento');
+      await collection.find(selector).forEach((element) {
+        data.add(Agendamento.fromJson(element));
+      });
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }
 

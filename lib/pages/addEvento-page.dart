@@ -217,7 +217,7 @@ Future<void> dialogCriaeAlteraEvent(
                                     horaInicControler.text.substring(0, 2)));
                             Agendamento auxi = new Agendamento(
                                 id: evento != null ? evento.id : null,
-                                idUser: user.idUser,
+                                idUser: user.id,
                                 idCliente: clienteControler.text,
                                 dia: dia.toString(),
                                 endTime: endTime,
@@ -225,11 +225,12 @@ Future<void> dialogCriaeAlteraEvent(
                                 servico: servicoControler.text);
 
                             await bacon
-                                .alteraAgendamento(agendamento: auxi)
+                                .insertUpdate(
+                                    objeto: auxi, tabela: 'Agendamento')
                                 .then((value) async {
                               if (value != null) {
-                                await bacon
-                                    .getAgendamentos()
+                                await Agendamento.getData(
+                                        selector: {'idUser': user.id})
                                     .then((value) => listAgenda = value);
                               }
                             });

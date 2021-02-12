@@ -108,7 +108,7 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                       'numero': numero.text,
                       'email': email.text,
                       'cpf': cpf.text,
-                      'idUser': user.idUser,
+                      'idUser': user.id.toString(),
                     };
                     if (_formKey.currentState.validate()) {
                       Customfunctions.verificarConexao().then((value) {
