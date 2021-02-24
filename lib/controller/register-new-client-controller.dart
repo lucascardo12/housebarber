@@ -9,7 +9,7 @@ cadastraCliente({var infoArray, BuildContext context}) async {
       numero: infoArray['numero'],
       email: infoArray['email'],
       cpf: infoArray['cpf'],
-      idUser: infoArray['idUser']);
+      idUser: int.tryParse(infoArray['idUser']) ?? 0);
 
   await bacon.insertUpdate(objeto: cliente, tabela: "Cliente").then((value) {
     if (value != null) {
