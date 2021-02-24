@@ -25,9 +25,11 @@ class _NewRegisterPageState extends State<NewRegisters> {
               label: Text('Clientes'),
             ),
             FlatButton.icon(
-              icon: Icon(Icons.ac_unit),
+              icon: Icon(Icons.add_box_outlined),
               color: secondaryLight,
-              onPressed: () => null,
+              onPressed: () {
+                Navigator.pushNamed(context, '/newProductService');
+              },
               label: Text('Produto/Serviço'),
             )
           ],
