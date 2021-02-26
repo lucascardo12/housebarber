@@ -5,6 +5,7 @@ import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
+import 'package:housebarber/model/produtoServico.dart';
 import 'package:intl/intl.dart';
 
 Future<void> dialogCriaeAlteraEvent(
@@ -15,6 +16,7 @@ Future<void> dialogCriaeAlteraEvent(
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
   Cliente select;
+  ProdutoServico select2;
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
   if (evento != null) {
     horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
@@ -51,7 +53,7 @@ Future<void> dialogCriaeAlteraEvent(
                       primaryColor: Colors.white,
                     ),
                     child: ListView(
-                      padding: EdgeInsets.all(40),
+                      padding: EdgeInsets.all(30),
                       children: [
                         Center(
                             child: Text(
@@ -62,7 +64,7 @@ Future<void> dialogCriaeAlteraEvent(
                               fontWeight: FontWeight.bold),
                         )),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         DropdownSearch<Cliente>(
                             mode: Mode.BOTTOM_SHEET,
@@ -81,19 +83,23 @@ Future<void> dialogCriaeAlteraEvent(
                             itemAsString: (item) => item.nome,
                             onFind: (text) => Cliente.getData(),
                             selectedItem: select),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: servicoControler,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.miscellaneous_services,
-                                color: secondary,
-                              ),
-                              labelText: "Serviço:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
+                        DropdownSearch<ProdutoServico>(
+                            mode: Mode.BOTTOM_SHEET,
+                            showSearchBox: true,
+                            showSelectedItem: false,
+                            popupBackgroundColor: primaryLight,
+                            label: 'Serviço',
+                            dropdownSearchDecoration: InputDecoration(
+                                fillColor: Colors.white,
+                                counterStyle: TextStyle(color: secondary),
+                                hintStyle: TextStyle(color: secondary),
+                                labelStyle: TextStyle(color: secondary)),
+                            onChanged: (value) {
+                              select2 = value;
+                            },
+                            itemAsString: (item) => item.nome,
+                            onFind: (text) => ProdutoServico.getData(),
+                            selectedItem: select2),
                         new TextField(
                           readOnly: true,
                           onTap: () {

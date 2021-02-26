@@ -60,22 +60,11 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            campoPadrao(),
-                            TextField(
-                                style: TextStyle(color: Colors.white),
-                                controller: loginController,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.people_alt,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "Login:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.people_alt,
+                                controler: loginController,
+                                label: "Login:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),

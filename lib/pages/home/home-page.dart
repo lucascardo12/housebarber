@@ -25,16 +25,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new LoginPage())),
-          ),
-          title: new Text('Home'),
-        ),
+        // appBar: new AppBar(
+        //   leading: IconButton(
+        //     icon: Icon(Icons.arrow_back),
+        //     onPressed: () => Navigator.push(
+        //         context,
+        //         new MaterialPageRoute(
+        //             builder: (BuildContext context) => new LoginPage())),
+        //   ),
+        //   title: new Text('Home'),
+        // ),
         bottomNavigationBar: ConvexAppBar(
           style: TabStyle.react,
           items: [
@@ -52,12 +52,13 @@ class _HomePageState extends State<HomePage> {
           },
         ),
         backgroundColor: primaryLight,
-        body: WillPopScope(
-            onWillPop: () => Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new LoginPage())),
-            child: SingleChildScrollView(child: body(i: xi))));
+        body: SafeArea(
+            child: WillPopScope(
+                onWillPop: () => Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new LoginPage())),
+                child: SingleChildScrollView(child: body(i: xi)))));
   }
 
   Widget body({int i}) {

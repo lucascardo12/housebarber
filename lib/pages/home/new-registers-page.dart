@@ -12,7 +12,7 @@ class _NewRegisterPageState extends State<NewRegisters> {
   Widget build(BuildContext context) {
     return Container(
         color: primaryLight,
-        height: MediaQuery.of(context).size.height - 200,
+        height: MediaQuery.of(context).size.height * 0.90,
         child: ListView(
           padding: EdgeInsets.only(top: 20, left: 15, right: 15),
           children: [

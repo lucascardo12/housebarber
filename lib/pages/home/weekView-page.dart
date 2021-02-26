@@ -25,7 +25,7 @@ class _WeekViewState extends State<WeekView> {
   Widget build(BuildContext context) {
     return Container(
         color: primaryLight,
-        height: MediaQuery.of(context).size.height * 0.80,
+        height: MediaQuery.of(context).size.height * 0.90,
         child: Scaffold(
             floatingActionButton: Card(
                 margin: EdgeInsets.all(0),
