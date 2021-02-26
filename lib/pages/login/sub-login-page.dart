@@ -60,6 +60,7 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             SizedBox(
                               height: 20,
                             ),
+                            campoPadrao(),
                             TextField(
                                 style: TextStyle(color: Colors.white),
                                 controller: loginController,

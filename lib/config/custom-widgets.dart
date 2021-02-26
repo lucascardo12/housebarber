@@ -34,4 +34,24 @@ class CustomWidgets {
           ]))),
     );
   }
+
+  Widget campoPadrao(
+      {String label, IconData icone, TextEditingController controler}) {
+    return TextField(
+      controller: controler,
+      style: TextStyle(color: Colors.black),
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(
+          icone,
+          color: Colors.black,
+          size: 28,
+        ),
+        labelStyle: TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+        ),
+      ),
+    );
+  }
 }

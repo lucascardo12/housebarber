@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/pages/addEvento-page.dart';
+import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 

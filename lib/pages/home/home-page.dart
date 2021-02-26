@@ -1,11 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/pages/dayView-page.dart';
-import 'package:housebarber/pages/login-page.dart';
-import 'package:housebarber/pages/monthView-page.dart';
-import 'package:housebarber/pages/new-registers-page.dart';
-import 'package:housebarber/pages/weekView-page.dart';
+import 'package:housebarber/pages/home/dayView-page.dart';
+import 'package:housebarber/pages/login/login-page.dart';
+import 'package:housebarber/pages/home/monthView-page.dart';
+import 'package:housebarber/pages/home/new-registers-page.dart';
+import 'package:housebarber/pages/home/weekView-page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();

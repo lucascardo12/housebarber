@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/pages/addEvento-page.dart';
+import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class WeekView extends StatefulWidget {
+class DayView extends StatefulWidget {
   @override
-  _WeekViewState createState() => _WeekViewState();
+  _DayViewState createState() => _DayViewState();
 }
 
-class _WeekViewState extends State<WeekView> {
+class _DayViewState extends State<DayView> {
+  CalendarController _controller;
   @override
   void initState() {
+    _controller = CalendarController();
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -59,13 +62,14 @@ class _WeekViewState extends State<WeekView> {
                   }
                 },
                 dataSource: AgendamentoDataSource(listAgenda),
+                showNavigationArrow: true,
                 headerStyle: CalendarHeaderStyle(
                     textStyle: TextStyle(color: Colors.white, fontSize: 20)),
                 backgroundColor: primaryLight,
                 timeSlotViewSettings: TimeSlotViewSettings(
                     timeFormat: 'H',
                     timeTextStyle: TextStyle(color: secondary, fontSize: 14)),
-                view: CalendarView.week,
+                view: CalendarView.day,
                 cellBorderColor: secondary,
                 viewHeaderStyle: ViewHeaderStyle(
                     dayTextStyle: TextStyle(color: Colors.white, fontSize: 12)),
@@ -82,7 +86,11 @@ class _WeekViewState extends State<WeekView> {
                       ),
                       child: Center(
                           child: Text(
-                        agenda.idCliente,
+                        agenda.idCliente +
+                            ' das ' +
+                            DateFormat('kk:mm').format(agenda.startTime) +
+                            ' as ' +
+                            DateFormat('kk:mm').format(agenda.endTime),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,

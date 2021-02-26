@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/pages/home-page.dart';
-import 'package:housebarber/pages/new-registers-page.dart';
-import 'package:housebarber/pages/register-new-client-page.dart';
-import 'package:housebarber/pages/register-new-productService-page.dart';
+import 'package:housebarber/pages/cadastros/lista-servico-page.dart';
+import 'package:housebarber/pages/home/home-page.dart';
+import 'package:housebarber/pages/home/new-registers-page.dart';
+import 'package:housebarber/pages/cadastros/lista-clientes-page.dart';
+import 'package:housebarber/pages/cadastros/register-new-client-page.dart';
+import 'package:housebarber/pages/cadastros/register-new-productService-page.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'pages/login-page.dart';
+import 'pages/login/login-page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
           '/home': (context) => HomePage(),
           '/newRegisters': (context) => NewRegisters(),
           '/newClient': (context) => RegisterNewClient(),
+          '/listaClientes': (context) => ListaClientes(),
+          '/listaProdutoServico': (context) => ListaProdutoServico(),
           '/newProductService': (context) => RegisterNewProductService(),
         });
   }

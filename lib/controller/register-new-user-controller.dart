@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoastalert/FlutterToastAlert.dart';
-import 'package:housebarber/config/banco.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/user.dart';
 

@@ -4,9 +4,7 @@ import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
-import 'package:housebarber/controller/register-new-client-controller.dart';
 import 'package:housebarber/controller/register-new-productService-controller.dart';
-import 'package:housebarber/model/user.dart';
 
 class RegisterNewProductService extends StatefulWidget {
   @override
@@ -23,7 +21,7 @@ class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Meu App'),
+          title: Text('Cadastro de Serviço/Produto'),
         ),
         body: Form(
           key: _formKey,
@@ -66,7 +64,11 @@ class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
+                child: RaisedButton(
+                  color: secondary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                   onPressed: () {
                     setState(() {
                       isLoading = !isLoading;
@@ -99,7 +101,10 @@ class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
                           toastShowIcon: false);
                     }
                   },
-                  child: Text('Salvar'),
+                  child: Text(
+                    'Salvar',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ],

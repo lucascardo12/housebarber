@@ -1,4 +1,4 @@
-import 'package:housebarber/config/banco.dart';
+
 import 'package:housebarber/config/global.dart';
 
 class Cliente {
