@@ -43,11 +43,17 @@ Future<void> validaCadastro({var infoArray, BuildContext context}) async {
               nome: nome,
               numero: numero,
             ));
+        Navigator.pushReplacementNamed(context, "/login");
+        FlutterToastAlert.showToastAndAlert(
+            type: Type.Success,
+            androidToast: "Usuario Cadastrado com Sucesso!",
+            toastDuration: 10,
+            toastShowIcon: false);
       } else {
         FlutterToastAlert.showToastAndAlert(
             type: Type.Warning,
             androidToast: "Usuario já Cadastrado",
-            toastDuration: 5,
+            toastDuration: 10,
             toastShowIcon: false);
       }
     });

@@ -20,14 +20,13 @@ Future<void> validaLogin({var infoArray, BuildContext context}) async {
     senha = Customfunctions.textToMd5(infoArray["senha"]);
     await User.getData(selector: {"login": login, "senha": senha})
         .then((value) async {
-      if (value != null) {
+      if (value.isNotEmpty) {
         prefs.setString('login', login);
         prefs.setString('senha', infoArray["senha"]);
         user = value.first;
         await Agendamento.getData(selector: {'idUser': user.id})
             .then((value) => listAgenda = value);
         Navigator.pushReplacementNamed(context, "/home");
-        print('EMPRESA');
       } else {
         FlutterToastAlert.showToastAndAlert(
             type: Type.Warning,
