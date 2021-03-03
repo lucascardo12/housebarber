@@ -25,7 +25,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  print();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
