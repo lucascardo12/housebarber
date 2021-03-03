@@ -1,15 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:housebarber/model/user.dart';
-import 'package:housebarber/pages/cadastro-page.dart';
-import 'package:housebarber/pages/sub-login-page.dart';
+import 'package:housebarber/pages/login/register-new-user-page.dart';
+import 'package:housebarber/pages/login/sub-login-page.dart';
 import 'package:liquid_swipe/Helpers/Helpers.dart';
 import 'package:liquid_swipe/PageHelpers/LiquidController.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -39,23 +33,23 @@ class _LoginPageState extends State<LoginPage> {
           liquidController: liquidController,
           ignoreUserGestureWhileAnimating: true,
         ),
-        Padding(
-          padding: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              Expanded(child: SizedBox()),
-              Align(
-                child: Image.asset(
-                  "assets/arraste_lados.gif",
-                  color: Colors.white,
-                  height: 80.0,
-                  width: 80.0,
-                ),
-                alignment: Alignment.centerRight,
-              )
-            ],
-          ),
-        ),
+        // Padding(
+        //   padding: EdgeInsets.all(20),
+        //   child: Column(
+        //     children: <Widget>[
+        //       Expanded(child: SizedBox()),
+        //       Align(
+        //         child: Image.asset(
+        //           "assets/arraste_lados.gif",
+        //           color: Colors.white,
+        //           height: 80.0,
+        //           width: 80.0,
+        //         ),
+        //         alignment: Alignment.centerRight,
+        //       )
+        //     ],
+        //   ),
+        // ),
       ]),
     );
   }

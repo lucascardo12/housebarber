@@ -3,6 +3,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/custom-widgets.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/register-new-user-controller.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -61,41 +62,19 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(color: Colors.white),
-                                controller: nomeController,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.people_alt,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "Nome:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.people_alt,
+                                controler: nomeController,
+                                label: "Nome:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(color: Colors.white),
-                                controller: usuarioController,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.people_alt,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "Usuario:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.people_alt,
+                                controler: usuarioController,
+                                label: "Usuario:",
+                                cor: Colors.white),
                             TextField(
                               cursorColor: Colors.white,
                               obscureText: !_showPassword,
@@ -129,64 +108,27 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(color: Colors.white),
-                                controller: numeroController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.phone,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "Numero:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.phone,
+                                controler: numeroController,
+                                label: "Numero:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(color: Colors.white),
-                                controller: cpfcnpjController,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.people_alt,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "CPF/CNPJ:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.people_alt,
+                                controler: cpfcnpjController,
+                                label: "CPF/CNPJ:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                cursorColor: Colors.white,
-                                style: TextStyle(color: Colors.white),
-                                controller: emailController,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.email,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "E-mail:",
-                                  hintStyle: TextStyle(color: Colors.white),
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.email,
+                                controler: emailController,
+                                label: "E-mail:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),
@@ -217,7 +159,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                 Customfunctions.verificarConexao()
                                     .then((value) {
                                   if (value && value != null) {
-                                    Customfunctions.validaCadastro(
+                                    validaCadastro(
                                             infoArray: infoArray,
                                             context: context)
                                         .then((value) {

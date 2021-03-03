@@ -1,19 +1,31 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/model/cliente.dart';
+import 'package:housebarber/model/produtoServico.dart';
+import 'package:intl/intl.dart';
 
 Future<void> dialogCriaeAlteraEvent(
-    {BuildContext context, int horaIni = 0}) async {
+    {BuildContext context, int horaIni = 0, Agendamento evento}) async {
   TextEditingController dateControler = TextEditingController();
   TextEditingController horaInicControler = TextEditingController();
   TextEditingController horaFimControler = TextEditingController();
   TextEditingController clienteControler = TextEditingController();
   TextEditingController servicoControler = TextEditingController();
+  Cliente select;
+  ProdutoServico select2;
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
-  showGeneralDialog(
+  if (evento != null) {
+    horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
+    horaFimControler.text = DateFormat('kk:mm').format(evento.endTime);
+    dateControler.text = DateFormat('dd/MM/yyyy').format(evento.endTime);
+    clienteControler.text = evento.idCliente;
+    servicoControler.text = evento.servico;
+  }
+  return showGeneralDialog(
     barrierLabel: "Barrier",
     barrierDismissible: true,
     barrierColor: Colors.black.withOpacity(0.5),
@@ -41,7 +53,7 @@ Future<void> dialogCriaeAlteraEvent(
                       primaryColor: Colors.white,
                     ),
                     child: ListView(
-                      padding: EdgeInsets.all(40),
+                      padding: EdgeInsets.all(30),
                       children: [
                         Center(
                             child: Text(
@@ -51,32 +63,43 @@ Future<void> dialogCriaeAlteraEvent(
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         )),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: clienteControler,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.people_alt,
-                                color: secondary,
-                              ),
-                              labelText: "Cliente:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
-                        TextField(
-                            style: TextStyle(color: Colors.white),
-                            controller: servicoControler,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.miscellaneous_services,
-                                color: secondary,
-                              ),
-                              labelText: "Serviço:",
-                              labelStyle: TextStyle(
-                                color: Colors.white,
-                              ),
-                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        DropdownSearch<Cliente>(
+                            mode: Mode.BOTTOM_SHEET,
+                            showSearchBox: true,
+                            showSelectedItem: false,
+                            popupBackgroundColor: primaryLight,
+                            label: 'Cliente',
+                            dropdownSearchDecoration: InputDecoration(
+                                fillColor: Colors.white,
+                                counterStyle: TextStyle(color: secondary),
+                                hintStyle: TextStyle(color: secondary),
+                                labelStyle: TextStyle(color: secondary)),
+                            onChanged: (value) {
+                              select = value;
+                            },
+                            itemAsString: (item) => item.nome,
+                            onFind: (text) => Cliente.getData(),
+                            selectedItem: select),
+                        DropdownSearch<ProdutoServico>(
+                            mode: Mode.BOTTOM_SHEET,
+                            showSearchBox: true,
+                            showSelectedItem: false,
+                            popupBackgroundColor: primaryLight,
+                            label: 'Serviço',
+                            dropdownSearchDecoration: InputDecoration(
+                                fillColor: Colors.white,
+                                counterStyle: TextStyle(color: secondary),
+                                hintStyle: TextStyle(color: secondary),
+                                labelStyle: TextStyle(color: secondary)),
+                            onChanged: (value) {
+                              select2 = value;
+                            },
+                            itemAsString: (item) => item.nome,
+                            onFind: (text) => ProdutoServico.getData(),
+                            selectedItem: select2),
                         new TextField(
                           readOnly: true,
                           onTap: () {
@@ -190,21 +213,37 @@ Future<void> dialogCriaeAlteraEvent(
                             borderRadius: BorderRadius.circular(25),
                           ),
                           color: secondary,
-                          onPressed: () {
+                          onPressed: () async {
+                            var dia = Customfunctions.dataString(
+                                data: dateControler.text);
+                            var endTime = DateTime(
+                                dia.year,
+                                dia.month,
+                                dia.day,
+                                int.parse(
+                                    horaFimControler.text.substring(0, 2)));
+                            var starTime = DateTime(
+                                dia.year,
+                                dia.month,
+                                dia.day,
+                                int.parse(
+                                    horaInicControler.text.substring(0, 2)));
                             Agendamento auxi = new Agendamento(
-                                idUser: user.idUser,
+                                id: evento != null ? evento.id : null,
+                                idUser: user.id,
                                 idCliente: clienteControler.text,
-                                dia: dateControler.text,
-                                horaFim: horaFimControler.text,
-                                horaInicio: horaInicControler.text,
+                                dia: dia.toString(),
+                                endTime: endTime,
+                                startTime: starTime,
                                 servico: servicoControler.text);
 
-                            bacon
-                                .alteraAgendamento(agendamento: auxi)
+                            await bacon
+                                .insertUpdate(
+                                    objeto: auxi, tabela: 'Agendamento')
                                 .then((value) async {
                               if (value != null) {
-                                await bacon
-                                    .getAgendamentos()
+                                await Agendamento.getData(
+                                        selector: {'idUser': user.id})
                                     .then((value) => listAgenda = value);
                               }
                             });

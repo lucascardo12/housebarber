@@ -1,21 +1,21 @@
-int retornaHoraMenos() {
-  int hora = DateTime.now().hour - 1;
+import 'package:housebarber/config/global.dart';
+import 'package:housebarber/model/agendamento.dart';
 
-  if (hora <= 0) {
-    hora = 0;
-  } else if (hora >= 23) {
-    hora = 23;
-  }
-  return hora;
+List<Agendamento> getDataSource2() {
+  return listAgenda;
 }
 
-int retornaHoraMais() {
-  int hora = DateTime.now().hour + 6;
-
-  if (hora <= 0) {
-    hora = 0;
-  } else if (hora >= 23) {
-    hora = 23;
+String formataHora({int hora, int minuto}) {
+  String string = "";
+  if (hora.toString().length < 2) {
+    string += "0" + hora.toString() + '-';
+  } else {
+    string += hora.toString() + '-';
   }
-  return hora;
+  if (minuto.toString().length < 2) {
+    string += "0" + minuto.toString();
+  } else {
+    string += minuto.toString();
+  }
+  return string;
 }

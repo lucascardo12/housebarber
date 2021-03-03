@@ -1,28 +1,18 @@
+
+import 'package:housebarber/config/global.dart';
+
 class Cliente {
-  String idCliente;
-  String idUser;
+  int id;
+  int idUser;
   String nome;
   String numero;
   String cpf;
   String email;
 
-  Cliente(
-      {String idCliente,
-      String idUser,
-      String nome,
-      String numero,
-      String cpf,
-      String email,
-      String senha}) {
-    this.idCliente = idCliente;
-    this.idUser = idUser;
-    this.numero = numero;
-    this.nome = nome;
-    this.email = email;
-    this.cpf = cpf;
-  }
+  Cliente({this.id, this.idUser, this.numero, this.nome, this.email, this.cpf});
+
   Cliente.fromJson(Map<String, dynamic> xjson) {
-    idCliente = xjson['_id'];
+    id = xjson['_id'];
     idUser = xjson['idUser'];
     nome = xjson['nome'];
     numero = xjson['numero'];
@@ -31,7 +21,7 @@ class Cliente {
   }
 
   Map<String, dynamic> toJson() => {
-        '_id': idCliente,
+        '_id': id,
         'idUser': idUser,
         'nome': nome,
         'numero': numero,
@@ -39,11 +29,25 @@ class Cliente {
         'cpf': cpf
       };
   Cliente.toMap(Map<String, dynamic> map) {
-    map['_id'] = idCliente;
+    map['_id'] = id;
     map['idUser'] = idUser;
     map['nome'] = nome;
     map['numero'] = numero;
     map['email'] = email;
     map['cpf'] = cpf;
+  }
+  static Future<List<Cliente>> getData({dynamic selector}) async {
+    //{'_id': data.id} selector
+    try {
+      List<Cliente> data = <Cliente>[];
+      var collection = bacon.bk.collection('Cliente');
+      await collection.find(selector).forEach((element) {
+        data.add(Cliente.fromJson(element));
+      });
+      return data;
+    } catch (e) {
+      print(e);
+      return null;
+    }
   }
 }

@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 class CustomWidgets {
-  static Widget widgetsHome(String indexMenu) {
-    var nada = Container();
-    return nada;
-  }
-
   static String moneyFormat(double amount) {
     return FlutterMoneyFormatter(
         amount: amount,
@@ -37,6 +32,29 @@ class CustomWidgets {
             ),
             Text('Carregando...')
           ]))),
+    );
+  }
+
+  static Widget campoPadrao(
+      {String label,
+      IconData icone,
+      TextEditingController controler,
+      Color cor}) {
+    return TextField(
+      controller: controler,
+      style: TextStyle(color: cor),
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(
+          icone,
+          color: cor,
+          size: 28,
+        ),
+        labelStyle: TextStyle(
+          color: cor,
+          fontSize: 16,
+        ),
+      ),
     );
   }
 }

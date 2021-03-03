@@ -3,6 +3,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/custom-widgets.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/login-controller.dart';
 
 class SubLoginPage extends StatefulWidget {
   @override
@@ -59,21 +60,11 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            TextField(
-                                style: TextStyle(color: Colors.white),
-                                controller: loginController,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.people_alt,
-                                    color: Colors.white,
-                                    size: 28,
-                                  ),
-                                  labelText: "Login:",
-                                  labelStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 16,
-                                  ),
-                                )),
+                            CustomWidgets.campoPadrao(
+                                icone: Icons.people_alt,
+                                controler: loginController,
+                                label: "Login:",
+                                cor: Colors.white),
                             SizedBox(
                               height: 20,
                             ),
@@ -128,7 +119,7 @@ class _SubLoginPageState extends State<SubLoginPage> {
                                 Customfunctions.verificarConexao()
                                     .then((value) {
                                   if (value && value != null) {
-                                    Customfunctions.validaLogin(
+                                    validaLogin(
                                             infoArray: infoArray,
                                             context: context)
                                         .then((value) {
