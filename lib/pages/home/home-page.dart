@@ -2,6 +2,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home/dayView-page.dart';
+import 'package:housebarber/pages/home/settings-page.dart';
 import 'package:housebarber/pages/login/login-page.dart';
 import 'package:housebarber/pages/home/monthView-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
@@ -25,40 +26,47 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        // appBar: new AppBar(
-        //   leading: IconButton(
-        //     icon: Icon(Icons.arrow_back),
-        //     onPressed: () => Navigator.push(
-        //         context,
-        //         new MaterialPageRoute(
-        //             builder: (BuildContext context) => new LoginPage())),
-        //   ),
-        //   title: new Text('Home'),
-        // ),
-        bottomNavigationBar: ConvexAppBar(
-          style: TabStyle.react,
-          items: [
-            TabItem(icon: Icons.home, title: 'Diario'),
-            TabItem(icon: Icons.map, title: 'Semanal'),
-            TabItem(icon: Icons.calendar_today, title: 'Mensal'),
-            TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
-            TabItem(icon: Icons.settings, title: 'Opções'),
-          ],
-          initialActiveIndex: 0,
-          onTap: (int i) {
-            setState(() {
-              xi = i + 1;
-            });
-          },
+      // appBar: new AppBar(
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back),
+      //     onPressed: () => Navigator.push(
+      //         context,
+      //         new MaterialPageRoute(
+      //             builder: (BuildContext context) => new LoginPage())),
+      //   ),
+      //   title: new Text('Home'),
+      // ),
+      bottomNavigationBar: ConvexAppBar(
+        style: TabStyle.react,
+        items: [
+          TabItem(icon: Icons.home, title: 'Diario'),
+          TabItem(icon: Icons.map, title: 'Semanal'),
+          TabItem(icon: Icons.calendar_today, title: 'Mensal'),
+          TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
+          TabItem(icon: Icons.settings, title: 'Opções'),
+        ],
+        initialActiveIndex: 0,
+        onTap: (int i) {
+          setState(() {
+            xi = i + 1;
+          });
+        },
+      ),
+      backgroundColor: primaryLight,
+      body: SafeArea(
+        child: WillPopScope(
+          onWillPop: () => Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) => new LoginPage(),
+            ),
+          ),
+          child: Container(
+            child: body(i: xi),
+          ),
         ),
-        backgroundColor: primaryLight,
-        body: SafeArea(
-            child: WillPopScope(
-                onWillPop: () => Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new LoginPage())),
-                child: SingleChildScrollView(child: body(i: xi)))));
+      ),
+    );
   }
 
   Widget body({int i}) {
@@ -74,6 +82,9 @@ class _HomePageState extends State<HomePage> {
         break;
       case 4:
         return new NewRegisters();
+        break;
+      case 5:
+        return Settings();
         break;
       default:
         return new Container(
