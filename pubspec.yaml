@@ -37,10 +37,11 @@ dependencies:
   shared_preferences: ^0.5.12+4
   syncfusion_flutter_calendar: ^18.4.35
   dropdown_search: ^0.4.8
+  image_picker: 0.6.7+22
 
   flutter_localizations:
     sdk: flutter
-    
+
 dependency_overrides:
   intl: ^0.16.0
 dev_dependencies:
@@ -62,8 +63,6 @@ flutter:
     - assets/barber.jpg
     - assets/arraste_lados.gif
     - assets/barber-shop.gif
-
-  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
