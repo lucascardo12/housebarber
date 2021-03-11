@@ -10,56 +10,59 @@ class NewRegisters extends StatefulWidget {
 class _NewRegisterPageState extends State<NewRegisters> {
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-      crossAxisCount: 1,
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Container(
+        padding: EdgeInsets.all(10.0),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              _cardCadastroClientes(),
+              _cardCadastroProdutosServicos(),
+            ],
           ),
-          padding: EdgeInsets.all(15),
-          child: _cardCadastroClientes(),
-        )
-      ],
+        ),
+      ),
     );
   }
 
   Widget _cardCadastroClientes() {
-    return Card(
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          Navigator.pushNamed(context, '/newClient');
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          width: double.infinity,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: secondaryLight, width: 3),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: InkWell(
+          splashColor: secondaryDark.withAlpha(30),
+          onTap: () {
+            Navigator.pushNamed(context, '/listaClientes');
+          },
           child: Stack(
-            children: <Widget>[
-              Positioned.fill(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                width: double.infinity,
                 child: Image.asset(
                   'assets/imagens/backgroud-new-client.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                bottom: 100.0,
-                left: 10.0,
-                right: 10.0,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Cadastro de Clientes',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.white, fontSize: 60),
-                  ),
+                bottom: 35.0,
+                left: 20.0,
+                child: Text(
+                  "CLIENTES",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.amber),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -68,39 +71,42 @@ class _NewRegisterPageState extends State<NewRegisters> {
   }
 
   Widget _cardCadastroProdutosServicos() {
-    return Card(
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          print('Card Cadastro de Cliente');
-        },
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
-          width: double.infinity,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: secondaryLight, width: 3),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: InkWell(
+          splashColor: Colors.blue.withAlpha(30),
+          onTap: () {
+            Navigator.pushNamed(context, '/listaProdutoServico');
+          },
           child: Stack(
-            children: <Widget>[
-              Positioned.fill(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 2),
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                width: double.infinity,
                 child: Image.asset(
                   'assets/imagens/backgroud-new-produto-servico.jpg',
                   fit: BoxFit.cover,
                 ),
               ),
               Positioned(
-                bottom: 100.0,
-                left: 10.0,
-                right: 10.0,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Cadastro de Clientes',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5
-                        .copyWith(color: Colors.white, fontSize: 60),
-                  ),
+                bottom: 35.0,
+                left: 20.0,
+                child: Text(
+                  "PRODUTOS & SERVIÇOS",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 28.0,
+                      color: Colors.amber),
                 ),
-              )
+              ),
             ],
           ),
         ),
