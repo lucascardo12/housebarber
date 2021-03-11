@@ -12,16 +12,62 @@ class _NewRegisterPageState extends State<NewRegisters> {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 1,
-      children: List.generate(20, (index) {
-        return Container(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
           padding: EdgeInsets.all(15),
-          child: _buildCards(),
-        );
-      }),
+          child: _cardCadastroClientes(),
+        )
+      ],
     );
   }
 
-  Widget _buildCards() {
+  Widget _cardCadastroClientes() {
+    return Card(
+      child: InkWell(
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          Navigator.pushNamed(context, '/newClient');
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          width: double.infinity,
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/imagens/backgroud-new-client.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                bottom: 100.0,
+                left: 10.0,
+                right: 10.0,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Cadastro de Clientes',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: Colors.white, fontSize: 60),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _cardCadastroProdutosServicos() {
     return Card(
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
@@ -29,9 +75,34 @@ class _NewRegisterPageState extends State<NewRegisters> {
           print('Card Cadastro de Cliente');
         },
         child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0)),
           width: double.infinity,
-          height: 100,
-          child: Text('A card that can be tapped'),
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/imagens/backgroud-new-produto-servico.jpg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                bottom: 100.0,
+                left: 10.0,
+                right: 10.0,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Cadastro de Clientes',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(color: Colors.white, fontSize: 60),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

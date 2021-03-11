@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/model/user.dart';
@@ -134,6 +136,10 @@ class _ImagePickerExampleState extends State<ImagePickerExample> {
   //   mongo.GridFS gfsPhoto = new mongo.GridFS(db, "photo");
   //   mongo.GridFSInputFile gfsFile = gfsPhoto.createFile(imageFile);
   //   gfsFile.setFilename(newFileName);
+
+  //   List<int> imageBytes = widget.fileData.readAsBytesSync();
+  //   print(imageBytes);
+  //   String base64Image = base64Encode(imageBytes);
 
   //   var _newUser = User(
   //       id: user.id,

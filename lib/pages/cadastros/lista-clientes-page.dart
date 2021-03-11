@@ -24,7 +24,7 @@ class _ListaClientestState extends State<ListaClientes> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text('Clientes'),
+          title: Text('Meus Clientes'),
         ),
         body: ListView.builder(
           padding: EdgeInsets.only(top: 20),
