@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/register-new-productService-controller.dart';
 import 'package:housebarber/model/produtoServico.dart';
 
 class ListaProdutoServico extends StatefulWidget {
@@ -12,11 +13,23 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
   List<ProdutoServico> listadeProdutoServico = <ProdutoServico>[];
   @override
   void initState() {
-    ProdutoServico.getData().then((value) {
-      setState(() {
-        listadeProdutoServico = value;
-      });
-    });
+    ProdutoServico.getData(selector: {'idUser': user.id}).then(
+      (value) {
+        if (value == null || value.isEmpty) {
+          return Container(
+            child: Center(
+              child: Text("Nenhum Registro Encontrado."),
+            ),
+          );
+        }
+        listadeProdutoServico.addAll(value);
+      },
+    );
+    setState(
+      () {
+        listadeProdutoServico = listadeProdutoServico;
+      },
+    );
     super.initState();
   }
 
@@ -25,12 +38,30 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         appBar: AppBar(
           title: Text('Produtos e Serviços'),
         ),
-        body: ListView.builder(
-          padding: EdgeInsets.only(top: 20),
-          itemCount: listadeProdutoServico.length,
-          itemBuilder: (context, index) {
-            return _buildItem(context, listadeProdutoServico[index]);
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await ProdutoServico.getData(selector: {'idUser': user.id}).then(
+              (value) {
+                if (value == null || value.isEmpty) {
+                  return Container(
+                    child: Center(
+                      child: Text("Nenhum Registro Encontrado."),
+                    ),
+                  );
+                }
+                setState(() {
+                  listadeProdutoServico = value;
+                });
+              },
+            );
           },
+          child: ListView.builder(
+            padding: EdgeInsets.only(top: 20),
+            itemCount: listadeProdutoServico.length,
+            itemBuilder: (context, index) {
+              return _buildItem(context, listadeProdutoServico[index]);
+            },
+          ),
         ),
         floatingActionButton: FloatingActionButton.extended(
           foregroundColor: Colors.white,
@@ -149,6 +180,32 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
       actions: <Widget>[
         Row(
           children: <Widget>[
+            FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(5),
+              ),
+              color: Colors.red,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'EXCLUIR',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Map<String, dynamic> deleteProdutoServico = {
+                  '_id': produtoServico.id,
+                  'idUser': user.id,
+                };
+                _deleteProdutoServico(deleteProdutoServico);
+                setState(() {
+                  Navigator.of(context).pop();
+                });
+                //Navigator.pushNamed(context, '/listaClientes');
+              },
+            ),
+            SizedBox(width: 5),
             RaisedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(5),
@@ -182,9 +239,11 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                   'valor': valor.text,
                 };
                 _updateProdutoServico(updateProdutoServico);
-                setState(() {
-                  Navigator.of(context).pop();
-                });
+                setState(
+                  () {
+                    Navigator.of(context).pop();
+                  },
+                );
                 //Navigator.pushNamed(context, '/listaClientes');
               },
             ),
@@ -206,5 +265,13 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         valor: updateProdutoServico['valor'],
         id: updateProdutoServico['id']);
     bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
+  }
+
+  void _deleteProdutoServico(deleteProdutoServico) {
+    excluirProdutoServico(infoArray: deleteProdutoServico);
+    // print(produtoServico.nome);
+    // var produtoServico = new ProdutoServico(
+    //     id: deleteProdutoServico['id'], idUser: deleteProdutoServico['idUser']);
+    // bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
   }
 }
