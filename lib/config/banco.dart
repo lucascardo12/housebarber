@@ -19,15 +19,13 @@ class BancoMg {
     }
   }
 
-  Future<dynamic> delete({dynamic objeto, String tabela}) async {
+  Future<bool> delete({dynamic objeto, String tabela}) async {
     try {
       var collection = bk.collection(tabela);
-      // await collection.remove({'_id': objeto.id});
-      var ok = await collection.remove({'_id': objeto.id});
-      print(ok);
-      return objeto;
+      await collection.remove({'_id': objeto.id});
+      return true;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 }
