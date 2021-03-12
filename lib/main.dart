@@ -38,16 +38,13 @@ class MyApp extends StatelessWidget {
           primaryColorLight: primaryLight,
           accentColor: secondary,
         ),
-        home: LoginPage(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        supportedLocales: [
-          const Locale('pt', 'BR')
-        ],
+        supportedLocales: [const Locale('pt', 'BR')],
+        initialRoute: '/login',
         routes: {
-          // MAIN /
           //'/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),
           '/home': (context) => HomePage(),

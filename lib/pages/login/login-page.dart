@@ -33,23 +33,6 @@ class _LoginPageState extends State<LoginPage> {
           liquidController: liquidController,
           ignoreUserGestureWhileAnimating: true,
         ),
-        // Padding(
-        //   padding: EdgeInsets.all(20),
-        //   child: Column(
-        //     children: <Widget>[
-        //       Expanded(child: SizedBox()),
-        //       Align(
-        //         child: Image.asset(
-        //           "assets/arraste_lados.gif",
-        //           color: Colors.white,
-        //           height: 80.0,
-        //           width: 80.0,
-        //         ),
-        //         alignment: Alignment.centerRight,
-        //       )
-        //     ],
-        //   ),
-        // ),
       ]),
     );
   }

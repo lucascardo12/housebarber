@@ -1,5 +1,6 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home/dayView-page.dart';
 import 'package:housebarber/pages/home/settings-page.dart';
@@ -26,21 +27,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      // appBar: new AppBar(
-      //   leading: IconButton(
-      //     icon: Icon(Icons.arrow_back),
-      //     onPressed: () => Navigator.push(
-      //         context,
-      //         new MaterialPageRoute(
-      //             builder: (BuildContext context) => new LoginPage())),
-      //   ),
-      //   title: new Text('Home'),
-      // ),
       bottomNavigationBar: ConvexAppBar(
         style: TabStyle.react,
         items: [
           TabItem(icon: Icons.home, title: 'Diario'),
-          TabItem(icon: Icons.map, title: 'Semanal'),
+          // TabItem(icon: Icons.map, title: 'Semanal'),
           TabItem(icon: Icons.calendar_today, title: 'Mensal'),
           TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
           TabItem(icon: Icons.settings, title: 'Opções'),
@@ -55,12 +46,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: primaryLight,
       body: SafeArea(
         child: WillPopScope(
-          onWillPop: () => Navigator.push(
-            context,
-            new MaterialPageRoute(
-              builder: (BuildContext context) => new LoginPage(),
-            ),
-          ),
+          onWillPop: () => SystemNavigator.pop(),
           child: Container(
             child: body(i: xi),
           ),
@@ -74,16 +60,16 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return new DayView();
         break;
+      // case 2:
+      //   return new WeekView();
+      //   break;
       case 2:
-        return new WeekView();
-        break;
-      case 3:
         return new MonthView();
         break;
-      case 4:
+      case 3:
         return new NewRegisters();
         break;
-      case 5:
+      case 4:
         return Settings();
         break;
       default:

@@ -35,7 +35,7 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text(user.nome),
+              accountName: Text(user.nome ?? ''),
               accountEmail: Text(user.email),
               currentAccountPicture: GestureDetector(
                 onTap: () {

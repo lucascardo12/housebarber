@@ -7,8 +7,8 @@ class BancoMg {
     try {
       var collection = bk.collection(tabela);
       if (objeto.id == null) {
-        var i = await collection.count() + 1;
-        objeto.id = i;
+        var i = await collection.find().last;
+        objeto.id = i["_id"] + 1;
         await collection.insert(objeto.toJson());
       } else {
         await collection.save(objeto.toJson());

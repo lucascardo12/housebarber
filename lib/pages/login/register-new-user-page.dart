@@ -3,6 +3,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/custom-widgets.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/widgets/campoPadrao.dart';
 import 'package:housebarber/controller/register-new-user-controller.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.people_alt,
                                 controler: nomeController,
                                 label: "Nome:",
@@ -70,7 +71,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.people_alt,
                                 controler: usuarioController,
                                 label: "Usuario:",
@@ -108,7 +109,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.phone,
                                 controler: numeroController,
                                 label: "Numero:",
@@ -116,7 +117,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.people_alt,
                                 controler: cpfcnpjController,
                                 label: "CPF/CNPJ:",
@@ -124,7 +125,7 @@ class _CadastroPageState extends State<CadastroPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.email,
                                 controler: emailController,
                                 label: "E-mail:",

@@ -12,7 +12,7 @@ class _ListaClientestState extends State<ListaClientes> {
   List<Cliente> listadeCliente = <Cliente>[];
   @override
   void initState() {
-    Cliente.getData().then((value) {
+    Cliente.getData(selector: {'idUser': user.id}).then((value) {
       setState(() {
         listadeCliente = value;
       });
@@ -26,16 +26,25 @@ class _ListaClientestState extends State<ListaClientes> {
         appBar: AppBar(
           title: Text('Meus Clientes'),
         ),
-        body: ListView.builder(
-          padding: EdgeInsets.only(top: 20),
-          itemCount: listadeCliente.length,
-          itemBuilder: (context, index) {
-            return _buildItem(context, listadeCliente[index]);
-          },
-        ),
+        body: RefreshIndicator(
+            onRefresh: () async {
+              await Cliente.getData(selector: {'idUser': user.id})
+                  .then((value) {
+                setState(() {
+                  listadeCliente = value;
+                });
+              });
+            },
+            child: ListView.builder(
+              padding: EdgeInsets.only(top: 20),
+              itemCount: listadeCliente.length,
+              itemBuilder: (context, index) {
+                return _buildItem(context, listadeCliente[index]);
+              },
+            )),
         floatingActionButton: FloatingActionButton.extended(
           foregroundColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/newClient'),
+          onPressed: () => Navigator.pop(context),
           icon: Icon(Icons.add),
           label: Text('Cliente'),
         ));

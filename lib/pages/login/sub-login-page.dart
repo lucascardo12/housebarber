@@ -3,6 +3,7 @@ import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/custom-widgets.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/widgets/campoPadrao.dart';
 import 'package:housebarber/controller/login-controller.dart';
 
 class SubLoginPage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _SubLoginPageState extends State<SubLoginPage> {
                             SizedBox(
                               height: 20,
                             ),
-                            CustomWidgets.campoPadrao(
+                            CampoPadrao(
                                 icone: Icons.people_alt,
                                 controler: loginController,
                                 label: "Login:",

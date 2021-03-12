@@ -31,9 +31,9 @@ Future<void> validaCadastro({var infoArray, BuildContext context}) async {
     mensagem += "\nE-mail é Obrigatório\n";
   }
   if (mensagem == "") {
-    await User.getData(selector: {"login": usuario}).then((value) {
+    await User.getData(selector: {"login": usuario}).then((value) async {
       if (value == null || value.isEmpty) {
-        bacon.insertUpdate(
+        await bacon.insertUpdate(
             tabela: 'User',
             objeto: User(
               login: usuario,

@@ -35,37 +35,31 @@ class _NewRegisterPageState extends State<NewRegisters> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-          splashColor: secondaryDark.withAlpha(30),
-          onTap: () {
-            Navigator.pushNamed(context, '/listaClientes');
-          },
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                width: double.infinity,
-                child: Image.asset(
-                  'assets/imagens/backgroud-new-client.jpg',
+            splashColor: secondaryDark.withAlpha(30),
+            onTap: () {
+              Navigator.pushNamed(context, '/listaClientes');
+            },
+            child: Container(
+              width: double.infinity,
+              height: 200,
+              child: Center(
+                  child: Text(
+                "Clientes",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 48.0,
+                    color: Colors.amber),
+              )),
+              decoration: new BoxDecoration(
+                color: primaryLight,
+                image: new DecorationImage(
                   fit: BoxFit.cover,
+                  colorFilter: new ColorFilter.mode(
+                      Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                  image: AssetImage('assets/imagens/backgroud-new-client.jpg'),
                 ),
               ),
-              Positioned(
-                bottom: 35.0,
-                left: 20.0,
-                child: Text(
-                  "CLIENTES",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.amber),
-                ),
-              ),
-            ],
-          ),
-        ),
+            )),
       ),
     );
   }
