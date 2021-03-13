@@ -19,13 +19,20 @@ cadastraProdutoServico({var infoArray, BuildContext context}) async {
             androidToast: "Produto/Serviço Cadastrado com Sucesso",
             toastDuration: 10,
             toastShowIcon: true);
-        Navigator.pushNamed(context, '/listaProdutoServico');
+        Navigator.pop(context);
+      } else {
+        FlutterToastAlert.showToastAndAlert(
+            type: Type.Error,
+            androidToast: "Erro desconhecido!",
+            toastDuration: 10,
+            toastShowIcon: true);
       }
     },
   );
 }
 
-excluirProdutoServico({var infoArray, BuildContext context}) async {
+Future<void> excluirProdutoServico(
+    {var infoArray, BuildContext context}) async {
   ProdutoServico produtoServico =
       ProdutoServico(id: infoArray['_id'], idUser: infoArray['idUser']);
   await bacon.delete(objeto: produtoServico, tabela: "ProdutoServico").then(
@@ -36,7 +43,6 @@ excluirProdutoServico({var infoArray, BuildContext context}) async {
             androidToast: "Produto/Serviço Cadastrado com Sucesso",
             toastDuration: 10,
             toastShowIcon: true);
-        Navigator.pushNamed(context, '/listaProdutoServico');
       } else {
         FlutterToastAlert.showToastAndAlert(
             type: Type.Error,

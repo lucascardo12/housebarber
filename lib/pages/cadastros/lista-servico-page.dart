@@ -13,24 +13,18 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
   List<ProdutoServico> listadeProdutoServico = <ProdutoServico>[];
   @override
   void initState() {
-    ProdutoServico.getData(selector: {'idUser': user.id}).then(
-      (value) {
-        if (value == null || value.isEmpty) {
-          return Container(
-            child: Center(
-              child: Text("Nenhum Registro Encontrado."),
-            ),
-          );
-        }
-        listadeProdutoServico.addAll(value);
-      },
-    );
-    setState(
-      () {
-        listadeProdutoServico = listadeProdutoServico;
-      },
-    );
+    atualizarLista();
     super.initState();
+  }
+
+  Future<void> atualizarLista() async {
+    await ProdutoServico.getData(selector: {'idUser': user.id}).then(
+      (value) {
+        setState(() {
+          listadeProdutoServico = value;
+        });
+      },
+    );
   }
 
   Widget build(BuildContext context) {
@@ -40,20 +34,7 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await ProdutoServico.getData(selector: {'idUser': user.id}).then(
-              (value) {
-                if (value == null || value.isEmpty) {
-                  return Container(
-                    child: Center(
-                      child: Text("Nenhum Registro Encontrado."),
-                    ),
-                  );
-                }
-                setState(() {
-                  listadeProdutoServico = value;
-                });
-              },
-            );
+            await atualizarLista();
           },
           child: ListView.builder(
             padding: EdgeInsets.only(top: 20),
@@ -65,7 +46,8 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           foregroundColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/newProductService'),
+          onPressed: () => Navigator.pushNamed(context, '/newProductService')
+              .then((value) => atualizarLista()),
           icon: Icon(Icons.add),
           label: Text('Produto/Serviço'),
         ));
@@ -78,10 +60,9 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         elevation: 4,
         child: Material(
           child: InkWell(
-            onTap: () {
-              setState(() {
-                showSimpleCustomDialog(context, produtoServico);
-              });
+            onTap: () async {
+              await showSimpleCustomDialog(context, produtoServico)
+                  .whenComplete(() => atualizarLista());
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -139,8 +120,8 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
     );
   }
 
-  void showSimpleCustomDialog(
-      BuildContext context, ProdutoServico produtoServico) {
+  Future<void> showSimpleCustomDialog(
+      BuildContext context, ProdutoServico produtoServico) async {
     TextEditingController nome =
         TextEditingController(text: produtoServico.nome);
     TextEditingController valor =
@@ -198,11 +179,12 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                   '_id': produtoServico.id,
                   'idUser': user.id,
                 };
-                _deleteProdutoServico(deleteProdutoServico);
-                setState(() {
+                excluirProdutoServico(
+                        infoArray: deleteProdutoServico, context: context)
+                    .then((value) {
+                  atualizarLista();
                   Navigator.of(context).pop();
                 });
-                //Navigator.pushNamed(context, '/listaClientes');
               },
             ),
             SizedBox(width: 5),
@@ -232,19 +214,13 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                   ),
                 ],
               ),
-              onPressed: () {
-                Map<String, dynamic> updateProdutoServico = {
-                  'nome': nome.text,
-                  'id': produtoServico.id,
-                  'valor': valor.text,
-                };
-                _updateProdutoServico(updateProdutoServico);
-                setState(
-                  () {
-                    Navigator.of(context).pop();
-                  },
-                );
-                //Navigator.pushNamed(context, '/listaClientes');
+              onPressed: () async {
+                produtoServico.nome = nome.text;
+                produtoServico.valor = valor.text;
+                await bacon.insertUpdate(
+                    objeto: produtoServico, tabela: 'ProdutoServico');
+                await atualizarLista();
+                Navigator.of(context).pop();
               },
             ),
             SizedBox(
@@ -256,22 +232,5 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
     );
     showDialog(
         context: context, builder: (BuildContext context) => simpleDialog);
-  }
-
-  void _updateProdutoServico(updateProdutoServico) {
-    // print(produtoServico.nome);
-    var produtoServico = new ProdutoServico(
-        nome: updateProdutoServico['nome'],
-        valor: updateProdutoServico['valor'],
-        id: updateProdutoServico['id']);
-    bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
-  }
-
-  void _deleteProdutoServico(deleteProdutoServico) {
-    excluirProdutoServico(infoArray: deleteProdutoServico);
-    // print(produtoServico.nome);
-    // var produtoServico = new ProdutoServico(
-    //     id: deleteProdutoServico['id'], idUser: deleteProdutoServico['idUser']);
-    // bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
   }
 }
