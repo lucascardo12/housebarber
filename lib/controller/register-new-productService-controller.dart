@@ -40,7 +40,7 @@ Future<void> excluirProdutoServico(
       if (value != null) {
         FlutterToastAlert.showToastAndAlert(
             type: Type.Success,
-            androidToast: "Produto/Serviço Cadastrado com Sucesso",
+            androidToast: "Produto/Serviço Excluido com Sucesso",
             toastDuration: 10,
             toastShowIcon: true);
       } else {

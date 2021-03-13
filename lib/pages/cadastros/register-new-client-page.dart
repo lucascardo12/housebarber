@@ -107,12 +107,12 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                   setState(() {
                     isLoading = !isLoading;
                   });
-                  Map<String, String> infoArray = {
+                  Map<String, dynamic> infoArray = {
                     'nome': nome.text,
                     'numero': numero.text,
                     'email': email.text,
                     'cpf': cpf.text,
-                    'idUser': user.id.toString(),
+                    'idUser': user.id,
                   };
                   if (_formKey.currentState.validate()) {
                     Customfunctions.verificarConexao().then((value) {

@@ -9,17 +9,32 @@ class NewRegisters extends StatefulWidget {
 
 class _NewRegisterPageState extends State<NewRegisters> {
   @override
+  void initState() {
+    atualizarLista();
+    super.initState();
+  }
+
+  Future<void> atualizarLista() async {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Container(
-        padding: EdgeInsets.all(10.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              _cardCadastroClientes(),
-              _cardCadastroProdutosServicos(),
-            ],
+    return new Scaffold(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await atualizarLista();
+        },
+        child: Container(
+          color: primaryLight,
+          padding: EdgeInsets.all(10.0),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                _cardCadastroClientes(),
+                _cardCadastroProdutosServicos(),
+              ],
+            ),
           ),
         ),
       ),
@@ -35,31 +50,32 @@ class _NewRegisterPageState extends State<NewRegisters> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-            splashColor: secondaryDark.withAlpha(30),
-            onTap: () {
-              Navigator.pushNamed(context, '/listaClientes');
-            },
-            child: Container(
-              width: double.infinity,
-              height: 200,
-              child: Center(
-                  child: Text(
-                "Clientes",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 48.0,
-                    color: Colors.amber),
-              )),
-              decoration: new BoxDecoration(
-                color: primaryLight,
-                image: new DecorationImage(
-                  fit: BoxFit.cover,
-                  colorFilter: new ColorFilter.mode(
-                      Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                  image: AssetImage('assets/imagens/backgroud-new-client.jpg'),
-                ),
-              ),
+          splashColor: secondaryDark.withAlpha(30),
+          onTap: () {
+            Navigator.pushNamed(context, '/listaClientes');
+          },
+          child: Container(
+            width: double.infinity,
+            height: 200,
+            child: Center(
+                child: Text(
+              "Clientes",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 48.0,
+                  color: Colors.amber),
             )),
+            decoration: new BoxDecoration(
+              color: primaryLight,
+              image: new DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter: new ColorFilter.mode(
+                    Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                image: AssetImage('assets/imagens/backgroud-new-client.jpg'),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -73,35 +89,34 @@ class _NewRegisterPageState extends State<NewRegisters> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: InkWell(
-          splashColor: Colors.blue.withAlpha(30),
+          splashColor: secondaryDark.withAlpha(30),
           onTap: () {
             Navigator.pushNamed(context, '/listaProdutoServico');
           },
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(width: 2),
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                width: double.infinity,
-                child: Image.asset(
-                  'assets/imagens/backgroud-new-produto-servico.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                bottom: 35.0,
-                left: 20.0,
-                child: Text(
-                  "PRODUTOS & SERVIÇOS",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28.0,
-                      color: Colors.amber),
+          child: Container(
+            width: double.infinity,
+            height: 200,
+            child: Center(
+              child: Text(
+                "Produtos \n& \nServiços",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 42.0,
+                  color: Colors.amber,
                 ),
               ),
-            ],
+            ),
+            decoration: new BoxDecoration(
+              color: primaryLight,
+              image: new DecorationImage(
+                fit: BoxFit.cover,
+                colorFilter: new ColorFilter.mode(
+                    Colors.black.withOpacity(0.2), BlendMode.dstATop),
+                image: AssetImage(
+                    'assets/imagens/backgroud-new-produto-servico.jpg'),
+              ),
+            ),
           ),
         ),
       ),

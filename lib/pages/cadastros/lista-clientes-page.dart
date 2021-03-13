@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/global.dart';
+import 'package:housebarber/controller/register-new-client-controller.dart';
 import 'package:housebarber/model/cliente.dart';
 
 class ListaClientes extends StatefulWidget {
@@ -12,12 +13,18 @@ class _ListaClientestState extends State<ListaClientes> {
   List<Cliente> listadeCliente = <Cliente>[];
   @override
   void initState() {
-    Cliente.getData(selector: {'idUser': user.id}).then((value) {
-      setState(() {
-        listadeCliente = value;
-      });
-    });
+    atualizarLista();
     super.initState();
+  }
+
+  Future<void> atualizarLista() async {
+    await Cliente.getData(selector: {'idUser': user.id}).then(
+      (value) {
+        setState(() {
+          listadeCliente = value;
+        });
+      },
+    );
   }
 
   @override
@@ -28,11 +35,7 @@ class _ListaClientestState extends State<ListaClientes> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await Cliente.getData(selector: {'idUser': user.id}).then((value) {
-            setState(() {
-              listadeCliente = value;
-            });
-          });
+          await atualizarLista();
         },
         child: ListView.builder(
           padding: EdgeInsets.only(top: 20),
@@ -44,7 +47,8 @@ class _ListaClientestState extends State<ListaClientes> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         foregroundColor: Colors.white,
-        onPressed: () => Navigator.pushNamed(context, '/newClient'),
+        onPressed: () => Navigator.pushNamed(context, '/newClient')
+            .then((value) => atualizarLista()),
         icon: Icon(Icons.add),
         label: Text('Cliente'),
       ),
@@ -58,10 +62,9 @@ class _ListaClientestState extends State<ListaClientes> {
         elevation: 4,
         child: Material(
           child: InkWell(
-            onTap: () {
-              setState(() {
-                showSimpleCustomDialog(context, cliente);
-              });
+            onTap: () async {
+              await showSimpleCustomDialog(context, cliente)
+                  .whenComplete(() => atualizarLista());
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -138,7 +141,8 @@ class _ListaClientestState extends State<ListaClientes> {
     );
   }
 
-  void showSimpleCustomDialog(BuildContext context, Cliente cliente) {
+  Future<void> showSimpleCustomDialog(
+      BuildContext context, Cliente cliente) async {
     TextEditingController nome = TextEditingController(text: cliente.nome);
     TextEditingController cpf = TextEditingController(text: cliente.cpf);
     TextEditingController email = TextEditingController(text: cliente.email);
@@ -196,6 +200,32 @@ class _ListaClientestState extends State<ListaClientes> {
       actions: <Widget>[
         Row(
           children: <Widget>[
+            FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(5),
+              ),
+              color: Colors.red,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'EXCLUIR',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Map<String, dynamic> deleteCliente = {
+                  '_id': cliente.id,
+                  'idUser': user.id,
+                };
+                excluirCliente(infoArray: deleteCliente, context: context)
+                    .then((value) {
+                  atualizarLista();
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+            SizedBox(width: 5),
             RaisedButton(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(5),
@@ -222,20 +252,14 @@ class _ListaClientestState extends State<ListaClientes> {
                   ),
                 ],
               ),
-              onPressed: () {
-                Map<String, dynamic> updateClinente = {
-                  'nome': nome.text,
-                  'idUser': cliente.idUser,
-                  'cpf': cpf.text,
-                  'email': email.text,
-                  'numero': numero.text,
-                  'id': cliente.id,
-                };
-                _updateCadastroCliente(updateClinente);
-                setState(() {
-                  Navigator.of(context).pop();
-                });
-                //Navigator.pushNamed(context, '/listaClientes');
+              onPressed: () async {
+                cliente.nome = nome.text;
+                cliente.cpf = cpf.text;
+                cliente.email = email.text;
+                cliente.numero = numero.text;
+                await bacon.insertUpdate(objeto: cliente, tabela: 'Cliente');
+                await atualizarLista();
+                Navigator.of(context).pop();
               },
             ),
             SizedBox(
@@ -247,19 +271,5 @@ class _ListaClientestState extends State<ListaClientes> {
     );
     showDialog(
         context: context, builder: (BuildContext context) => simpleDialog);
-  }
-
-  void _updateCadastroCliente(updateCliente) {
-    // print(cliente.nome);
-    setState(() {
-      var cliente = new Cliente(
-          nome: updateCliente['nome'],
-          cpf: updateCliente['cpf'],
-          email: updateCliente['email'],
-          numero: updateCliente['numero'],
-          id: updateCliente['id'],
-          idUser: updateCliente['idUser']);
-      bacon.insertUpdate(objeto: cliente, tabela: 'Cliente');
-    });
   }
 }
