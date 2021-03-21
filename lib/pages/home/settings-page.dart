@@ -1,12 +1,9 @@
-import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/model/user.dart';
-import 'dart:io';
+import 'package:housebarber/config/global.dart';
+import 'package:housebarber/widgets/campoPadrao.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mongo_dart/mongo_dart.dart' as mongo;
-import '../../config/global.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -14,144 +11,101 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  final _scaffoldKey = new GlobalKey<ScaffoldState>();
+  File _image;
+  final picker = ImagePicker();
+  TextEditingController nomeControle = TextEditingController(text: user.nome);
+  TextEditingController emailControle = TextEditingController(text: user.email);
+  TextEditingController numeroControle =
+      TextEditingController(text: user.numero);
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        prefs.setString('foto', pickedFile.path);
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
 
   @override
   void initState() {
+    try {
+      _image = File(prefs.getString('foto'));
+    } catch (e) {}
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => openDrawer());
-  }
-
-  void openDrawer() {
-    _scaffoldKey.currentState?.openEndDrawer();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      endDrawer: Drawer(
-        child: Column(
+    return Center(
+        child: Stack(
+      children: [
+        ListView(
           children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(user.nome ?? ''),
-              accountEmail: Text(user.email),
-              currentAccountPicture: GestureDetector(
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return Container(child: ImagePickerExample());
-                    },
-                  );
-                },
-                child: CircleAvatar(
-                  backgroundColor:
-                      Theme.of(context).platform == TargetPlatform.iOS
-                          ? Colors.blue
-                          : Colors.white,
-                  child: Text(
-                    "A",
-                    style: TextStyle(fontSize: 40.0),
-                  ),
-                ),
-              ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              color: secondary,
             ),
+            Container(
+                height: MediaQuery.of(context).size.height * 0.55,
+                color: primaryLight,
+                padding: EdgeInsets.only(right: 25, left: 25),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.15,
+                    ),
+                    CampoPadrao(
+                      label: "Nome",
+                      controler: nomeControle,
+                      cor: Colors.white,
+                    ),
+                    CampoPadrao(
+                      controler: emailControle,
+                      cor: Colors.white,
+                      label: 'E-mail',
+                    ),
+                    CampoPadrao(
+                      label: "Numero",
+                      cor: Colors.white,
+                      controler: numeroControle,
+                    ),
+                  ],
+                )),
           ],
         ),
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text("Open"),
-          onPressed: () {
-            openDrawer();
-          },
-        ),
-      ),
-    );
+        Container(
+          height: MediaQuery.of(context).size.height * 0.5,
+          child: Center(
+              child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 100,
+                  child: GestureDetector(
+                    onTap: getImage,
+                    child: CircleAvatar(
+                      backgroundImage:
+                          _image != null ? FileImage(_image) : null,
+                      backgroundColor: primaryLight,
+                      radius: 95,
+                      child: _image == null
+                          ? IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: getImage,
+                              icon: Icon(
+                                Icons.camera_alt,
+                                size: 48,
+                                color: Colors.white,
+                              ),
+                            )
+                          : null,
+                    ),
+                  ))),
+        )
+      ],
+    ));
   }
-}
-
-class ImagePickerExample extends StatefulWidget {
-  const ImagePickerExample({Key key}) : super(key: key);
-
-  @override
-  _ImagePickerExampleState createState() => _ImagePickerExampleState();
-}
-
-class _ImagePickerExampleState extends State<ImagePickerExample> {
-  File _imageFile;
-  final _picker = ImagePicker();
-
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: primaryLight,
-      child: ListView(
-        children: <Widget>[
-          ButtonBar(
-            children: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.check),
-                onPressed: () => {},
-                tooltip: 'Shoot picture',
-              ),
-              IconButton(
-                icon: const Icon(Icons.photo_camera),
-                onPressed: () async => _pickImageFromCamera(),
-                tooltip: 'Shoot picture',
-              ),
-              IconButton(
-                icon: const Icon(Icons.photo),
-                onPressed: () async => _pickImageFromGallery(),
-                tooltip: 'Pick from gallery',
-              ),
-            ],
-          ),
-          if (this._imageFile == null)
-            const Placeholder()
-          else
-            Image.file(this._imageFile),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _pickImageFromGallery() async {
-    final PickedFile pickedFile =
-        await _picker.getImage(source: ImageSource.gallery);
-    setState(() => this._imageFile = File(pickedFile.path));
-  }
-
-  Future<void> _pickImageFromCamera() async {
-    final PickedFile pickedFile =
-        await _picker.getImage(source: ImageSource.camera);
-    setState(() => this._imageFile = File(pickedFile.path));
-  }
-
-  // void _safeAvatar() {
-  //   String newFileName = "my-image";
-  //   File imageFile = new File(_imageFile.path);
-  //   mongo.GridFS gfsPhoto = new mongo.GridFS(db, "photo");
-  //   mongo.GridFSInputFile gfsFile = gfsPhoto.createFile(imageFile);
-  //   gfsFile.setFilename(newFileName);
-
-  //   List<int> imageBytes = widget.fileData.readAsBytesSync();
-  //   print(imageBytes);
-  //   String base64Image = base64Encode(imageBytes);
-
-  //   var _newUser = User(
-  //       id: user.id,
-  //       cnpj: user.cnpj,
-  //       email: user.email,
-  //       login: user.login,
-  //       nome: user.nome,
-  //       numero: user.numero,
-  //       tipoUser: user.tipoUser,
-  //       senha: user.senha,
-  //       avatar: _imageFile);
-  //   bacon.insertUpdate(objeto: _newUser, tabela: "User");
-  //   Navigator.of(context).pop();
-  // }
 }

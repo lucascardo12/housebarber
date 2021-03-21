@@ -16,11 +16,13 @@ class CampoPadrao extends StatelessWidget {
       style: TextStyle(color: cor),
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: Icon(
-          icone,
-          color: cor,
-          size: 28,
-        ),
+        prefixIcon: icone != null
+            ? Icon(
+                icone,
+                color: cor,
+                size: 28,
+              )
+            : null,
         labelStyle: TextStyle(
           color: cor,
           fontSize: 16,

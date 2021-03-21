@@ -44,7 +44,10 @@ class _DayViewState extends State<DayView> {
                     color: Colors.white,
                   ),
                   onPressed: () async {
-                    await dialogCriaeAlteraEvent(context: context);
+                    await dialogCriaeAlteraEvent(
+                        context: context,
+                        horaIni: _controller.selectedDate.hour,
+                        dataMarcada: _controller.selectedDate);
                     setState(() {
                       print('test');
                     });
@@ -53,12 +56,13 @@ class _DayViewState extends State<DayView> {
                   iconSize: 38,
                 )),
             body: SfCalendar(
+                controller: _controller,
                 onTap: (calendarTapDetails) async {
                   if (calendarTapDetails.appointments != null) {
                     await dialogCriaeAlteraEvent(
-                            context: context,
-                            evento: calendarTapDetails.appointments.first)
-                        .then((value) => setState(() {}));
+                      context: context,
+                      evento: calendarTapDetails.appointments.first,
+                    ).then((value) => setState(() {}));
                   }
                 },
                 dataSource: AgendamentoDataSource(listAgenda),

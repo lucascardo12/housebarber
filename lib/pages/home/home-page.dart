@@ -4,10 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/home/dayView-page.dart';
 import 'package:housebarber/pages/home/settings-page.dart';
-import 'package:housebarber/pages/login/login-page.dart';
 import 'package:housebarber/pages/home/monthView-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
-import 'package:housebarber/pages/home/weekView-page.dart';
+import 'package:housebarber/widgets/mensagem-confirmar.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -46,7 +45,11 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: primaryLight,
       body: SafeArea(
         child: WillPopScope(
-          onWillPop: () => SystemNavigator.pop(),
+          onWillPop: () => showConfirme(
+              context: context,
+              label: "Tem certeza que quer sair vagabundo",
+              confirme: () => SystemNavigator.pop(),
+              cancel: () => Navigator.pop(context)),
           child: Container(
             child: body(i: xi),
           ),

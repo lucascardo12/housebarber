@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:housebarber/config/custom-colors.dart';
+import 'package:housebarber/config/notificaion.dart';
 import 'package:housebarber/pages/cadastros/lista-servico-page.dart';
 import 'package:housebarber/pages/home/home-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
@@ -11,6 +12,7 @@ import 'package:housebarber/pages/cadastros/register-new-productService-page.dar
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'config/schedule-function.dart';
 import 'pages/login/login-page.dart';
 
 void main() async {
@@ -21,6 +23,8 @@ void main() async {
         "mongodb+srv://lucascardo12:fuckyuo12@cluster0.p6s2p.mongodb.net/Cluster0?retryWrites=true&w=majority");
     await bacon.bk.open();
   } catch (e) {}
+  Notifications.init();
+  Schedule.init();
   runApp(MyApp());
 }
 

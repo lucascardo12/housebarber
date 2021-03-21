@@ -9,7 +9,10 @@ import 'package:housebarber/model/produtoServico.dart';
 import 'package:intl/intl.dart';
 
 Future<void> dialogCriaeAlteraEvent(
-    {BuildContext context, int horaIni = 0, Agendamento evento}) async {
+    {BuildContext context,
+    int horaIni = 0,
+    Agendamento evento,
+    DateTime dataMarcada}) async {
   TextEditingController dateControler = TextEditingController();
   TextEditingController horaInicControler = TextEditingController();
   TextEditingController horaFimControler = TextEditingController();
@@ -18,6 +21,9 @@ Future<void> dialogCriaeAlteraEvent(
   Cliente select;
   ProdutoServico select2;
   horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
+  dateControler.text =
+      dataMarcada != null ? DateFormat('dd/MM/yyyy').format(dataMarcada) : "";
+
   if (evento != null) {
     horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
     horaFimControler.text = DateFormat('kk:mm').format(evento.endTime);

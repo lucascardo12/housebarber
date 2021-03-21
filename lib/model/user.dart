@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:housebarber/config/global.dart';
 
 class User {
@@ -11,7 +9,7 @@ class User {
   String numero;
   String cnpj;
   String email;
-  File avatar;
+  String avatar;
 
   User({
     this.tipoUser,
