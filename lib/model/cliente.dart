@@ -1,4 +1,3 @@
-
 import 'package:housebarber/config/global.dart';
 
 class Cliente {

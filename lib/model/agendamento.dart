@@ -8,6 +8,7 @@ class Agendamento {
   String title;
   int idUser;
   String idCliente;
+  String idServico;
   DateTime startTime;
   DateTime endTime;
   String servico;
@@ -17,6 +18,7 @@ class Agendamento {
       this.dia,
       this.idUser,
       this.idCliente,
+      this.idServico,
       this.id,
       this.endTime,
       this.startTime,
@@ -27,6 +29,7 @@ class Agendamento {
     dia = xjson['dia'];
     idUser = xjson['idUser'];
     idCliente = xjson['idCliente'];
+    idServico = xjson['idServico'];
     id = xjson['_id'];
     endTime = xjson['endTime'];
     startTime = xjson['startTime'];
@@ -38,6 +41,7 @@ class Agendamento {
         'dia': dia,
         'idUser': idUser,
         'idCliente': idCliente,
+        'idServico': idServico,
         '_id': id,
         'endTime': endTime,
         'startTime': startTime,
@@ -48,6 +52,7 @@ class Agendamento {
     map['dia'] = dia;
     map['idUser'] = idUser;
     map['idCliente'] = idCliente;
+    map['idServico'] = idServico;
     map['_id'] = id;
     map['endTime'] = endTime;
     map['startTime'] = startTime;

@@ -81,7 +81,7 @@ class _WeekViewState extends State<WeekView> {
                       ),
                       child: Center(
                           child: Text(
-                        agenda.idCliente,
+                        agenda.idCliente.toString(),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,

@@ -94,7 +94,7 @@ class _MonthViewState extends State<MonthView> {
                       ),
                       child: Center(
                           child: Text(
-                        agenda.idCliente +
+                        agenda.idCliente.toString() +
                             ' das ' +
                             DateFormat('kk:mm').format(agenda.startTime) +
                             ' as ' +
