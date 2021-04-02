@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/user.dart';
 
@@ -44,24 +44,18 @@ Future<void> validaCadastro({var infoArray, BuildContext context}) async {
               numero: numero,
             ));
         Navigator.pushReplacementNamed(context, "/login");
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Success,
-            androidToast: "Usuario Cadastrado com Sucesso!",
-            toastDuration: 10,
-            toastShowIcon: false);
+        EasyLoading.showSuccess(
+          "Usuario Cadastrado com Sucesso!",
+        );
       } else {
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Warning,
-            androidToast: "Usuario já Cadastrado",
-            toastDuration: 10,
-            toastShowIcon: false);
+        EasyLoading.showError(
+          "Usuario já Cadastrado",
+        );
       }
     });
   } else {
-    FlutterToastAlert.showToastAndAlert(
-        type: Type.Warning,
-        androidToast: mensagem,
-        toastDuration: 5,
-        toastShowIcon: false);
+    EasyLoading.showError(
+      mensagem,
+    );
   }
 }

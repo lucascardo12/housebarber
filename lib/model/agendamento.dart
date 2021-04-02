@@ -7,8 +7,8 @@ class Agendamento {
   String dia;
   String title;
   int idUser;
-  String idCliente;
-  String idServico;
+  int idCliente;
+  int idServico;
   DateTime startTime;
   DateTime endTime;
   String servico;
@@ -98,6 +98,6 @@ class AgendamentoDataSource extends CalendarDataSource {
 
   @override
   String getSubject(int index) {
-    return appointments[index].idCliente;
+    return appointments[index].idCliente.toString();
   }
 }

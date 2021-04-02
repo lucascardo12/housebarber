@@ -2,8 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
-
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -26,11 +25,9 @@ class Customfunctions {
         return true;
       }
     } on SocketException catch (_) {
-      FlutterToastAlert.showToastAndAlert(
-          type: Type.Warning,
-          androidToast: "Sem conexão",
-          toastDuration: 5,
-          toastShowIcon: true);
+      EasyLoading.showError(
+        "Sem conexão",
+      );
       return false;
     }
   }
@@ -47,9 +44,7 @@ class Customfunctions {
 
   static String stringHora(TimeOfDay hora) {
     if (hora != null) {
-      return hora.hour.toString().padLeft(2, '0') +
-          ":" +
-          hora.minute.toString().padLeft(2, '0');
+      return hora.hour.toString().padLeft(2, '0') + ":" + hora.minute.toString().padLeft(2, '0');
     } else {
       return null;
     }
@@ -59,11 +54,7 @@ class Customfunctions {
   static DateTime dataString({@required String data}) {
     DateTime date;
 
-    String datt = data.substring(6, 10) +
-        '-' +
-        data.substring(3, 5) +
-        '-' +
-        data.substring(0, 2);
+    String datt = data.substring(6, 10) + '-' + data.substring(3, 5) + '-' + data.substring(0, 2);
     date = DateTime.parse(datt);
 
     return date;

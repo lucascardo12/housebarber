@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/notificaion.dart';
@@ -23,8 +24,8 @@ void main() async {
         "mongodb+srv://lucascardo12:fuckyuo12@cluster0.p6s2p.mongodb.net/Cluster0?retryWrites=true&w=majority");
     await bacon.bk.open();
   } catch (e) {}
-  Notifications.init();
-  Schedule.init();
+  // Notifications.init();
+  // Schedule.init();
   runApp(MyApp());
 }
 
@@ -42,12 +43,10 @@ class MyApp extends StatelessWidget {
           primaryColorLight: primaryLight,
           accentColor: secondary,
         ),
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
         supportedLocales: [const Locale('pt', 'BR')],
         initialRoute: '/login',
+        builder: EasyLoading.init(),
         routes: {
           //'/': (context) => LoginPage(),
           '/login': (context) => LoginPage(),

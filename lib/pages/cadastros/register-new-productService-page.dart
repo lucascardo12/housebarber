@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
@@ -8,8 +8,7 @@ import 'package:housebarber/controller/register-new-productService-controller.da
 
 class RegisterNewProductService extends StatefulWidget {
   @override
-  _RegisterNewProductServiceState createState() =>
-      _RegisterNewProductServiceState();
+  _RegisterNewProductServiceState createState() => _RegisterNewProductServiceState();
 }
 
 class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
@@ -81,9 +80,7 @@ class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
                   if (_formKey.currentState.validate()) {
                     Customfunctions.verificarConexao().then((value) {
                       if (value && value != null) {
-                        cadastraProdutoServico(
-                                infoArray: infoArray, context: context)
-                            .then((value) {
+                        cadastraProdutoServico(infoArray: infoArray, context: context).then((value) {
                           setState(() {
                             isLoading = !isLoading;
                           });
@@ -95,11 +92,9 @@ class _RegisterNewProductServiceState extends State<RegisterNewProductService> {
                       }
                     });
                   } else {
-                    FlutterToastAlert.showToastAndAlert(
-                        type: Type.Warning,
-                        androidToast: 'Um ou mais campos são obrigatórios',
-                        toastDuration: 5,
-                        toastShowIcon: false);
+                    EasyLoading.showInfo(
+                      'Um ou mais campos são obrigatórios',
+                    );
                   }
                 },
                 child: Text(

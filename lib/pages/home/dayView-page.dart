@@ -47,11 +47,11 @@ class _DayViewState extends State<DayView> {
               onPressed: () async {
                 await dialogCriaeAlteraEvent(
                     context: context,
-                    horaIni: _controller.selectedDate.hour,
+                    horaIni: _controller.selectedDate != null
+                        ? _controller.selectedDate.hour
+                        : 0,
                     dataMarcada: _controller.selectedDate);
-                setState(() {
-                  print('test');
-                });
+                setState(() {});
               },
               color: Colors.blue,
               iconSize: 38,
@@ -84,9 +84,11 @@ class _DayViewState extends State<DayView> {
           ) {
             final Agendamento agenda = details.appointments.first;
             Cliente cliente;
-            Cliente.getData(selector: {'_id': int.parse(agenda.idCliente)})
-                .then((value) => cliente = value.first);
-            print(cliente.nome);
+            Cliente.getData(selector: {'_id': agenda.idCliente}).then((value) {
+              print(value.first.nome);
+              cliente = value.first;
+            });
+
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
@@ -95,11 +97,7 @@ class _DayViewState extends State<DayView> {
               ),
               child: Center(
                 child: Text(
-                  (cliente != null
-                          ? cliente.nome != null
-                              ? cliente.nome
-                              : ''
-                          : "") +
+                  (cliente != null ? cliente.nome : "lucas") +
                       ' das ' +
                       DateFormat('kk:mm').format(agenda.startTime) +
                       ' as ' +

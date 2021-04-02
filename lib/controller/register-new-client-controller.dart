@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:housebarber/config/global.dart';
 import 'package:housebarber/model/cliente.dart';
 
@@ -15,18 +15,12 @@ cadastraCliente({var infoArray, BuildContext context}) async {
   await bacon.insertUpdate(objeto: cliente, tabela: "Cliente").then(
     (value) {
       if (value != null) {
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Success,
-            androidToast: "Cliente Cadastrado com Sucesso",
-            toastDuration: 10,
-            toastShowIcon: true);
+        EasyLoading.showSuccess("Cliente Cadastrado com Sucesso", maskType: EasyLoadingMaskType.none);
         Navigator.pop(context);
       } else {
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Error,
-            androidToast: "Erro ao Cadastrar o Cliente!",
-            toastDuration: 10,
-            toastShowIcon: true);
+        EasyLoading.showError(
+          "Erro ao Cadastrar o Cliente!",
+        );
       }
     },
   );
@@ -37,18 +31,13 @@ Future<void> excluirCliente({var infoArray, BuildContext context}) async {
   await bacon.delete(objeto: cliente, tabela: "Cliente").then(
     (value) {
       if (value != null) {
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Success,
-            androidToast: "Cliente Excluido com Sucesso.",
-            toastDuration: 10,
-            toastShowIcon: true);
+        EasyLoading.showSuccess(
+          "Cliente Excluido com Sucesso.",
+        );
       } else {
-        FlutterToastAlert.showToastAndAlert(
-            type: Type.Error,
-            androidToast:
-                "Falha ao Tentar Excluir o Cliente, Favor Tentar Novamente",
-            toastDuration: 10,
-            toastShowIcon: true);
+        EasyLoading.showError(
+          "Falha ao Tentar Excluir o Cliente, Favor Tentar Novamente",
+        );
       }
     },
   );

@@ -28,7 +28,7 @@ Future<void> dialogCriaeAlteraEvent(
     horaInicControler.text = DateFormat('kk:mm').format(evento.startTime);
     horaFimControler.text = DateFormat('kk:mm').format(evento.endTime);
     dateControler.text = DateFormat('dd/MM/yyyy').format(evento.endTime);
-    clienteControler.text = evento.idCliente;
+    clienteControler.text = evento.idCliente.toString();
     servicoControler.text = evento.servico;
   }
   return showGeneralDialog(
@@ -266,7 +266,7 @@ Future<void> dialogCriaeAlteraEvent(
                       Agendamento auxi = Agendamento(
                           id: evento != null ? evento.id : null,
                           idUser: user.id,
-                          idCliente: clienteControler.text,
+                          idCliente: int.tryParse(clienteControler.text),
                           dia: dia.toString(),
                           endTime: endTime,
                           startTime: starTime,

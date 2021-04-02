@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoastalert/FlutterToastAlert.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/config/custom-functions.dart';
 import 'package:housebarber/config/global.dart';
@@ -117,8 +117,7 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                   if (_formKey.currentState.validate()) {
                     Customfunctions.verificarConexao().then((value) {
                       if (value && value != null) {
-                        cadastraCliente(infoArray: infoArray, context: context)
-                            .then((value) {
+                        cadastraCliente(infoArray: infoArray, context: context).then((value) {
                           setState(() {
                             isLoading = !isLoading;
                           });
@@ -130,11 +129,9 @@ class _RegisterNewProductState extends State<RegisterNewClient> {
                       }
                     });
                   } else {
-                    FlutterToastAlert.showToastAndAlert(
-                        type: Type.Warning,
-                        androidToast: 'Um ou mais campos são obrigatórios',
-                        toastDuration: 5,
-                        toastShowIcon: false);
+                    EasyLoading.showInfo(
+                      'Um ou mais campos são obrigatórios',
+                    );
                   }
                 },
                 child: Text(
