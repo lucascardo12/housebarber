@@ -11,9 +11,7 @@ class BancoMg {
         if (auxi == 0) {
           objeto.id = 1;
         } else {
-          var i = await collection
-              .find(where.sortBy('_id', descending: true))
-              .first;
+          var i = await collection.find(where.sortBy('_id', descending: true)).first;
           objeto.id = i['_id'] + 1;
         }
         await collection.insert(objeto.toJson());

@@ -10,3 +10,8 @@ BancoMg bacon = new BancoMg();
 User user;
 SharedPreferences prefs;
 List<Agendamento> listAgenda = <Agendamento>[];
+String login = 'lucascardo12';
+String senha = 'fuckyuo12';
+String host = 'cluster0.p6s2p.mongodb.net';
+String cluster = 'Cluster0';
+String format = 'mongodb+srv';

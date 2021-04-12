@@ -20,8 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     prefs = await SharedPreferences.getInstance();
-    bacon.bk = await Db.create(
-        "mongodb+srv://lucascardo12:fuckyuo12@cluster0.p6s2p.mongodb.net/Cluster0?retryWrites=true&w=majority");
+    bacon.bk = await Db.create("$format://$login:$senha@$host/$cluster?retryWrites=true&w=majority");
     await bacon.bk.open();
   } catch (e) {}
   // Notifications.init();
