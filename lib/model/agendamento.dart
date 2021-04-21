@@ -1,4 +1,3 @@
-import 'package:housebarber/config/global.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agendamento {
@@ -48,21 +47,6 @@ class Agendamento {
     map['_id'] = id;
     map['endTime'] = endTime;
     map['startTime'] = startTime;
-  }
-
-  static Future<List<Agendamento>> getData({dynamic selector}) async {
-    //{'_id': data.id} selector
-    try {
-      List<Agendamento> data = <Agendamento>[];
-      var collection = bacon.bk.collection('Agendamento');
-      await collection.find(selector).forEach((element) {
-        data.add(Agendamento.fromJson(element));
-      });
-      return data;
-    } catch (e) {
-      print(e);
-      return null;
-    }
   }
 }
 

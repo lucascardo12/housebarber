@@ -2,46 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:housebarber/config/custom-colors.dart';
 import 'package:housebarber/pages/cadastros/lista-servico-page.dart';
 import 'package:housebarber/pages/home/home-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
 import 'package:housebarber/pages/cadastros/lista-clientes-page.dart';
 import 'package:housebarber/pages/cadastros/register-new-client-page.dart';
 import 'package:housebarber/pages/cadastros/register-new-productService-page.dart';
-import 'package:mongo_dart/mongo_dart.dart';
-import 'package:housebarber/config/global.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:housebarber/services/global.dart';
 import 'pages/login/login-page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  try {
-    prefs = await SharedPreferences.getInstance();
-    bacon.bk = await Db.create("$format://$login:$senha@$host/$cluster?retryWrites=true&w=majority");
-    await bacon.bk.open();
-  } catch (e) {}
-  // Notifications.init();
-  // Schedule.init();
+  await Get.putAsync(() => Global().inicia());
+  await Get.putAsync(() => MongoDB().inicia());
   runApp(MyApp());
 }
 
 class MyApp extends GetView {
+  final gb = Get.find<Global>();
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'House Barber',
       theme: ThemeData(
-          backgroundColor: primaryLight,
+          backgroundColor: gb.primaryLight,
           brightness: Brightness.light,
-          primaryColor: primary,
-          primaryColorDark: primaryDark,
-          primaryColorLight: primaryLight,
-          accentColor: secondary,
+          primaryColor: gb.primary,
+          primaryColorDark: gb.primaryDark,
+          primaryColorLight: gb.primaryLight,
+          accentColor: gb.secondary,
           colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: primary,
-                secondary: secondary,
+                primary: gb.primary,
+                secondary: gb.secondary,
               )),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -53,6 +46,7 @@ class MyApp extends GetView {
       ],
       locale: Get.deviceLocale,
       initialRoute: '/login',
+      defaultTransition: Transition.leftToRightWithFade,
       getPages: [
         GetPage(
           name: '/login',
@@ -64,19 +58,19 @@ class MyApp extends GetView {
         ),
         GetPage(
           name: '/newRegisters',
-          page: () => NewRegisters(),
+          page: () => NewRegistersPage(),
         ),
         GetPage(
           name: '/newClient',
-          page: () => RegisterNewClient(),
+          page: () => RegisterNewClientPage(),
         ),
         GetPage(
           name: '/newProductService',
-          page: () => RegisterNewProductService(),
+          page: () => RegisterNewProductServicePage(),
         ),
         GetPage(
           name: '/listaClientes',
-          page: () => ListaProdutoServico(),
+          page: () => ListaProdutoServicoPage(),
         ),
         GetPage(
           name: '/listaProdutoServico',

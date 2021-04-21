@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:money_formatter/money_formatter.dart';
 
 class Customfunctions {
   static String textToMd5(String text) {
@@ -25,9 +26,9 @@ class Customfunctions {
         return true;
       }
     } on SocketException catch (_) {
-      EasyLoading.showError(
-        "Sem conexão",
-      );
+      // EasyLoading.showError(
+      //   "Sem conexão",
+      // );
       return false;
     }
   }
@@ -58,5 +59,24 @@ class Customfunctions {
     date = DateTime.parse(datt);
 
     return date;
+  }
+
+  static String moneyFormat(double amount) {
+    return MoneyFormatter(
+            amount: amount,
+            settings: MoneyFormatterSettings(
+                symbol: 'R\$',
+                thousandSeparator: '.',
+                decimalSeparator: ',',
+                symbolAndNumberSeparator: ' ',
+                fractionDigits: 2,
+                compactFormatType: CompactFormatType.short))
+        .output
+        .symbolOnLeft;
+  }
+
+  String validaCampo(value, String label) {
+    if (value.isEmpty) return "Campo $label não pode ser vazio";
+    return null;
   }
 }

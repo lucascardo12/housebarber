@@ -1,5 +1,3 @@
-import 'package:housebarber/config/global.dart';
-
 class Cliente {
   int id;
   int idUser;
@@ -25,7 +23,7 @@ class Cliente {
         'nome': nome,
         'numero': numero,
         'email': email,
-        'cpf': cpf
+        'cpf': cpf,
       };
   Cliente.toMap(Map<String, dynamic> map) {
     map['_id'] = id;
@@ -34,19 +32,5 @@ class Cliente {
     map['numero'] = numero;
     map['email'] = email;
     map['cpf'] = cpf;
-  }
-  static Future<List<Cliente>> getData({dynamic selector}) async {
-    //{'_id': data.id} selector
-    try {
-      List<Cliente> data = <Cliente>[];
-      var collection = bacon.bk.collection('Cliente');
-      await collection.find(selector).forEach((element) {
-        data.add(Cliente.fromJson(element));
-      });
-      return data;
-    } catch (e) {
-      print(e);
-      return null;
-    }
   }
 }

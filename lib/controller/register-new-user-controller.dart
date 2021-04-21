@@ -1,61 +1,60 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:housebarber/config/global.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/user.dart';
 
-Future<void> validaCadastro({var infoArray, BuildContext context}) async {
-  var nome = infoArray["nome"];
-  var usuario = infoArray["usuario"];
-  var senha = infoArray["senha"];
-  var numero = infoArray["numero"];
-  var cnpj = infoArray["cpfcnpj"];
-  var email = infoArray["email"];
-  var mensagem = "";
-  if (nome == "") {
-    mensagem += "\nNome é Obrigatório\n";
-  }
-  if (numero == "") {
-    mensagem += "\nNumero é Obrigatório\n";
-  }
-  if (cnpj == "") {
-    mensagem += "\nCNPJ é Obrigatório\n";
+class RegisterNewUserController extends GetxController {
+  final db = Get.find<MongoDB>();
+  final gb = Get.find<Global>();
+  User userRegister = User();
+  RxBool showPassword = false.obs;
+  RxBool isLoading = true.obs;
+  final formKey = GlobalKey<FormState>();
+  Future<void> cadastro() async {
+    if (formKey.currentState.validate()) {
+      Customfunctions.verificarConexao().then((value) async {
+        if (value && value != null) {
+          await db.getData(
+            selector: {"login": userRegister.login},
+            tabela: "User",
+          ).then((value) async {
+            if (value == null || value.isEmpty) {
+              await db.insertUpdate(tabela: 'User', objeto: userRegister);
+              //Get.offAllNamed("/login");
+            } else {
+              Get.snackbar('Atenção', "Usuario já Cadastrado",
+                  duration: Duration(seconds: 3),
+                  snackPosition: SnackPosition.TOP,
+                  isDismissible: true,
+                  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                  backgroundColor: Colors.white);
+            }
+          });
+        }
+      });
+    }
   }
 
-  if (usuario == "") {
-    mensagem += "\nUsuário é Obrigatório\n";
+  String validaCampo(value, String label) {
+    if (value.isEmpty) return "Campo $label não pode ser vazio";
+    return null;
   }
-  if (senha == "") {
-    mensagem += "\nSenha é Obrigatório\n";
+
+  String validaEmail(value) {
+    if (value.isEmpty) return "Campo E-mail não pode ser vazio";
+    if (!GetUtils.isEmail(value)) return "O E-mail informado não é valido";
+    return null;
   }
-  if (email == "") {
-    mensagem += "\nE-mail é Obrigatório\n";
-  }
-  if (mensagem == "") {
-    await User.getData(selector: {"login": usuario}).then((value) async {
-      if (value == null || value.isEmpty) {
-        await bacon.insertUpdate(
-            tabela: 'User',
-            objeto: User(
-              login: usuario,
-              senha: senha,
-              cnpj: cnpj,
-              email: email,
-              nome: nome,
-              numero: numero,
-            ));
-        Navigator.pushReplacementNamed(context, "/login");
-        EasyLoading.showSuccess(
-          "Usuario Cadastrado com Sucesso!",
-        );
-      } else {
-        EasyLoading.showError(
-          "Usuario já Cadastrado",
-        );
-      }
-    });
-  } else {
-    EasyLoading.showError(
-      mensagem,
-    );
+
+  String validaCpfCnpj(String value) {
+    if (value.isEmpty) return "Campo CPF/CNPJ não pode ser vazio";
+    if (value.length > 14) {
+      if (!GetUtils.isCnpj(value)) return "O CNPJ informado não é valido";
+    } else {
+      if (!GetUtils.isCpf(value)) return "O CPF informado não é valido";
+    }
+
+    return null;
   }
 }

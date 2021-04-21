@@ -1,8 +1,5 @@
-import 'package:housebarber/config/global.dart';
-
 class User {
   int id;
-  String tipoUser;
   String login;
   String senha;
   String nome;
@@ -12,7 +9,6 @@ class User {
   String avatar;
 
   User({
-    this.tipoUser,
     this.login,
     this.senha,
     this.id,
@@ -24,7 +20,6 @@ class User {
   });
 
   User.fromJson(Map<String, dynamic> xjson) {
-    tipoUser = xjson['tipoUser'];
     login = xjson['login'];
     senha = xjson['senha'];
     id = xjson['_id'];
@@ -36,7 +31,6 @@ class User {
   }
 
   Map<String, dynamic> toJson() => {
-        'tipoUser': tipoUser,
         'login': login.toLowerCase(),
         'senha': senha,
         '_id': id,
@@ -48,7 +42,6 @@ class User {
       };
 
   User.toMap(Map<String, dynamic> map) {
-    map["tipoUser"] = tipoUser;
     map["login"] = login;
     map["senha"] = senha;
     map["_id"] = id;
@@ -57,20 +50,5 @@ class User {
     map['cnpj'] = cnpj;
     map['email'] = email;
     map['avatar'] = avatar;
-  }
-
-  static Future<List<User>> getData({dynamic selector}) async {
-    //{'_id': data.id} selector
-    try {
-      List<User> data = <User>[];
-      var collection = bacon.bk.collection('User');
-      await collection.find(selector).forEach((element) {
-        data.add(User.fromJson(element));
-      });
-      return data;
-    } catch (e) {
-      print(e);
-      return null;
-    }
   }
 }

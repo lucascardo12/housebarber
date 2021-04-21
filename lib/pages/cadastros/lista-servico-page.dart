@@ -1,32 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:housebarber/config/global.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/controller/register-new-productService-controller.dart';
 import 'package:housebarber/model/produtoServico.dart';
 
-class ListaProdutoServico extends StatefulWidget {
-  @override
-  _ListaProdutoServicotState createState() => _ListaProdutoServicotState();
-}
+class ListaProdutoServicoPage extends GetView {
+  // List<ProdutoServico> listadeProdutoServico = <ProdutoServico>[];
+  // @override
+  // void initState() {
+  //   atualizarLista();
+  //   super.initState();
+  // }
 
-class _ListaProdutoServicotState extends State<ListaProdutoServico> {
-  List<ProdutoServico> listadeProdutoServico = <ProdutoServico>[];
-  @override
-  void initState() {
-    atualizarLista();
-    super.initState();
-  }
-
-  Future<void> atualizarLista() async {
-    await ProdutoServico.getData(selector: {'idUser': user.id}).then(
-      (value) {
-        setState(() {
-          listadeProdutoServico = value;
-        });
-      },
-    );
-  }
-
+  // Future<void> atualizarLista() async {
+  //   await ProdutoServico.getData(selector: {'idUser': user.id}).then(
+  //     (value) {
+  //       setState(() {
+  //         listadeProdutoServico = value;
+  //       });
+  //     },
+  //   );
+  // }
+  final gb = Get.find<Global>();
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
@@ -34,20 +30,22 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await atualizarLista();
+            //await atualizarLista();
           },
           child: ListView.builder(
             padding: EdgeInsets.only(top: 20),
-            itemCount: listadeProdutoServico.length,
+            //itemCount: listadeProdutoServico.length,
             itemBuilder: (context, index) {
-              return _buildItem(context, listadeProdutoServico[index]);
+              return _buildItem(context, gb.listadeProdutoServico[index]);
             },
           ),
         ),
         floatingActionButton: FloatingActionButton.extended(
           foregroundColor: Colors.white,
-          onPressed: () =>
-              Navigator.pushNamed(context, '/newProductService').then((value) => atualizarLista()),
+          // onPressed: () => Get.toNamed(
+          //   context,
+          //   '/newProductService',
+          // ).then((value) => atualizarLista()),
           icon: Icon(Icons.add),
           label: Text('Produto/Serviço'),
         ));
@@ -61,7 +59,7 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         child: Material(
           child: InkWell(
             onTap: () async {
-              await showSimpleCustomDialog(context, produtoServico).whenComplete(() => atualizarLista());
+              //await showSimpleCustomDialog(context, produtoServico).whenComplete(() => atualizarLista());
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -157,11 +155,13 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
       actions: <Widget>[
         Row(
           children: <Widget>[
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.red,
               ),
-              color: Colors.red,
               child: Row(
                 children: <Widget>[
                   Text(
@@ -171,23 +171,26 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                 ],
               ),
               onPressed: () {
-                Map<String, dynamic> deleteProdutoServico = {
-                  '_id': produtoServico.id,
-                  'idUser': user.id,
-                };
-                excluirProdutoServico(infoArray: deleteProdutoServico, context: context).then((value) {
-                  atualizarLista();
-                  Navigator.of(context).pop();
-                });
+                // Map<String, dynamic> deleteProdutoServico = {
+                //   '_id': produtoServico.id,
+                //   'idUser': user.id,
+                // };
+                // excluirProdutoServico(infoArray: deleteProdutoServico, context: context).then((value) {
+                //   atualizarLista();
+                //   Navigator.of(context).pop();
+                // });
               },
             ),
             SizedBox(width: 5),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.green,
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                Get.back();
               },
               child: Text(
                 'CANCELAR',
@@ -195,11 +198,13 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
               ),
             ),
             SizedBox(width: 5),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.green,
               ),
-              color: Colors.green,
               child: Row(
                 children: <Widget>[
                   Text(
@@ -209,12 +214,12 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                 ],
               ),
               onPressed: () async {
-                produtoServico.nome = nome.text;
-                if (valor.text.contains(',')) valor.text.replaceAll(',', '.');
-                produtoServico.valor = double.tryParse(valor.text) ?? 0.0;
-                await bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
-                await atualizarLista();
-                Navigator.of(context).pop();
+                // produtoServico.nome = nome.text;
+                // if (valor.text.contains(',')) valor.text.replaceAll(',', '.');
+                // produtoServico.valor = double.tryParse(valor.text) ?? 0.0;
+                // await bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
+                // await atualizarLista();
+                //Get.back();
               },
             ),
             SizedBox(

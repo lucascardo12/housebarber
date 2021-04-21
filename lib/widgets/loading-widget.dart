@@ -1,22 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:money_formatter/money_formatter.dart';
+import 'package:get/get.dart';
 
-class CustomWidgets {
-  static String moneyFormat(double amount) {
-    return MoneyFormatter(
-            amount: amount,
-            settings: MoneyFormatterSettings(
-                symbol: 'R\$',
-                thousandSeparator: '.',
-                decimalSeparator: ',',
-                symbolAndNumberSeparator: ' ',
-                fractionDigits: 2,
-                compactFormatType: CompactFormatType.short))
-        .output
-        .symbolOnLeft;
-  }
-
-  static Widget loading() {
+class Loading extends GetView {
+  @override
+  Widget build(BuildContext context) {
     return Container(
       color: Color.fromRGBO(252, 252, 255, 1),
       child: Center(

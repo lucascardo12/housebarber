@@ -1,84 +1,51 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:housebarber/config/custom-colors.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/pages/home/dayView-page.dart';
 import 'package:housebarber/pages/home/settings-page.dart';
 import 'package:housebarber/pages/home/monthView-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
 import 'package:housebarber/widgets/mensagem-confirmar.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage();
-
-  @override
-  _HomePageState createState() => new _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  int xi;
-  @override
-  void initState() {
-    xi = 1;
-    super.initState();
-  }
-
+class HomePage extends GetView {
+  final gb = Get.find<Global>();
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.react,
-        items: [
-          TabItem(icon: Icons.home, title: 'Diario'),
-          // TabItem(icon: Icons.map, title: 'Semanal'),
-          TabItem(icon: Icons.calendar_today, title: 'Mensal'),
-          TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
-          TabItem(icon: Icons.settings, title: 'Opções'),
-        ],
-        initialActiveIndex: 0,
-        onTap: (int i) {
-          setState(() {
-            xi = i + 1;
-          });
-        },
-      ),
-      backgroundColor: primaryLight,
-      body: SafeArea(
-        child: WillPopScope(
-          onWillPop: () => showConfirme(
-              context: context,
-              label: "Tem certeza que quer sair vagabundo",
-              confirme: () => SystemNavigator.pop(),
-              cancel: () => Navigator.pop(context)),
-          child: Container(
-            child: body(i: xi),
+    return DefaultTabController(
+        initialIndex: 1,
+        length: 3,
+        child: Scaffold(
+          bottomNavigationBar: ConvexAppBar(
+            style: TabStyle.react,
+            items: [
+              TabItem(icon: Icons.home, title: 'Diario'),
+              TabItem(icon: Icons.calendar_today, title: 'Mensal'),
+              TabItem(icon: Icons.fiber_new, title: 'Cadastros'),
+              TabItem(icon: Icons.settings, title: 'Opções'),
+            ],
+            initialActiveIndex: 1,
+            onTap: (int i) {},
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget body({int i}) {
-    switch (i) {
-      case 1:
-        return new DayView();
-        break;
-      // case 2:
-      //   return new WeekView();
-      //   break;
-      case 2:
-        return new MonthView();
-        break;
-      case 3:
-        return new NewRegisters();
-        break;
-      case 4:
-        return Settings();
-        break;
-      default:
-        return new Container(
-          child: Center(child: Text('Em Construção')),
-        );
-    }
+          backgroundColor: gb.primaryLight,
+          body: SafeArea(
+            child: WillPopScope(
+              onWillPop: () => showConfirme(
+                  context: context,
+                  label: "Tem certeza que quer sair vagabundo",
+                  confirme: () => SystemNavigator.pop(),
+                  cancel: () => Navigator.pop(context)),
+              child: TabBarView(
+                children: [
+                  DayView(),
+                  MonthViewPage(),
+                  NewRegistersPage(),
+                  SettingsPage(),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

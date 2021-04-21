@@ -1,34 +1,25 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
-import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/custom-functions.dart';
-import 'package:housebarber/config/custom-widgets.dart';
-import 'package:housebarber/config/global.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
+import 'package:housebarber/widgets/loading-widget.dart';
 import 'package:housebarber/controller/register-new-user-controller.dart';
 
-class CadastroPage extends StatefulWidget {
-  @override
-  _CadastroPageState createState() => _CadastroPageState();
-}
-
-class _CadastroPageState extends State<CadastroPage> {
-  int tipoUser = 1;
-  TextEditingController nomeController = TextEditingController();
-  TextEditingController usuarioController = TextEditingController();
-  TextEditingController senhaController = TextEditingController();
-  TextEditingController numeroController = TextEditingController();
-  TextEditingController cpfcnpjController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  bool _showPassword = false;
+class CadastroPage extends GetView {
+  final gb = Get.find<Global>();
+  final RegisterNewUserController controller = Get.put(RegisterNewUserController());
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? CustomWidgets.loading()
+    return Obx(() => !controller.isLoading.value
+        ? Loading()
         : Container(
-            color: secondary,
+            color: gb.secondary,
             child: Theme(
                 data: new ThemeData(
-                  cursorColor: Colors.white,
+                  textSelectionTheme: TextSelectionThemeData(
+                    cursorColor: Colors.white,
+                  ),
                   primaryColor: Colors.white,
                 ),
                 child: ListView(
@@ -39,151 +30,126 @@ class _CadastroPageState extends State<CadastroPage> {
                     Center(
                         child: Text(
                       'House Barber Shop',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                     )),
                     SizedBox(
                       height: 20,
                     ),
                     Padding(
                         padding: EdgeInsets.all(20),
-                        child: Column(
-                          children: [
-                            Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  'Cadastro',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CampoPadrao(
-                                icone: Icons.people_alt,
-                                controler: nomeController,
-                                label: "Nome:",
-                                cor: Colors.white),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CampoPadrao(
-                                icone: Icons.people_alt,
-                                controler: usuarioController,
-                                label: "Usuario:",
-                                cor: Colors.white),
-                            TextField(
-                              cursorColor: Colors.white,
-                              obscureText: !_showPassword,
-                              controller: senhaController,
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'Senha:',
-                                prefixIcon: const Icon(
-                                  Icons.security,
-                                  color: Colors.white,
-                                  size: 28,
+                        child: Form(
+                            key: controller.formKey,
+                            child: Column(
+                              children: [
+                                Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Cadastro',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                                    )),
+                                SizedBox(
+                                  height: 20,
                                 ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    Icons.remove_red_eye,
-                                    color: _showPassword
-                                        ? Colors.white
-                                        : Colors.white,
+                                CampoPadrao(
+                                  icone: Icons.people_alt,
+                                  label: "Nome:",
+                                  cor: Colors.white,
+                                  onChanged: (value) => controller.userRegister.nome = value,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CampoPadrao(
+                                  icone: Icons.people_alt,
+                                  label: "Login:",
+                                  cor: Colors.white,
+                                  onChanged: (value) => controller.userRegister.login = value,
+                                ),
+                                Obx(() => TextFormField(
+                                      cursorColor: Colors.white,
+                                      obscureText: !controller.showPassword.value,
+                                      style: TextStyle(color: Colors.white),
+                                      onChanged: (value) => controller.userRegister.senha = value,
+                                      validator: (value) => controller.validaCampo(value, 'Senha'),
+                                      decoration: InputDecoration(
+                                        labelText: 'Senha:',
+                                        prefixIcon: const Icon(
+                                          Icons.security,
+                                          color: Colors.white,
+                                          size: 28,
+                                        ),
+                                        suffixIcon: IconButton(
+                                          icon: Icon(
+                                            Icons.remove_red_eye,
+                                            color: Colors.white,
+                                          ),
+                                          onPressed: () =>
+                                              controller.showPassword.value = !controller.showPassword.value,
+                                        ),
+                                        labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    )),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CampoPadrao(
+                                  icone: Icons.phone,
+                                  label: "Numero:",
+                                  onChanged: (value) => controller.userRegister.numero = value,
+                                  cor: Colors.white,
+                                  maskPadrao: [TextInputMask(mask: '(99) 9 9999-9999', reverse: false)],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CampoPadrao(
+                                  icone: Icons.people_alt,
+                                  label: "CPF/CNPJ:",
+                                  onChanged: (value) => controller.userRegister.cnpj = value,
+                                  cor: Colors.white,
+                                  validator: (value) => controller.validaCpfCnpj(value),
+                                  maskPadrao: [
+                                    TextInputMask(mask: ['999.999.999-99', '99.999.999/9999-99'])
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CampoPadrao(
+                                  icone: Icons.email,
+                                  label: "E-mail:",
+                                  onChanged: (value) => controller.userRegister.email = value,
+                                  cor: Colors.white,
+                                  validator: (value) => controller.validaEmail(value),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 100, right: 100),
+                                    elevation: 12,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    backgroundColor: gb.primary,
                                   ),
-                                  onPressed: () {
-                                    setState(
-                                        () => _showPassword = !_showPassword);
-                                  },
+                                  onPressed: () => controller.cadastro(),
+                                  child: Text(
+                                    'Registrar',
+                                    style: TextStyle(color: Colors.white, fontSize: 18),
+                                  ),
                                 ),
-                                labelStyle: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CampoPadrao(
-                                icone: Icons.phone,
-                                controler: numeroController,
-                                label: "Numero:",
-                                cor: Colors.white),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CampoPadrao(
-                                icone: Icons.people_alt,
-                                controler: cpfcnpjController,
-                                label: "CPF/CNPJ:",
-                                cor: Colors.white),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CampoPadrao(
-                                icone: Icons.email,
-                                controler: emailController,
-                                label: "E-mail:",
-                                cor: Colors.white),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            RaisedButton(
-                              padding: EdgeInsets.only(
-                                  top: 5, bottom: 5, left: 100, right: 100),
-                              elevation: 12,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                              color: primary,
-                              onPressed: () {
-                                setState(() {
-                                  isLoading = !isLoading;
-                                });
-                                Map<String, String> infoArray = {
-                                  'nome': nomeController.text,
-                                  'usuario': usuarioController.text,
-                                  'senha': Customfunctions.textToMd5(
-                                      senhaController.text),
-                                  'numero': numeroController.text,
-                                  'cpfcnpj': cpfcnpjController.text,
-                                  'email': emailController.text,
-                                };
-                                Customfunctions.verificarConexao()
-                                    .then((value) {
-                                  if (value && value != null) {
-                                    validaCadastro(
-                                            infoArray: infoArray,
-                                            context: context)
-                                        .then((value) {
-                                      setState(() {
-                                        isLoading = !isLoading;
-                                      });
-                                    });
-                                  } else {
-                                    setState(() {
-                                      isLoading = !isLoading;
-                                    });
-                                  }
-                                });
-                              },
-                              child: Text(
-                                'Registrar',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        )),
+                              ],
+                            ))),
                   ],
-                )));
+                ))));
   }
 }

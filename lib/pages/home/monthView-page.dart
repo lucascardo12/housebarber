@@ -1,42 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:housebarber/config/custom-colors.dart';
-import 'package:housebarber/config/global.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-class MonthView extends StatefulWidget {
-  @override
-  _MonthViewState createState() => _MonthViewState();
-}
+class MonthViewPage extends GetView {
+  final gb = Get.find<Global>();
+  // CalendarController _controller;
+  // @override
+  // void initState() {
+  //   _controller = CalendarController();
+  //   super.initState();
+  // }
 
-class _MonthViewState extends State<MonthView> {
-  CalendarController _controller;
-  @override
-  void initState() {
-    _controller = CalendarController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: primaryLight,
-        height: MediaQuery.of(context).size.height * 0.90,
+        color: gb.primaryLight,
+        height: Get.height * 0.90,
         child: Scaffold(
             floatingActionButton: Card(
                 margin: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
-                color: secondary,
+                color: gb.secondary,
                 child: IconButton(
                   padding: EdgeInsets.all(0),
                   icon: Icon(
@@ -44,53 +40,66 @@ class _MonthViewState extends State<MonthView> {
                     color: Colors.white,
                   ),
                   onPressed: () async {
-                    await dialogCriaeAlteraEvent(context: context);
-                    setState(() {
-                      print('test');
-                    });
+                    // await dialogCriaeAlteraEvent(context: context);
+                    // setState(() {
+                    //   print('test');
+                    // });
                   },
                   color: Colors.blue,
                   iconSize: 38,
                 )),
             body: SfCalendar(
                 onTap: (CalendarTapDetails details) async {
-                  print(details.targetElement.toString());
-                  if (details.appointments != null &&
-                      details.targetElement.toString() ==
-                          'CalendarElement.appointment') {
-                    await dialogCriaeAlteraEvent(
-                            context: context,
-                            evento: details.appointments.first)
-                        .then((value) => setState(() {}));
-                  }
+                  // print(details.targetElement.toString());
+                  // if (details.appointments != null &&
+                  //     details.targetElement.toString() == 'CalendarElement.appointment') {
+                  //   await dialogCriaeAlteraEvent(context: context, evento: details.appointments.first)
+                  //       .then((value) => setState(() {}));
+                  // }
                 },
                 monthViewSettings: MonthViewSettings(
-                    showAgenda: true,
-                    monthCellStyle: MonthCellStyle(
-                        textStyle:
-                            TextStyle(color: Colors.white, fontSize: 14))),
-                dataSource: AgendamentoDataSource(listAgenda),
+                  showAgenda: true,
+                  monthCellStyle: MonthCellStyle(
+                    textStyle: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+                dataSource: AgendamentoDataSource(gb.listAgenda),
                 showNavigationArrow: true,
                 headerStyle: CalendarHeaderStyle(
-                    textStyle: TextStyle(color: Colors.white, fontSize: 20)),
-                backgroundColor: primaryLight,
+                  textStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+                backgroundColor: gb.primaryLight,
                 timeSlotViewSettings: TimeSlotViewSettings(
-                    timeFormat: 'H',
-                    timeTextStyle: TextStyle(color: secondary, fontSize: 14)),
+                  timeFormat: 'H',
+                  timeTextStyle: TextStyle(
+                    color: gb.secondary,
+                    fontSize: 14,
+                  ),
+                ),
                 view: CalendarView.month,
-                cellBorderColor: secondary,
+                cellBorderColor: gb.secondary,
                 viewHeaderStyle: ViewHeaderStyle(
-                    dayTextStyle: TextStyle(color: Colors.white, fontSize: 12)),
+                  dayTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
                 appointmentBuilder: (
                   BuildContext context,
                   CalendarAppointmentDetails details,
                 ) {
                   final Agendamento agenda = details.appointments.first;
                   return Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
+                      width: Get.width,
+                      height: Get.height,
                       decoration: BoxDecoration(
-                        color: secondary,
+                        color: gb.secondary,
                       ),
                       child: Center(
                           child: Text(

@@ -1,31 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:housebarber/config/global.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
 import 'package:housebarber/controller/register-new-client-controller.dart';
 import 'package:housebarber/model/cliente.dart';
 
-class ListaClientes extends StatefulWidget {
-  @override
-  _ListaClientestState createState() => _ListaClientestState();
-}
+class ListaClientes extends GetView {
+  final gb = Get.find<Global>();
+  // List<Cliente> listadeCliente = <Cliente>[];
+  // @override
+  // void initState() {
+  //   atualizarLista();
+  //   super.initState();
+  // }
 
-class _ListaClientestState extends State<ListaClientes> {
-  List<Cliente> listadeCliente = <Cliente>[];
-  @override
-  void initState() {
-    atualizarLista();
-    super.initState();
-  }
-
-  Future<void> atualizarLista() async {
-    await Cliente.getData(selector: {'idUser': user.id}).then(
-      (value) {
-        setState(() {
-          listadeCliente = value;
-        });
-      },
-    );
-  }
+  // Future<void> atualizarLista() async {
+  //   await Cliente.getData(selector: {'idUser': user.id}).then(
+  //     (value) {
+  //       setState(() {
+  //         listadeCliente = value;
+  //       });
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +32,19 @@ class _ListaClientestState extends State<ListaClientes> {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          await atualizarLista();
+          //await atualizarLista();
         },
         child: ListView.builder(
           padding: EdgeInsets.only(top: 20),
-          itemCount: listadeCliente.length,
+          itemCount: gb.listadeCliente.length,
           itemBuilder: (context, index) {
-            return _buildItem(context, listadeCliente[index]);
+            return _buildItem(context, gb.listadeCliente[index]);
           },
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         foregroundColor: Colors.white,
-        onPressed: () => Navigator.pushNamed(context, '/newClient')
-            .then((value) => atualizarLista()),
+        // onPressed: () => Get.toNamed('/newClient').then((value) => atualizarLista()),
         icon: Icon(Icons.add),
         label: Text('Cliente'),
       ),
@@ -63,8 +59,7 @@ class _ListaClientestState extends State<ListaClientes> {
         child: Material(
           child: InkWell(
             onTap: () async {
-              await showSimpleCustomDialog(context, cliente)
-                  .whenComplete(() => atualizarLista());
+              //await showSimpleCustomDialog(context, cliente).whenComplete(() => atualizarLista());
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -141,8 +136,7 @@ class _ListaClientestState extends State<ListaClientes> {
     );
   }
 
-  Future<void> showSimpleCustomDialog(
-      BuildContext context, Cliente cliente) async {
+  Future<void> showSimpleCustomDialog(BuildContext context, Cliente cliente) async {
     TextEditingController nome = TextEditingController(text: cliente.nome);
     TextEditingController cpf = TextEditingController(text: cliente.cpf);
     TextEditingController email = TextEditingController(text: cliente.email);
@@ -200,11 +194,13 @@ class _ListaClientestState extends State<ListaClientes> {
       actions: <Widget>[
         Row(
           children: <Widget>[
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.red,
               ),
-              color: Colors.red,
               child: Row(
                 children: <Widget>[
                   Text(
@@ -214,21 +210,23 @@ class _ListaClientestState extends State<ListaClientes> {
                 ],
               ),
               onPressed: () {
-                Map<String, dynamic> deleteCliente = {
-                  '_id': cliente.id,
-                  'idUser': user.id,
-                };
-                excluirCliente(infoArray: deleteCliente, context: context)
-                    .then((value) {
-                  atualizarLista();
-                  Navigator.of(context).pop();
-                });
+                // Map<String, dynamic> deleteCliente = {
+                //   '_id': cliente.id,
+                //   'idUser': user.id,
+                // };
+                // excluirCliente(infoArray: deleteCliente, context: context).then((value) {
+                //   atualizarLista();
+                //   Navigator.of(context).pop();
+                // });
               },
             ),
             SizedBox(width: 5),
-            RaisedButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.red,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -239,11 +237,13 @@ class _ListaClientestState extends State<ListaClientes> {
               ),
             ),
             SizedBox(width: 5),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(5),
+            TextButton(
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(5),
+                ),
+                backgroundColor: Colors.green,
               ),
-              color: Colors.green,
               child: Row(
                 children: <Widget>[
                   Text(
@@ -253,13 +253,13 @@ class _ListaClientestState extends State<ListaClientes> {
                 ],
               ),
               onPressed: () async {
-                cliente.nome = nome.text;
-                cliente.cpf = cpf.text;
-                cliente.email = email.text;
-                cliente.numero = numero.text;
-                await bacon.insertUpdate(objeto: cliente, tabela: 'Cliente');
-                await atualizarLista();
-                Navigator.of(context).pop();
+                // cliente.nome = nome.text;
+                // cliente.cpf = cpf.text;
+                // cliente.email = email.text;
+                // cliente.numero = numero.text;
+                // await bacon.insertUpdate(objeto: cliente, tabela: 'Cliente');
+                // await atualizarLista();
+                // Navigator.of(context).pop();
               },
             ),
             SizedBox(
@@ -269,7 +269,6 @@ class _ListaClientestState extends State<ListaClientes> {
         ),
       ],
     );
-    showDialog(
-        context: context, builder: (BuildContext context) => simpleDialog);
+    showDialog(context: context, builder: (BuildContext context) => simpleDialog);
   }
 }
