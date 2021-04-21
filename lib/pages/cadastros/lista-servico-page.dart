@@ -46,8 +46,8 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         ),
         floatingActionButton: FloatingActionButton.extended(
           foregroundColor: Colors.white,
-          onPressed: () => Navigator.pushNamed(context, '/newProductService')
-              .then((value) => atualizarLista()),
+          onPressed: () =>
+              Navigator.pushNamed(context, '/newProductService').then((value) => atualizarLista()),
           icon: Icon(Icons.add),
           label: Text('Produto/Serviço'),
         ));
@@ -61,8 +61,7 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         child: Material(
           child: InkWell(
             onTap: () async {
-              await showSimpleCustomDialog(context, produtoServico)
-                  .whenComplete(() => atualizarLista());
+              await showSimpleCustomDialog(context, produtoServico).whenComplete(() => atualizarLista());
             },
             child: Container(
               padding: EdgeInsets.all(10),
@@ -98,7 +97,7 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                                   ),
                                 ),
                                 Text(
-                                  produtoServico.valor,
+                                  produtoServico.valor.toString(),
                                   style: TextStyle(
                                     fontSize: 16,
                                   ),
@@ -120,12 +119,9 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
     );
   }
 
-  Future<void> showSimpleCustomDialog(
-      BuildContext context, ProdutoServico produtoServico) async {
-    TextEditingController nome =
-        TextEditingController(text: produtoServico.nome);
-    TextEditingController valor =
-        TextEditingController(text: produtoServico.valor);
+  Future<void> showSimpleCustomDialog(BuildContext context, ProdutoServico produtoServico) async {
+    TextEditingController nome = TextEditingController(text: produtoServico.nome);
+    TextEditingController valor = TextEditingController(text: produtoServico.valor.toString());
     AlertDialog simpleDialog = AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
@@ -179,9 +175,7 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
                   '_id': produtoServico.id,
                   'idUser': user.id,
                 };
-                excluirProdutoServico(
-                        infoArray: deleteProdutoServico, context: context)
-                    .then((value) {
+                excluirProdutoServico(infoArray: deleteProdutoServico, context: context).then((value) {
                   atualizarLista();
                   Navigator.of(context).pop();
                 });
@@ -216,9 +210,9 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
               ),
               onPressed: () async {
                 produtoServico.nome = nome.text;
-                produtoServico.valor = valor.text;
-                await bacon.insertUpdate(
-                    objeto: produtoServico, tabela: 'ProdutoServico');
+                if (valor.text.contains(',')) valor.text.replaceAll(',', '.');
+                produtoServico.valor = double.tryParse(valor.text) ?? 0.0;
+                await bacon.insertUpdate(objeto: produtoServico, tabela: 'ProdutoServico');
                 await atualizarLista();
                 Navigator.of(context).pop();
               },
@@ -230,7 +224,6 @@ class _ListaProdutoServicotState extends State<ListaProdutoServico> {
         ),
       ],
     );
-    showDialog(
-        context: context, builder: (BuildContext context) => simpleDialog);
+    showDialog(context: context, builder: (BuildContext context) => simpleDialog);
   }
 }

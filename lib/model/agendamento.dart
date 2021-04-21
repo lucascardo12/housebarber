@@ -3,7 +3,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agendamento {
   int id;
-  String valor;
   String dia;
   String title;
   int idUser;
@@ -11,21 +10,18 @@ class Agendamento {
   int idServico;
   DateTime startTime;
   DateTime endTime;
-  String servico;
 
-  Agendamento(
-      {this.valor,
-      this.dia,
-      this.idUser,
-      this.idCliente,
-      this.idServico,
-      this.id,
-      this.endTime,
-      this.startTime,
-      this.servico});
+  Agendamento({
+    this.dia,
+    this.idUser,
+    this.idCliente,
+    this.idServico,
+    this.id,
+    this.endTime,
+    this.startTime,
+  });
 
   Agendamento.fromJson(Map<String, dynamic> xjson) {
-    valor = xjson['valor'];
     dia = xjson['dia'];
     idUser = xjson['idUser'];
     idCliente = xjson['idCliente'];
@@ -33,11 +29,9 @@ class Agendamento {
     id = xjson['_id'];
     endTime = xjson['endTime'];
     startTime = xjson['startTime'];
-    servico = xjson['servico'];
   }
 
   Map<String, dynamic> toJson() => {
-        'valor': valor,
         'dia': dia,
         'idUser': idUser,
         'idCliente': idCliente,
@@ -45,10 +39,8 @@ class Agendamento {
         '_id': id,
         'endTime': endTime,
         'startTime': startTime,
-        'servico': servico
       };
   Agendamento.toMap(Map<String, dynamic> map) {
-    map['valor'] = valor;
     map['dia'] = dia;
     map['idUser'] = idUser;
     map['idCliente'] = idCliente;
@@ -56,7 +48,6 @@ class Agendamento {
     map['_id'] = id;
     map['endTime'] = endTime;
     map['startTime'] = startTime;
-    map['servico'] = servico;
   }
 
   static Future<List<Agendamento>> getData({dynamic selector}) async {

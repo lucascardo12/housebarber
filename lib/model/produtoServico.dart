@@ -3,7 +3,7 @@ import 'package:housebarber/config/global.dart';
 class ProdutoServico {
   int id;
   String nome;
-  String valor;
+  double valor;
   int idUser;
 
   ProdutoServico({this.id, this.nome, this.valor, this.idUser});
