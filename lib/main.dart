@@ -69,12 +69,8 @@ class MyApp extends GetView {
           page: () => RegisterNewProductServicePage(),
         ),
         GetPage(
-          name: '/listaClientes',
-          page: () => ListaProdutoServicoPage(),
-        ),
-        GetPage(
           name: '/listaProdutoServico',
-          page: () => LoginPage(),
+          page: () => ListaProdutoServicoPage(),
         ),
         GetPage(
           name: '/listaClientes',

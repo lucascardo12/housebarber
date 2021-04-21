@@ -7,40 +7,18 @@ import 'package:housebarber/model/cliente.dart';
 
 class ListaClientes extends GetView {
   final gb = Get.find<Global>();
-  // List<Cliente> listadeCliente = <Cliente>[];
-  // @override
-  // void initState() {
-  //   atualizarLista();
-  //   super.initState();
-  // }
-
-  // Future<void> atualizarLista() async {
-  //   await Cliente.getData(selector: {'idUser': user.id}).then(
-  //     (value) {
-  //       setState(() {
-  //         listadeCliente = value;
-  //       });
-  //     },
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
         title: Text('Meus Clientes'),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          //await atualizarLista();
+      body: ListView.builder(
+        padding: EdgeInsets.only(top: 20),
+        itemCount: gb.listadeCliente.length,
+        itemBuilder: (context, index) {
+          return _buildItem(context, gb.listadeCliente[index]);
         },
-        child: ListView.builder(
-          padding: EdgeInsets.only(top: 20),
-          itemCount: gb.listadeCliente.length,
-          itemBuilder: (context, index) {
-            return _buildItem(context, gb.listadeCliente[index]);
-          },
-        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         foregroundColor: Colors.white,

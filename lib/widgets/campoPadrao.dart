@@ -10,17 +10,21 @@ class CampoPadrao extends StatelessWidget {
   final String initValue;
   final List<TextInputFormatter> maskPadrao;
   final Function validator;
-  CampoPadrao(
-      {Key key,
-      this.controler,
-      this.icone,
-      this.label,
-      this.cor,
-      this.onChanged,
-      this.initValue,
-      this.maskPadrao,
-      this.validator})
-      : super(key: key);
+  final String prefixText;
+  final TextInputType keyboardType;
+  CampoPadrao({
+    Key key,
+    this.controler,
+    this.icone,
+    this.label,
+    this.cor,
+    this.onChanged,
+    this.initValue,
+    this.maskPadrao,
+    this.validator,
+    this.prefixText,
+    this.keyboardType,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class CampoPadrao extends StatelessWidget {
           },
       style: TextStyle(color: cor),
       inputFormatters: maskPadrao,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: icone != null
@@ -44,6 +49,7 @@ class CampoPadrao extends StatelessWidget {
                 size: 28,
               )
             : null,
+        prefixText: prefixText,
         labelStyle: TextStyle(
           color: cor,
           fontSize: 16,

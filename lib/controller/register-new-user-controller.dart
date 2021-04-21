@@ -21,7 +21,7 @@ class RegisterNewUserController extends GetxController {
           ).then((value) async {
             if (value == null || value.isEmpty) {
               await db.insertUpdate(tabela: 'User', objeto: userRegister);
-              //Get.offAllNamed("/login");
+              Get.offAllNamed("/login");
             } else {
               Get.snackbar('Atenção', "Usuario já Cadastrado",
                   duration: Duration(seconds: 3),

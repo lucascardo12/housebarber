@@ -103,7 +103,7 @@ class MonthViewPage extends GetView {
                       ),
                       child: Center(
                           child: Text(
-                        agenda.idCliente.toString() +
+                        gb.listadeCliente.firstWhere((element) => element.id == agenda.idCliente) +
                             ' das ' +
                             DateFormat('kk:mm').format(agenda.startTime) +
                             ' as ' +

@@ -6,7 +6,6 @@ class User {
   String numero;
   String cnpj;
   String email;
-  String avatar;
 
   User({
     this.login,
@@ -16,7 +15,6 @@ class User {
     this.numero,
     this.cnpj,
     this.email,
-    this.avatar,
   });
 
   User.fromJson(Map<String, dynamic> xjson) {
@@ -27,7 +25,6 @@ class User {
     numero = xjson['numero'];
     cnpj = xjson['cnpj'];
     email = xjson['email'];
-    avatar = xjson['avatar'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -38,7 +35,6 @@ class User {
         'numero': numero,
         'cnpj': cnpj,
         'email': email,
-        'avatar': avatar,
       };
 
   User.toMap(Map<String, dynamic> map) {
@@ -49,6 +45,5 @@ class User {
     map['numero'] = numero;
     map['cnpj'] = cnpj;
     map['email'] = email;
-    map['avatar'] = avatar;
   }
 }

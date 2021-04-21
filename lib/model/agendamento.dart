@@ -53,7 +53,7 @@ class Agendamento {
 class AgendamentoDataSource extends CalendarDataSource {
   /// Creates a meeting data source, which used to set the appointment
   /// collection to the calendar
-  AgendamentoDataSource(List<Agendamento> source) {
+  AgendamentoDataSource(List<dynamic> source) {
     appointments = source;
   }
 

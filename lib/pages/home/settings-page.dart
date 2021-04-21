@@ -1,104 +1,105 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housebarber/controller/Settings-controller.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
 
 class SettingsPage extends GetView {
   final gb = Get.find<Global>();
-  // File _image;
-  // final picker = ImagePicker();
-  // TextEditingController nomeControle = TextEditingController(text: user.nome);
-  // TextEditingController emailControle = TextEditingController(text: user.email);
-  // TextEditingController numeroControle =
-  //     TextEditingController(text: user.numero);
-
-  // Future getImage() async {
-  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       prefs.setString('foto', pickedFile.path);
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       print('No image selected.');
-  //     }
-  //   });
-  // }
-
-  // @override
-  // void initState() {
-  //   try {
-  //     _image = File(prefs.getString('foto'));
-  //   } catch (e) {}
-  //   super.initState();
-  // }
+  final SettingsController controller = Get.put(SettingsController());
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Stack(
-      children: [
-        ListView(
-          children: [
-            Container(
-              height: Get.height * 0.3,
-              color: gb.secondary,
-            ),
-            Container(
-                height: Get.height * 0.55,
-                color: gb.primaryLight,
-                padding: EdgeInsets.only(right: 25, left: 25),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Get.height * 0.15,
-                    ),
-                    CampoPadrao(
-                      label: "Nome",
-                      //controler: gbnomeControle,
-                      cor: Colors.white,
-                    ),
-                    CampoPadrao(
-                      //controler: emailControle,
-                      cor: Colors.white,
-                      label: 'E-mail',
-                    ),
-                    CampoPadrao(
-                      label: "Numero",
-                      cor: Colors.white,
-                      //controler: numeroControle,
-                    ),
-                  ],
-                )),
-          ],
-        ),
+    return SafeArea(
+      child: Stack(children: [
         Container(
-          height: Get.width * 0.5,
-          child: Center(
-              child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 100,
-                  child: GestureDetector(
-                    //onTap: getImage,
-                    child: CircleAvatar(
-                      //backgroundImage: _image != null ? FileImage(_image) : null,
-                      backgroundColor: gb.primaryLight,
-                      radius: 95,
-                      // child: _image == null
-                      //     ? IconButton(
-                      //         padding: EdgeInsets.zero,
-                      //         //onPressed: getImage,
-                      //         icon: Icon(
-                      //           Icons.camera_alt,
-                      //           size: 48,
-                      //           color: Colors.white,
-                      //         ),
-                      //       )
-                      //     : null,
-                    ),
+          color: gb.primary,
+          width: Get.width,
+          height: Get.height * 0.25,
+          child: Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: Text(
+                'Perfil',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
+        Center(
+          child: ListView(
+            padding: EdgeInsets.only(top: Get.height * 0.10, left: 15, right: 15),
+            children: [
+              GestureDetector(
+                  onLongPress: () => controller.image = null,
+                  onTap: controller.getImage,
+                  child: new Center(
+                      child: new CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    radius: 85,
+                    child: Obx(() => CircleAvatar(
+                          backgroundImage: controller.image.value.path.isNotEmpty
+                              ? FileImage(controller.image.value)
+                              : null,
+                          radius: 78.0,
+                          child: controller.image.value.path.isEmpty
+                              ? IconButton(
+                                  iconSize: 48,
+                                  padding: EdgeInsets.zero,
+                                  alignment: Alignment.center,
+                                  icon: Icon(
+                                    Icons.camera_alt,
+                                    size: 48,
+                                    color: gb.secondary,
+                                  ),
+                                  onPressed: controller.getImage,
+                                )
+                              : null,
+                          backgroundColor: Colors.white,
+                        )),
                   ))),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              CampoPadrao(
+                initValue: gb.user.nome,
+                onChanged: (value) => gb.user.nome = value,
+                label: "Nome",
+                cor: Colors.white,
+              ),
+              CampoPadrao(
+                initValue: gb.user.email,
+                onChanged: (value) => gb.user.email = value,
+                cor: Colors.white,
+                label: 'E-mail',
+              ),
+              CampoPadrao(
+                initValue: gb.user.numero,
+                onChanged: (value) => gb.user.numero = value,
+                label: "Numero",
+                maskPadrao: [
+                  TextInputMask(
+                    mask: '(99) 9 9999-9999',
+                    reverse: false,
+                  ),
+                ],
+                cor: Colors.white,
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              ButtonPadrao(
+                label: 'Salvar',
+                onPressed: () => controller.salvar(),
+              )
+            ],
+          ),
         )
-      ],
-    ));
+      ]),
+    );
   }
 }

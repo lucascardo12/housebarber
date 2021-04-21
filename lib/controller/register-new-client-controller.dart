@@ -5,6 +5,7 @@ import 'package:housebarber/model/cliente.dart';
 
 class RegisterNewClientServiceController extends GetxController {
   final db = Get.find<MongoDB>();
+  final formKey = GlobalKey<FormState>();
   cadastraCliente({var infoArray, BuildContext context}) async {
     Cliente cliente = new Cliente(
       nome: infoArray['nome'],

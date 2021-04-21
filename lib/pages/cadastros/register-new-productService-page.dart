@@ -1,102 +1,57 @@
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housebarber/controller/register-new-productService-controller.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/widgets/button-padrao.dart';
+import 'package:housebarber/widgets/campoPadrao.dart';
 
 class RegisterNewProductServicePage extends GetView {
-  // final _formKey = GlobalKey<FormState>();
-  // TextEditingController nome = TextEditingController();
-  // TextEditingController valor = TextEditingController();
   final gb = Get.find<Global>();
+  final RegisterNewProductServiceController controller = Get.put(RegisterNewProductServiceController());
   @override
   Widget build(BuildContext context) {
+    if (Get.arguments != null) controller.produtoServico = Get.arguments;
     return new Scaffold(
       appBar: AppBar(
         title: Text('Cadastro de Produtos e Serviços'),
       ),
       body: Form(
-        //key: _formKey,
+        key: controller.formKey,
         child: ListView(
           padding: EdgeInsets.all(10),
           children: [
-            TextFormField(
-              //controller: nome,
-              decoration: const InputDecoration(
-                border: UnderlineInputBorder(),
-                filled: true,
-                icon: Icon(Icons.person_add),
-                labelText: 'Nome *',
-              ),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Por favor Insira o Nome do Produto';
-                }
-                return null;
-              },
+            CampoPadrao(
+              label: 'Nome',
+              initValue: controller.produtoServico.nome,
+              onChanged: (value) => controller.produtoServico.nome = value,
+              icone: Icons.person,
             ),
-            const SizedBox(height: 24.0),
-            TextFormField(
-              //controller: valor,
-              decoration: const InputDecoration(
-                  border: UnderlineInputBorder(),
-                  filled: true,
-                  icon: Icon(Icons.attach_money_sharp),
-                  labelText: 'Valor *',
-                  prefixText: '\R\$',
-                  suffixText: 'BR',
-                  suffixStyle: TextStyle(color: Colors.green)),
+            SizedBox(
+              height: 10.0,
+            ),
+            CampoPadrao(
+              label: 'Valor',
+              icone: Icons.attach_money_sharp,
+              initValue: '${controller.produtoServico.valor}',
+              onChanged: (value) => controller.onChangeValor(value),
               keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Por favor Insira o Valor do Produto ou Serviço';
-                }
-                return null;
-              },
+              maskPadrao: [
+                TextInputMask(
+                  mask: '\R!\$! !9+.999,99',
+                  reverse: true,
+                )
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: gb.secondary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                ),
-                onPressed: () {
-                  // setState(() {
-                  //   isLoading = !isLoading;
-                  // });
-                  // Map<String, dynamic> infoArray = {
-                  //   'nome': nome.text,
-                  //   'valor': valor.text,
-                  //   'idUser': user.id,
-                  // };
-                  // if (_formKey.currentState.validate()) {
-                  //   Customfunctions.verificarConexao().then((value) {
-                  //     if (value && value != null) {
-                  //       cadastraProdutoServico(infoArray: infoArray, context: context).then((value) {
-                  //         setState(() {
-                  //           isLoading = !isLoading;
-                  //         });
-                  //       });
-                  //     } else {
-                  //       setState(() {
-                  //         isLoading = !isLoading;
-                  //       });
-                  //     }
-                  //   });
-                  // } else {
-                  //   EasyLoading.showInfo(
-                  //     'Um ou mais campos são obrigatórios',
-                  //   );
-                  // }
-                },
-                child: Text(
-                  'Salvar',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+            SizedBox(
+              height: 10,
             ),
+            ButtonPadrao(
+              label: 'Salvar',
+              backgroundColor: gb.secondary,
+              onPressed: () => controller.salvaAltera(),
+            )
           ],
         ),
       ),
