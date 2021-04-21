@@ -39,12 +39,12 @@ class MonthViewPage extends GetView {
                     Icons.add,
                     color: Colors.white,
                   ),
-                  onPressed: () async {
-                    // await dialogCriaeAlteraEvent(context: context);
-                    // setState(() {
-                    //   print('test');
-                    // });
-                  },
+                  onPressed: () => Get.bottomSheet(AddEventoPage()),
+                  // await dialogCriaeAlteraEvent(context: context);
+                  // setState(() {
+                  //   print('test');
+                  // });
+
                   color: Colors.blue,
                   iconSize: 38,
                 )),

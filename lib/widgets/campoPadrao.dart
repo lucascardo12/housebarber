@@ -12,6 +12,10 @@ class CampoPadrao extends StatelessWidget {
   final Function validator;
   final String prefixText;
   final TextInputType keyboardType;
+  final Color corIcon;
+  final bool readOnly;
+  final Function onTap;
+
   CampoPadrao({
     Key key,
     this.controler,
@@ -24,11 +28,15 @@ class CampoPadrao extends StatelessWidget {
     this.validator,
     this.prefixText,
     this.keyboardType,
+    this.corIcon,
+    this.readOnly,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly ?? false,
       controller: controler,
       initialValue: initValue,
       onChanged: onChanged,
@@ -40,21 +48,22 @@ class CampoPadrao extends StatelessWidget {
       style: TextStyle(color: cor),
       inputFormatters: maskPadrao,
       keyboardType: keyboardType,
+      onTap: onTap,
       decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: icone != null
-            ? Icon(
-                icone,
-                color: cor,
-                size: 28,
-              )
-            : null,
-        prefixText: prefixText,
-        labelStyle: TextStyle(
-          color: cor,
-          fontSize: 16,
-        ),
-      ),
+          labelText: label,
+          prefixIcon: icone != null
+              ? Icon(
+                  icone,
+                  color: corIcon,
+                  size: 28,
+                )
+              : null,
+          prefixText: prefixText,
+          labelStyle: TextStyle(
+            color: cor,
+            fontSize: 16,
+          ),
+          hintStyle: TextStyle(color: cor)),
     );
   }
 }

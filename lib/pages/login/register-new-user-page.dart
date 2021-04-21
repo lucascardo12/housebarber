@@ -15,141 +15,134 @@ class CadastroPage extends GetView {
         ? Loading()
         : Container(
             color: gb.secondary,
-            child: Theme(
-                data: new ThemeData(
-                  textSelectionTheme: TextSelectionThemeData(
-                    cursorColor: Colors.white,
-                  ),
-                  primaryColor: Colors.white,
+            child: ListView(
+              children: [
+                SizedBox(
+                  height: 40,
                 ),
-                child: ListView(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Center(
-                        child: Text(
-                      'House Barber Shop',
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Form(
-                            key: controller.formKey,
-                            child: Column(
-                              children: [
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Cadastro',
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CampoPadrao(
-                                  icone: Icons.people_alt,
-                                  label: "Nome:",
-                                  cor: Colors.white,
-                                  onChanged: (value) => controller.userRegister.nome = value,
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CampoPadrao(
-                                  icone: Icons.people_alt,
-                                  label: "Login:",
-                                  cor: Colors.white,
-                                  onChanged: (value) => controller.userRegister.login = value,
-                                ),
-                                Obx(() => TextFormField(
-                                      cursorColor: Colors.white,
-                                      obscureText: !controller.showPassword.value,
-                                      style: TextStyle(color: Colors.white),
-                                      onChanged: (value) => controller.userRegister.senha = value,
-                                      validator: (value) => controller.validaCampo(value, 'Senha'),
-                                      decoration: InputDecoration(
-                                        labelText: 'Senha:',
-                                        prefixIcon: const Icon(
-                                          Icons.security,
-                                          color: Colors.white,
-                                          size: 28,
-                                        ),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(
-                                            Icons.remove_red_eye,
-                                            color: Colors.white,
-                                          ),
-                                          onPressed: () =>
-                                              controller.showPassword.value = !controller.showPassword.value,
-                                        ),
-                                        labelStyle: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    )),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CampoPadrao(
-                                  icone: Icons.phone,
-                                  label: "Numero:",
-                                  onChanged: (value) => controller.userRegister.numero = value,
-                                  cor: Colors.white,
-                                  maskPadrao: [TextInputMask(mask: '(99) 9 9999-9999', reverse: false)],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CampoPadrao(
-                                  icone: Icons.people_alt,
-                                  label: "CPF/CNPJ:",
-                                  onChanged: (value) => controller.userRegister.cnpj = value,
-                                  cor: Colors.white,
-                                  validator: (value) => controller.validaCpfCnpj(value),
-                                  maskPadrao: [
-                                    TextInputMask(mask: ['999.999.999-99', '99.999.999/9999-99'])
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                CampoPadrao(
-                                  icone: Icons.email,
-                                  label: "E-mail:",
-                                  onChanged: (value) => controller.userRegister.email = value,
-                                  cor: Colors.white,
-                                  validator: (value) => controller.validaEmail(value),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                TextButton(
-                                  style: TextButton.styleFrom(
-                                    padding: EdgeInsets.only(top: 5, bottom: 5, left: 100, right: 100),
-                                    elevation: 12,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(25),
+                Center(
+                    child: Text(
+                  'House Barber Shop',
+                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                )),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Form(
+                        key: controller.formKey,
+                        child: Column(
+                          children: [
+                            Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Cadastro',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CampoPadrao(
+                              icone: Icons.people_alt,
+                              label: "Nome:",
+                              cor: Colors.white,
+                              onChanged: (value) => controller.userRegister.nome = value,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CampoPadrao(
+                              icone: Icons.people_alt,
+                              label: "Login:",
+                              cor: Colors.white,
+                              onChanged: (value) => controller.userRegister.login = value,
+                            ),
+                            Obx(() => TextFormField(
+                                  cursorColor: Colors.white,
+                                  obscureText: !controller.showPassword.value,
+                                  style: TextStyle(color: Colors.white),
+                                  onChanged: (value) => controller.userRegister.senha = value,
+                                  validator: (value) => controller.validaCampo(value, 'Senha'),
+                                  decoration: InputDecoration(
+                                    labelText: 'Senha:',
+                                    prefixIcon: const Icon(
+                                      Icons.security,
+                                      color: Colors.white,
+                                      size: 28,
                                     ),
-                                    backgroundColor: gb.primary,
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        Icons.remove_red_eye,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () =>
+                                          controller.showPassword.value = !controller.showPassword.value,
+                                    ),
+                                    labelStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                  onPressed: () => controller.cadastro(),
-                                  child: Text(
-                                    'Registrar',
-                                    style: TextStyle(color: Colors.white, fontSize: 18),
-                                  ),
-                                ),
+                                )),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CampoPadrao(
+                              icone: Icons.phone,
+                              label: "Numero:",
+                              onChanged: (value) => controller.userRegister.numero = value,
+                              cor: Colors.white,
+                              maskPadrao: [TextInputMask(mask: '(99) 9 9999-9999', reverse: false)],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CampoPadrao(
+                              icone: Icons.people_alt,
+                              label: "CPF/CNPJ:",
+                              onChanged: (value) => controller.userRegister.cnpj = value,
+                              cor: Colors.white,
+                              validator: (value) => controller.validaCpfCnpj(value),
+                              maskPadrao: [
+                                TextInputMask(mask: ['999.999.999-99', '99.999.999/9999-99'])
                               ],
-                            ))),
-                  ],
-                ))));
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            CampoPadrao(
+                              icone: Icons.email,
+                              label: "E-mail:",
+                              onChanged: (value) => controller.userRegister.email = value,
+                              cor: Colors.white,
+                              validator: (value) => controller.validaEmail(value),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            TextButton(
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.only(top: 5, bottom: 5, left: 100, right: 100),
+                                elevation: 12,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                backgroundColor: gb.primary,
+                              ),
+                              onPressed: () => controller.cadastro(),
+                              child: Text(
+                                'Registrar',
+                                style: TextStyle(color: Colors.white, fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ))),
+              ],
+            )));
   }
 }
