@@ -2,6 +2,7 @@ import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
 import 'package:housebarber/widgets/loading-widget.dart';
 import 'package:housebarber/controller/register-new-user-controller.dart';
@@ -48,15 +49,14 @@ class CadastroPage extends GetView {
                               icone: Icons.people_alt,
                               label: "Nome:",
                               cor: Colors.white,
+                              corIcon: Colors.white,
                               onChanged: (value) => controller.userRegister.nome = value,
-                            ),
-                            SizedBox(
-                              height: 20,
                             ),
                             CampoPadrao(
                               icone: Icons.people_alt,
                               label: "Login:",
                               cor: Colors.white,
+                              corIcon: Colors.white,
                               onChanged: (value) => controller.userRegister.login = value,
                             ),
                             Obx(() => TextFormField(
@@ -90,6 +90,7 @@ class CadastroPage extends GetView {
                               height: 20,
                             ),
                             CampoPadrao(
+                              corIcon: Colors.white,
                               icone: Icons.phone,
                               label: "Numero:",
                               onChanged: (value) => controller.userRegister.numero = value,
@@ -100,6 +101,7 @@ class CadastroPage extends GetView {
                               height: 20,
                             ),
                             CampoPadrao(
+                              corIcon: Colors.white,
                               icone: Icons.people_alt,
                               label: "CPF/CNPJ:",
                               onChanged: (value) => controller.userRegister.cnpj = value,
@@ -113,6 +115,7 @@ class CadastroPage extends GetView {
                               height: 20,
                             ),
                             CampoPadrao(
+                              corIcon: Colors.white,
                               icone: Icons.email,
                               label: "E-mail:",
                               onChanged: (value) => controller.userRegister.email = value,
@@ -125,20 +128,9 @@ class CadastroPage extends GetView {
                             SizedBox(
                               height: 20,
                             ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                padding: EdgeInsets.only(top: 5, bottom: 5, left: 100, right: 100),
-                                elevation: 12,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                backgroundColor: gb.primary,
-                              ),
+                            ButtonPadrao(
+                              label: 'Registrar',
                               onPressed: () => controller.cadastro(),
-                              child: Text(
-                                'Registrar',
-                                style: TextStyle(color: Colors.white, fontSize: 18),
-                              ),
                             ),
                           ],
                         ))),
