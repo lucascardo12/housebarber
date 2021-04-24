@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/global.dart';
@@ -10,7 +12,6 @@ class LoginController extends GetxController {
   final gb = Get.find<Global>();
   User userlogin = User();
   RxBool showPassword = false.obs;
-  RxBool isLoading = true.obs;
   final formKey = GlobalKey<FormState>();
   @override
   void onInit() {
@@ -19,10 +20,10 @@ class LoginController extends GetxController {
     super.onInit();
   }
 
-  void login() {
-    isLoading.value = true;
+  Future<void> login() async {
     if (formKey.currentState.validate()) {
-      Customfunctions.verificarConexao().then((value) async {
+      gb.loadingPadrao();
+      await Customfunctions.verificarConexao().then((value) async {
         if (value && value != null) {
           await db.getData(
             selector: {
@@ -46,18 +47,18 @@ class LoginController extends GetxController {
               Get.offAllNamed("/home");
             } else {
               Get.snackbar('Atenção', "Senha ou login invalidos",
-                  duration: Duration(seconds: 3),
+                  duration: Duration(seconds: 1),
                   snackPosition: SnackPosition.TOP,
                   isDismissible: true,
                   dismissDirection: SnackDismissDirection.HORIZONTAL,
                   backgroundColor: Colors.white);
-              isLoading.value = false;
             }
           });
-        } else {
-          isLoading.value = false;
         }
       });
+      if (Get.isDialogOpen) {
+        Timer(Duration(seconds: 1), () => Get.back());
+      }
     }
   }
 

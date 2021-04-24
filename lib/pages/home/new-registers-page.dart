@@ -7,7 +7,7 @@ class NewRegistersPage extends GetView {
   final gb = Get.find<Global>();
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       backgroundColor: gb.primaryLight,
       body: ListView(
         padding: EdgeInsets.all(10),

@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 class Loading extends GetView {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Scaffold(
+        body: Container(
       color: Color.fromRGBO(252, 252, 255, 1),
       child: Center(
           child: Container(
@@ -21,6 +22,6 @@ class Loading extends GetView {
             ),
             Text('Carregando...')
           ]))),
-    );
+    ));
   }
 }

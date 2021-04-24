@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/model/user.dart';
+import 'package:housebarber/widgets/loading-widget.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,14 @@ class Global extends GetxService {
   Future<Global> inicia() async {
     prefs = await SharedPreferences.getInstance();
     return this;
+  }
+
+  void loadingPadrao() {
+    Get.dialog(
+      Loading(),
+      transitionDuration: Duration.zero,
+      barrierDismissible: false,
+    );
   }
 }
 

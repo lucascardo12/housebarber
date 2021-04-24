@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/custom-functions.dart';
@@ -9,11 +11,16 @@ class RegisterNewUserController extends GetxController {
   final gb = Get.find<Global>();
   User userRegister = User();
   RxBool showPassword = false.obs;
-  RxBool isLoading = true.obs;
-  final formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
   Future<void> cadastro() async {
     if (formKey.currentState.validate()) {
-      Customfunctions.verificarConexao().then((value) async {
+      gb.loadingPadrao();
+      await Customfunctions.verificarConexao().then((value) async {
         if (value && value != null) {
           await db.getData(
             selector: {"login": userRegister.login},
@@ -24,7 +31,7 @@ class RegisterNewUserController extends GetxController {
               Get.offAllNamed("/login");
             } else {
               Get.snackbar('Atenção', "Usuario já Cadastrado",
-                  duration: Duration(seconds: 3),
+                  duration: Duration(seconds: 1),
                   snackPosition: SnackPosition.TOP,
                   isDismissible: true,
                   dismissDirection: SnackDismissDirection.HORIZONTAL,
@@ -33,6 +40,9 @@ class RegisterNewUserController extends GetxController {
           });
         }
       });
+      if (Get.isDialogOpen) {
+        Timer(Duration(seconds: 1), () => Get.back());
+      }
     }
   }
 

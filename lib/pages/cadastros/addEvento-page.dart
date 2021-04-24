@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/AddEvento-controller.dart';
+import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
 import 'package:housebarber/widgets/dropdownSearchPadrao-widget.dart';
 
-// ignore: must_be_immutable
 class AddEventoPage extends GetView {
   final gb = Get.find<Global>();
   final AddEventoController controller = Get.put(AddEventoController());
-  dynamic selectProd;
-  AddEventoPage({this.selectProd});
+  final Agendamento agenda;
+  AddEventoPage({this.agenda});
 
   @override
   Widget build(BuildContext context) {
+    controller.agendamento = agenda;
     return Container(
         decoration: BoxDecoration(
           color: gb.primaryLight,
@@ -26,7 +27,7 @@ class AddEventoPage extends GetView {
         child: Form(
           key: controller.formKey,
           child: ListView(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.all(20),
             children: [
               Center(
                   child: Text(
@@ -35,10 +36,12 @@ class AddEventoPage extends GetView {
               )),
               DropdownSearchPadrao(
                 label: 'Cliente',
+                selecItem: controller.selectCliente,
                 listaItens: gb.listadeCliente,
               ),
               DropdownSearchPadrao(
                 label: 'Serviço',
+                selecItem: controller.selectProduto,
                 listaItens: gb.listadeProdutoServico,
               ),
               CampoPadrao(
@@ -47,6 +50,7 @@ class AddEventoPage extends GetView {
                 icone: Icons.calendar_today,
                 corIcon: gb.secondary,
                 readOnly: true,
+                //initValue: agendamento,
               ),
               CampoPadrao(
                 label: 'Hora inicio:',

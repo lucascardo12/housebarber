@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/model/cliente.dart';
+import 'package:housebarber/model/produtoServico.dart';
 
 class AddEventoController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  // TextEditingController dateControler = TextEditingController();
-  // TextEditingController horaInicControler = TextEditingController();
-  // TextEditingController horaFimControler = TextEditingController();
-  // Cliente selectCli;
-  // ProdutoServico selectProd;
+  Agendamento agendamento = Agendamento();
+  Cliente selectCliente;
+  ProdutoServico selectProduto;
+
+  void iniciaEvento() {}
   // horaInicControler.text = horaIni.toString().padLeft(2, '0') + ':00';
   // dateControler.text = dataMarcada != null ? DateFormat('dd/MM/yyyy').format(dataMarcada) : "";
 
