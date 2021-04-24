@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/controller/register-new-productService-controller.dart';
 
 class ListaProdutoServicoPage extends GetView {
   final gb = Get.find<Global>();
+  final RegisterNewProductServiceController controller = Get.put(RegisterNewProductServiceController());
 
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -23,31 +25,42 @@ class ListaProdutoServicoPage extends GetView {
                         elevation: 4,
                         child: Padding(
                           padding: EdgeInsets.only(top: 15, left: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                gb.listadeProdutoServico[index].nome,
-                                style: TextStyle(
-                                  fontFamily: "Myriad Pro",
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: -.5,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      gb.listadeProdutoServico[index].nome,
+                                      style: TextStyle(
+                                        fontFamily: "Myriad Pro",
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                        letterSpacing: -.5,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Valor: ${Customfunctions.moneyFormat(gb.listadeProdutoServico[index].valor)}",
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                  ],
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 5),
-                              Text(
-                                "Valor: ${Customfunctions.moneyFormat(gb.listadeProdutoServico[index].valor)}",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              SizedBox(height: 8),
-                            ],
-                          ),
+                                IconButton(
+                                    icon: Icon(
+                                      Icons.clear_rounded,
+                                      color: Colors.red,
+                                    ),
+                                    onPressed: () => controller.deleta(prod: gb.listadeProdutoServico[index]))
+                              ]),
                         )));
               },
             )),
