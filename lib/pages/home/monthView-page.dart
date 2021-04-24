@@ -26,12 +26,15 @@ class MonthViewPage extends GetView {
                 Icons.add,
                 color: Colors.white,
               ),
-              onPressed: () => Get.bottomSheet(AddEventoPage(
-                agenda: Agendamento(
-                  startTime:
-                      controller.controller.selectedDate != null ? controller.controller.selectedDate : null,
+              onPressed: () => Get.bottomSheet(
+                AddEventoPage(
+                  agenda: Agendamento(
+                    startTime: controller.controller.selectedDate != null
+                        ? controller.controller.selectedDate
+                        : null,
+                  ),
                 ),
-              )),
+              ),
               color: Colors.blue,
               iconSize: 38,
             )),

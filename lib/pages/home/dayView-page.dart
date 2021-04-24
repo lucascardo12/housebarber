@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:housebarber/controller/dayView-controller.dart';
+import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:intl/intl.dart';
@@ -7,19 +9,7 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DayView extends GetView {
   final gb = Get.find<Global>();
-  // CalendarController _controller;
-  // @override
-  // void initState() {
-  //   _controller = CalendarController();
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
-
+  final DayViewController controller = Get.put(DayViewController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,25 +25,26 @@ class DayView extends GetView {
               Icons.add,
               color: Colors.white,
             ),
-            onPressed: () async {
-              // await dialogCriaeAlteraEvent(
-              //     context: context,
-              //     horaIni: _controller.selectedDate != null ? _controller.selectedDate.hour : 0,
-              //     dataMarcada: _controller.selectedDate);
-              // setState(() {});
-            },
             color: Colors.blue,
             iconSize: 38,
+            onPressed: () => Get.bottomSheet(
+              AddEventoPage(
+                agenda: Agendamento(
+                  startTime:
+                      controller.controller.selectedDate != null ? controller.controller.selectedDate : null,
+                ),
+              ),
+            ),
           )),
       body: SfCalendar(
-        //controller: _controller,
-        onTap: (calendarTapDetails) async {
-          // if (calendarTapDetails.appointments != null) {
-          //   await dialogCriaeAlteraEvent(
-          //     context: context,
-          //     evento: calendarTapDetails.appointments.first,
-          //   ).then((value) => setState(() {}));
-          // }
+        controller: controller.controller,
+        onTap: (CalendarTapDetails details) async {
+          if (details.appointments != null &&
+              details.targetElement.toString() == 'CalendarElement.appointment') {
+            Get.bottomSheet(AddEventoPage(
+              agenda: details.appointments.first,
+            ));
+          }
         },
         dataSource: AgendamentoDataSource(gb.listAgenda),
         showNavigationArrow: true,
@@ -85,14 +76,14 @@ class DayView extends GetView {
         ) {
           final Agendamento agenda = details.appointments.first;
           return Container(
-            width: Get.width,
-            height: Get.height,
-            decoration: BoxDecoration(
-              color: gb.secondary,
-            ),
-            child: Center(
-              child: Text(
-                "lucas" +
+              width: Get.width,
+              height: Get.height,
+              decoration: BoxDecoration(
+                color: gb.secondary,
+              ),
+              child: Center(
+                  child: Text(
+                gb.listadeCliente.firstWhere((element) => element.id == agenda.idCliente) +
                     ' das ' +
                     DateFormat('kk:mm').format(agenda.startTime) +
                     ' as ' +
@@ -106,9 +97,7 @@ class DayView extends GetView {
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-              ),
-            ),
-          );
+              )));
         },
       ),
     );

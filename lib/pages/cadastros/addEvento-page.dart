@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/AddEvento-controller.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
@@ -16,6 +17,7 @@ class AddEventoPage extends GetView {
   @override
   Widget build(BuildContext context) {
     controller.agendamento = agenda;
+    controller.inicia();
     return Container(
         decoration: BoxDecoration(
           color: gb.primaryLight,
@@ -49,15 +51,18 @@ class AddEventoPage extends GetView {
                 cor: Colors.white,
                 icone: Icons.calendar_today,
                 corIcon: gb.secondary,
+                controler: controller.dataControl,
                 readOnly: true,
-                //initValue: agendamento,
+                onTap: () async => controller.dataControl.text = await controller.addDataTime(date: true),
               ),
               CampoPadrao(
                 label: 'Hora inicio:',
                 cor: Colors.white,
                 icone: Icons.lock_clock,
                 corIcon: gb.secondary,
+                controler: controller.inicioControl,
                 readOnly: true,
+                onTap: () async => controller.inicioControl.text = await controller.addDataTime(date: false),
               ),
               CampoPadrao(
                 label: 'Hora Fim:',
@@ -65,10 +70,13 @@ class AddEventoPage extends GetView {
                 icone: Icons.lock_clock,
                 corIcon: gb.secondary,
                 readOnly: true,
+                controler: controller.fimControl,
+                onTap: () async => controller.fimControl.text = await controller.addDataTime(date: false),
               ),
               ButtonPadrao(
                 label: 'Salvar',
                 backgroundColor: gb.secondary,
+                onPressed: () => controller.salvar(),
               )
             ],
           ),
