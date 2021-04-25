@@ -79,4 +79,9 @@ class Customfunctions {
     if (value.isEmpty) return "Campo $label não pode ser vazio";
     return null;
   }
+
+  static DateTime dataStringHora(String horario) {
+    return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
+        int.tryParse(horario.substring(0, 2)), int.tryParse(horario.substring(3, 5)));
+  }
 }

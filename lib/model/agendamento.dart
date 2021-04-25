@@ -2,7 +2,6 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agendamento {
   int id;
-  String dia;
   String title;
   int idUser;
   int idCliente;
@@ -11,7 +10,6 @@ class Agendamento {
   DateTime endTime;
 
   Agendamento({
-    this.dia,
     this.idUser,
     this.idCliente,
     this.idServico,
@@ -21,7 +19,6 @@ class Agendamento {
   });
 
   Agendamento.fromJson(Map<String, dynamic> xjson) {
-    dia = xjson['dia'];
     idUser = xjson['idUser'];
     idCliente = xjson['idCliente'];
     idServico = xjson['idServico'];
@@ -31,7 +28,6 @@ class Agendamento {
   }
 
   Map<String, dynamic> toJson() => {
-        'dia': dia,
         'idUser': idUser,
         'idCliente': idCliente,
         'idServico': idServico,
@@ -40,7 +36,6 @@ class Agendamento {
         'startTime': startTime,
       };
   Agendamento.toMap(Map<String, dynamic> map) {
-    map['dia'] = dia;
     map['idUser'] = idUser;
     map['idCliente'] = idCliente;
     map['idServico'] = idServico;

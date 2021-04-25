@@ -8,12 +8,14 @@ class DropdownSearchPadrao extends GetView {
   final gb = Get.find<Global>();
   final String label;
   final List<dynamic> listaItens;
+  final Function onChanged;
   dynamic selecItem;
 
   DropdownSearchPadrao({
     this.label,
     this.selecItem,
     this.listaItens,
+    this.onChanged,
   });
 
   @override
@@ -41,7 +43,7 @@ class DropdownSearchPadrao extends GetView {
           color: gb.secondary,
         ),
       ),
-      onChanged: (value) => selecItem = value,
+      onChanged: onChanged,
       itemAsString: (item) => item.nome,
       selectedItem: selecItem,
     );

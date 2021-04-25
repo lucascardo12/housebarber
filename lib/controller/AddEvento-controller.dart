@@ -8,6 +8,7 @@ import 'package:housebarber/model/produtoServico.dart';
 import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 
+// Não me orgulho desse controller mas é a vida nem tudo pode ser perfeito
 class AddEventoController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final gb = Get.find<Global>();
@@ -21,35 +22,58 @@ class AddEventoController extends GetxController {
   void inicia() {
     selectProduto = null;
     selectCliente = null;
+    inicioControl.text = "";
+    dataControl.text = '';
+    fimControl.text = '';
     if (agendamento.startTime != null) {
-      dataControl.text = Customfunctions.stringData(agendamento.startTime);
-    } else {
-      dataControl.text = '';
+      dataControl.text = Customfunctions.stringData(
+        agendamento.startTime,
+      );
     }
     if (agendamento.startTime != null && agendamento.startTime.hour != 0) {
       inicioControl.text = Customfunctions.stringHora(
-          TimeOfDay(hour: agendamento.startTime.hour, minute: agendamento.startTime.minute));
-    } else {
-      inicioControl.text = "";
+        TimeOfDay(
+          hour: agendamento.startTime.hour,
+          minute: agendamento.startTime.minute,
+        ),
+      );
     }
     if (agendamento.endTime != null) {
       fimControl.text = Customfunctions.stringHora(
-          TimeOfDay(hour: agendamento.endTime.hour, minute: agendamento.endTime.minute));
-    } else {
-      fimControl.text = '';
+        TimeOfDay(
+          hour: agendamento.endTime.hour,
+          minute: agendamento.endTime.minute,
+        ),
+      );
     }
 
     if (agendamento.id != null) {
-      db.getData(tabela: 'Cliente', selector: {"_id": agendamento.idCliente}).then(
-          (value) => selectCliente = Cliente.fromJson(value.first));
-      db.getData(tabela: 'ProdutoServico', selector: {"_id": agendamento.idServico}).then(
-          (value) => selectProduto = ProdutoServico.fromJson(value.first));
+      db.getData(
+        tabela: 'Cliente',
+        selector: {"_id": agendamento.idCliente},
+      ).then(
+        (value) => selectCliente = Cliente.fromJson(
+          value.first,
+        ),
+      );
+      db.getData(
+        tabela: 'ProdutoServico',
+        selector: {"_id": agendamento.idServico},
+      ).then(
+        (value) => selectProduto = ProdutoServico.fromJson(
+          value.first,
+        ),
+      );
     }
   }
 
   Future<void> salvar() async {
-    if (formKey.currentState.validate() && selectCliente != null && selectProduto != null) {
+    if (formKey.currentState.validate() && selectProduto != null && selectCliente != null) {
       gb.loadingPadrao();
+      agendamento.idCliente = selectCliente.id;
+      agendamento.idServico = selectProduto.id;
+      agendamento.startTime = Customfunctions.dataStringHora(inicioControl.text);
+      agendamento.endTime = Customfunctions.dataStringHora(fimControl.text);
       await Customfunctions.verificarConexao().then((value) async {
         if (value && value != null) {
           await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
@@ -61,6 +85,8 @@ class AddEventoController extends GetxController {
               backgroundColor: Colors.white);
         }
       });
+      Timer(Duration(seconds: 1), () => Get.back()); // 1 é para fechar o loading
+      Timer(Duration(seconds: 1), () => Get.back()); // 2 é para fechar o bottosheet
     } else {
       Get.snackbar('Atenção', "Um ou mais campos vazio",
           duration: Duration(seconds: 1),

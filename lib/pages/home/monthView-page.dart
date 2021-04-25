@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housebarber/controller/MonthView-controller.dart';
+import 'package:housebarber/controller/monthView-controller.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/pages/cadastros/addEvento-page.dart';

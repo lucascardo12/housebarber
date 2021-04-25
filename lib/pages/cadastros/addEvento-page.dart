@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/AddEvento-controller.dart';
 import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
@@ -40,11 +39,13 @@ class AddEventoPage extends GetView {
                 label: 'Cliente',
                 selecItem: controller.selectCliente,
                 listaItens: gb.listadeCliente,
+                onChanged: (value) => controller.selectCliente = value,
               ),
               DropdownSearchPadrao(
                 label: 'Serviço',
                 selecItem: controller.selectProduto,
                 listaItens: gb.listadeProdutoServico,
+                onChanged: (value) => controller.selectProduto = value,
               ),
               CampoPadrao(
                 label: 'Data:',
