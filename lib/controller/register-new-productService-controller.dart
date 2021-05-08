@@ -13,26 +13,26 @@ class RegisterNewProductServiceController extends GetxController {
 
   Future<void> salvaAltera() async {
     if (formKey.currentState.validate()) {
-      if (produtoServico.id == null) {
-        produtoServico.idUser = gb.user.id;
-        await db.insertUpdate(objeto: produtoServico, tabela: "ProdutoServico").then((value) async {
-          if (value != null) {
-            Get.snackbar('Sucesso', "Produto/Serviço salvo com sucesso!",
-                duration: Duration(seconds: 1),
-                snackPosition: SnackPosition.TOP,
-                isDismissible: true,
-                dismissDirection: SnackDismissDirection.HORIZONTAL,
-                backgroundColor: Colors.white);
+      produtoServico.idUser = gb.user.id;
+      await db.insertUpdate(objeto: produtoServico, tabela: "ProdutoServico").then((value) async {
+        if (value != null) {
+          if (produtoServico.id == null) {
+            gb.listadeProdutoServico.add(produtoServico);
+            await Future.delayed(Duration(seconds: 1)).then(
+              (value) => Get.back(),
+            );
+          } else {
+            gb.listadeProdutoServico[gb.listadeProdutoServico.indexOf(produtoServico)] = produtoServico;
+            Get.back();
           }
-        });
-        gb.listadeProdutoServico.add(produtoServico);
-        await Future.delayed(Duration(seconds: 1)).then(
-          (value) => Get.back(),
-        );
-      } else {
-        gb.listadeProdutoServico[gb.listadeProdutoServico.indexOf(produtoServico)] = produtoServico;
-        Get.back();
-      }
+          Get.snackbar('Sucesso', "Produto/Serviço salvo com sucesso!",
+              duration: Duration(seconds: 1),
+              snackPosition: SnackPosition.TOP,
+              isDismissible: true,
+              dismissDirection: SnackDismissDirection.HORIZONTAL,
+              backgroundColor: Colors.white);
+        }
+      });
     }
   }
 

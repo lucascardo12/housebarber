@@ -11,28 +11,26 @@ class RegisterNewClientServiceController extends GetxController {
 
   Future<void> salvaAltera() async {
     if (formKey.currentState.validate()) {
-      if (cliente.id == null) {
-        cliente.idUser = gb.user.id;
-        await db
-            .insertUpdate(objeto: cliente, tabela: "Cliente")
-            .then((value) async {
-          if (value != null) {
-            Get.snackbar('Sucesso', "Cliente salvo com sucesso!",
-                duration: Duration(seconds: 1),
-                snackPosition: SnackPosition.TOP,
-                isDismissible: true,
-                dismissDirection: SnackDismissDirection.HORIZONTAL,
-                backgroundColor: Colors.white);
+      cliente.idUser = gb.user.id;
+      await db.insertUpdate(objeto: cliente, tabela: "Cliente").then((value) async {
+        if (value != null) {
+          if (cliente.id == null) {
+            gb.listadeCliente.add(cliente);
+            await Future.delayed(Duration(seconds: 1)).then(
+              (value) => Get.back(),
+            );
+          } else {
+            gb.listadeCliente[gb.listadeCliente.indexOf(cliente)] = cliente;
+            Get.back();
           }
-        });
-        gb.listadeCliente.add(cliente);
-        await Future.delayed(Duration(seconds: 1)).then(
-          (value) => Get.back(),
-        );
-      } else {
-        gb.listadeCliente[gb.listadeCliente.indexOf(cliente)] = cliente;
-        Get.back();
-      }
+          Get.snackbar('Sucesso', "Cliente salvo com sucesso!",
+              duration: Duration(seconds: 1),
+              snackPosition: SnackPosition.TOP,
+              isDismissible: true,
+              dismissDirection: SnackDismissDirection.HORIZONTAL,
+              backgroundColor: Colors.white);
+        }
+      });
     }
   }
 
