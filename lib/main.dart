@@ -26,16 +26,17 @@ class MyApp extends GetView {
       debugShowCheckedModeBanner: false,
       title: 'House Barber',
       theme: ThemeData(
-          backgroundColor: gb.primaryLight,
-          brightness: Brightness.light,
-          primaryColor: gb.primary,
-          primaryColorDark: gb.primaryDark,
-          primaryColorLight: gb.primaryLight,
-          accentColor: gb.secondary,
-          colorScheme: Theme.of(context).colorScheme.copyWith(
-                primary: gb.primary,
-                secondary: gb.secondary,
-              )),
+        backgroundColor: gb.primaryLight,
+        brightness: Brightness.light,
+        primaryColor: gb.primary,
+        primaryColorDark: gb.primaryDark,
+        primaryColorLight: gb.primaryLight,
+        accentColor: gb.secondary,
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+              primary: gb.primary,
+              secondary: gb.secondary,
+            ),
+      ),
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

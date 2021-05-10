@@ -18,69 +18,76 @@ class AddEventoPage extends GetView {
     controller.agendamento = agenda;
     controller.inicia();
     return Container(
-        decoration: BoxDecoration(
-          color: gb.primaryLight,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(40),
-            topLeft: Radius.circular(40),
-          ),
+      decoration: BoxDecoration(
+        color: gb.primaryLight,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(40),
+          topLeft: Radius.circular(40),
         ),
-        child: Form(
-          key: controller.formKey,
-          child: ListView(
-            padding: EdgeInsets.all(20),
-            children: [
-              Center(
-                  child: Text(
-                'Cadastro de Agendamento',
-                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-              )),
-              DropdownSearchPadrao(
-                label: 'Cliente',
-                selecItem: controller.selectCliente,
-                listaItens: gb.listadeCliente,
-                onChanged: (value) => controller.selectCliente = value,
-              ),
-              DropdownSearchPadrao(
-                label: 'Serviço',
-                selecItem: controller.selectProduto,
-                listaItens: gb.listadeProdutoServico,
-                onChanged: (value) => controller.selectProduto = value,
-              ),
-              CampoPadrao(
-                label: 'Data:',
-                cor: Colors.white,
-                icone: Icons.calendar_today,
-                corIcon: gb.secondary,
-                controler: controller.dataControl,
-                readOnly: true,
-                onTap: () async => controller.dataControl.text = await controller.addDataTime(date: true),
-              ),
-              CampoPadrao(
-                label: 'Hora inicio:',
-                cor: Colors.white,
-                icone: Icons.lock_clock,
-                corIcon: gb.secondary,
-                controler: controller.inicioControl,
-                readOnly: true,
-                onTap: () async => controller.inicioControl.text = await controller.addDataTime(date: false),
-              ),
-              CampoPadrao(
-                label: 'Hora Fim:',
-                cor: Colors.white,
-                icone: Icons.lock_clock,
-                corIcon: gb.secondary,
-                readOnly: true,
-                controler: controller.fimControl,
-                onTap: () async => controller.fimControl.text = await controller.addDataTime(date: false),
-              ),
-              ButtonPadrao(
-                label: 'Salvar',
-                backgroundColor: gb.secondary,
-                onPressed: () => controller.salvar(),
-              )
-            ],
-          ),
-        ));
+      ),
+      child: Form(
+        key: controller.formKey,
+        child: ListView(
+          padding: EdgeInsets.all(20),
+          children: [
+            Center(
+                child: Text(
+              'Cadastro de Agendamento',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            )),
+            DropdownSearchPadrao(
+              label: 'Cliente',
+              selecItem: controller.selectCliente,
+              listaItens: gb.listadeCliente,
+              onChanged: (value) => controller.selectCliente = value,
+            ),
+            DropdownSearchPadrao(
+              label: 'Serviço',
+              selecItem: controller.selectProduto,
+              listaItens: gb.listadeProdutoServico,
+              onChanged: (value) => controller.selectProduto = value,
+            ),
+            CampoPadrao(
+              label: 'Data:',
+              cor: Colors.white,
+              icone: Icons.calendar_today,
+              corIcon: gb.secondary,
+              controler: controller.dataControl,
+              readOnly: true,
+              onTap: () async => controller.dataControl.text =
+                  await controller.addDataTime(date: true),
+            ),
+            CampoPadrao(
+              label: 'Hora inicio:',
+              cor: Colors.white,
+              icone: Icons.lock_clock,
+              corIcon: gb.secondary,
+              controler: controller.inicioControl,
+              readOnly: true,
+              onTap: () async => controller.inicioControl.text =
+                  await controller.addDataTime(date: false),
+            ),
+            CampoPadrao(
+              label: 'Hora Fim:',
+              cor: Colors.white,
+              icone: Icons.lock_clock,
+              corIcon: gb.secondary,
+              readOnly: true,
+              controler: controller.fimControl,
+              onTap: () async => controller.fimControl.text =
+                  await controller.addDataTime(date: false),
+            ),
+            ButtonPadrao(
+              label: 'Salvar',
+              backgroundColor: gb.secondary,
+              onPressed: () => controller.salvar(),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

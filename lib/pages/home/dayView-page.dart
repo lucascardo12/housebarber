@@ -30,8 +30,9 @@ class DayView extends GetView {
             onPressed: () => Get.bottomSheet(
               AddEventoPage(
                 agenda: Agendamento(
-                  startTime:
-                      controller.controller.selectedDate != null ? controller.controller.selectedDate : null,
+                  startTime: controller.controller.selectedDate != null
+                      ? controller.controller.selectedDate
+                      : null,
                 ),
               ),
             ),
@@ -40,10 +41,13 @@ class DayView extends GetView {
         controller: controller.controller,
         onTap: (CalendarTapDetails details) async {
           if (details.appointments != null &&
-              details.targetElement.toString() == 'CalendarElement.appointment') {
-            Get.bottomSheet(AddEventoPage(
-              agenda: details.appointments.first,
-            ));
+              details.targetElement.toString() ==
+                  'CalendarElement.appointment') {
+            Get.bottomSheet(
+              AddEventoPage(
+                agenda: details.appointments.first,
+              ),
+            );
           }
         },
         dataSource: AgendamentoDataSource(gb.listAgenda),
@@ -76,14 +80,16 @@ class DayView extends GetView {
         ) {
           final Agendamento agenda = details.appointments.first;
           return Container(
-              width: Get.width,
-              height: Get.height,
-              decoration: BoxDecoration(
-                color: gb.secondary,
-              ),
-              child: Center(
-                  child: Text(
-                gb.listadeCliente.firstWhere((element) => element.id == agenda.idCliente) +
+            width: Get.width,
+            height: Get.height,
+            decoration: BoxDecoration(
+              color: gb.secondary,
+            ),
+            child: Center(
+              child: Text(
+                gb.listadeCliente
+                        .firstWhere((element) => element.id == agenda.idCliente)
+                        .nome +
                     ' das ' +
                     DateFormat('kk:mm').format(agenda.startTime) +
                     ' as ' +
@@ -97,7 +103,9 @@ class DayView extends GetView {
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
-              )));
+              ),
+            ),
+          );
         },
       ),
     );

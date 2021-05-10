@@ -68,28 +68,43 @@ class AddEventoController extends GetxController {
   }
 
   Future<void> salvar() async {
-    if (formKey.currentState.validate() && selectProduto != null && selectCliente != null) {
+    if (formKey.currentState.validate() &&
+        selectProduto != null &&
+        selectCliente != null) {
+      Get.back();
       gb.loadingPadrao();
+      agendamento.idUser = gb.user.id;
       agendamento.idCliente = selectCliente.id;
       agendamento.idServico = selectProduto.id;
-      agendamento.startTime = Customfunctions.dataStringHora(inicioControl.text);
+      agendamento.startTime =
+          Customfunctions.dataStringHora(inicioControl.text);
       agendamento.endTime = Customfunctions.dataStringHora(fimControl.text);
-      await Customfunctions.verificarConexao().then((value) async {
-        if (value && value != null) {
-          await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
-          Get.snackbar('Sucesso', "Agendamento salvo",
-              duration: Duration(seconds: 1),
-              snackPosition: SnackPosition.TOP,
-              isDismissible: true,
-              dismissDirection: SnackDismissDirection.HORIZONTAL,
-              backgroundColor: Colors.white);
-        }
-      });
-      Timer(Duration(seconds: 1), () => Get.back()); // 1 é para fechar o loading
-      Timer(Duration(seconds: 1), () => Get.back()); // 2 é para fechar o bottosheet
+      await Customfunctions.verificarConexao().then(
+        (value) async {
+          if (value && value != null) {
+            await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
+
+            if (agendamento.id == null) {
+              gb.listAgenda.add(agendamento);
+            } else {
+              gb.listAgenda[gb.listAgenda.indexOf(agendamento)] = agendamento;
+              Get.back();
+            }
+
+            Get.snackbar('Sucesso', "Agendamento salvo",
+                duration: Duration(seconds: 2),
+                snackPosition: SnackPosition.TOP,
+                isDismissible: true,
+                dismissDirection: SnackDismissDirection.HORIZONTAL,
+                backgroundColor: Colors.white);
+          }
+        },
+      );
+      Timer(Duration(seconds: 2),
+          () => Get.back()); // 2 é para fechar o bottosheet
     } else {
-      Get.snackbar('Atenção', "Um ou mais campos vazio",
-          duration: Duration(seconds: 1),
+      Get.snackbar('Atenção', "Um ou mais campos vazios",
+          duration: Duration(seconds: 2),
           snackPosition: SnackPosition.TOP,
           isDismissible: true,
           dismissDirection: SnackDismissDirection.HORIZONTAL,
@@ -103,7 +118,8 @@ class AddEventoController extends GetxController {
   }
 
   Future<String> addDataTime({bool date = true}) async {
-    if (date) return Customfunctions.stringData(await showDate(context: Get.context));
+    if (date)
+      return Customfunctions.stringData(await showDate(context: Get.context));
     return Customfunctions.stringHora(await showTime(context: Get.context));
   }
 
