@@ -14,7 +14,8 @@ class RegisterNewClientServiceController extends GetxController {
       cliente.idUser = gb.user.id;
       await db.insertUpdate(objeto: cliente, tabela: "Cliente").then((value) async {
         if (value != null) {
-          if (cliente.id == null) {
+          int index = gb.listadeCliente.indexOf(cliente);
+          if (index < 0) {
             gb.listadeCliente.add(cliente);
             await Future.delayed(Duration(seconds: 1)).then(
               (value) => Get.back(),

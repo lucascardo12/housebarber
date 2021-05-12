@@ -68,24 +68,22 @@ class AddEventoController extends GetxController {
   }
 
   Future<void> salvar() async {
-    if (formKey.currentState.validate() &&
-        selectProduto != null &&
-        selectCliente != null) {
+    if (formKey.currentState.validate() && selectProduto != null && selectCliente != null) {
       Get.back();
       gb.loadingPadrao();
       agendamento.idUser = gb.user.id;
       agendamento.idCliente = selectCliente.id;
       agendamento.idServico = selectProduto.id;
-      agendamento.startTime =
-          Customfunctions.dataStringHora(inicioControl.text);
+      agendamento.startTime = Customfunctions.dataStringHora(inicioControl.text);
       agendamento.endTime = Customfunctions.dataStringHora(fimControl.text);
       await Customfunctions.verificarConexao().then(
         (value) async {
           if (value && value != null) {
             await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
-
-            if (agendamento.id == null) {
+            int index = gb.listAgenda.indexOf(agendamento);
+            if (index < 0) {
               gb.listAgenda.add(agendamento);
+              Get.back();
             } else {
               gb.listAgenda[gb.listAgenda.indexOf(agendamento)] = agendamento;
               Get.back();
@@ -100,8 +98,7 @@ class AddEventoController extends GetxController {
           }
         },
       );
-      Timer(Duration(seconds: 2),
-          () => Get.back()); // 2 é para fechar o bottosheet
+      Timer(Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
     } else {
       Get.snackbar('Atenção', "Um ou mais campos vazios",
           duration: Duration(seconds: 2),
@@ -118,8 +115,7 @@ class AddEventoController extends GetxController {
   }
 
   Future<String> addDataTime({bool date = true}) async {
-    if (date)
-      return Customfunctions.stringData(await showDate(context: Get.context));
+    if (date) return Customfunctions.stringData(await showDate(context: Get.context));
     return Customfunctions.stringHora(await showTime(context: Get.context));
   }
 
