@@ -48,22 +48,16 @@ class AddEventoController extends GetxController {
     }
 
     if (agendamento.id != null) {
-      db.getData(
-        tabela: 'Cliente',
-        selector: {"_id": agendamento.idCliente},
-      ).then(
-        (value) => selectCliente = Cliente.fromJson(
-          value.first,
-        ),
-      );
-      db.getData(
-        tabela: 'ProdutoServico',
-        selector: {"_id": agendamento.idServico},
-      ).then(
-        (value) => selectProduto = ProdutoServico.fromJson(
-          value.first,
-        ),
-      );
+      selectCliente = gb.listadeCliente
+          .where(
+            (element) => element.id == agendamento.idCliente,
+          )
+          .first;
+      selectProduto = gb.listadeProdutoServico
+          .where(
+            (element) => element.id == agendamento.idServico,
+          )
+          .first;
     }
   }
 
