@@ -4,7 +4,6 @@ import 'package:housebarber/controller/dayView-controller.dart';
 import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class DayView extends GetView {
@@ -88,11 +87,7 @@ class DayView extends GetView {
                       ),
                       child: Center(
                         child: Text(
-                          gb.listadeCliente.firstWhere((element) => element.id == agenda.idCliente).nome +
-                              ' das ' +
-                              DateFormat('kk:mm').format(agenda.startTime) +
-                              ' as ' +
-                              DateFormat('kk:mm').format(agenda.endTime),
+                          controller.retornaTitulo(agenda),
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 14,

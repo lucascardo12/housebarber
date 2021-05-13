@@ -94,11 +94,7 @@ class MonthViewPage extends GetView {
                   ),
                   child: Center(
                       child: Text(
-                    gb.listadeCliente.firstWhere((element) => element.id == agenda.idCliente) +
-                        ' das ' +
-                        DateFormat('kk:mm').format(agenda.startTime) +
-                        ' as ' +
-                        DateFormat('kk:mm').format(agenda.endTime),
+                    controller.retornaTitulo(agenda),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
