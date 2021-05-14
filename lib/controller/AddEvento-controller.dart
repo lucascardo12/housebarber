@@ -154,24 +154,19 @@ class AddEventoController extends GetxController {
     Get.back();
     Get.back();
     gb.loadingPadrao();
-    await Customfunctions.verificarConexao().then(
-      (value) async {
-        if (value && value != null) {
-          await db.delete(objeto: agenda, tabela: 'Agendamento');
-          int index = gb.listAgenda.indexOf(agenda);
-          if (index <= 0) {
-            gb.listAgenda.removeAt(index);
-            Get.back();
-          }
-          Get.snackbar('Sucesso', "Agendamento salvo",
-              duration: Duration(seconds: 2),
-              snackPosition: SnackPosition.TOP,
-              isDismissible: true,
-              dismissDirection: SnackDismissDirection.HORIZONTAL,
-              backgroundColor: Colors.white);
-        }
-      },
-    );
+    await Customfunctions.verificarConexao().then((value) async {
+      if (value && value != null) {
+        await db.delete(objeto: agenda, tabela: 'Agendamento');
+        gb.listAgenda.remove(agenda);
+        Get.back();
+      }
+      Get.snackbar('Sucesso', "Agendamento salvo",
+          duration: Duration(seconds: 2),
+          snackPosition: SnackPosition.TOP,
+          isDismissible: true,
+          dismissDirection: SnackDismissDirection.HORIZONTAL,
+          backgroundColor: Colors.white);
+    });
     Timer(Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
   }
 }
