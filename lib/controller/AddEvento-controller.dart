@@ -63,37 +63,53 @@ class AddEventoController extends GetxController {
   }
 
   Future<void> salvar() async {
-    if (formKey.currentState.validate() && selectProduto != null && selectCliente != null) {
-      Get.back();
-      gb.loadingPadrao();
+    if (formKey.currentState.validate() &&
+        selectProduto != null &&
+        selectCliente != null) {
       agendamento.idUser = gb.user.id;
       agendamento.idCliente = selectCliente.id;
       agendamento.idServico = selectProduto.id;
-      agendamento.startTime = Customfunctions.dataStringHora(inicioControl.text);
+      agendamento.startTime =
+          Customfunctions.dataStringHora(inicioControl.text);
       agendamento.endTime = Customfunctions.dataStringHora(fimControl.text);
-      await Customfunctions.verificarConexao().then(
-        (value) async {
-          if (value && value != null) {
-            await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
-            int index = gb.listAgenda.indexOf(agendamento);
-            if (index <= 0) {
-              gb.listAgenda.add(agendamento);
-              Get.back();
-            } else {
-              gb.listAgenda[gb.listAgenda.indexOf(agendamento)] = agendamento;
-              Get.back();
-            }
 
-            Get.snackbar('Sucesso', "Agendamento salvo",
-                duration: Duration(seconds: 2),
-                snackPosition: SnackPosition.TOP,
-                isDismissible: true,
-                dismissDirection: SnackDismissDirection.HORIZONTAL,
-                backgroundColor: Colors.white);
-          }
-        },
-      );
-      Timer(Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
+      if (validaHoras()) {
+        await Customfunctions.verificarConexao().then(
+          (value) async {
+            Get.back();
+            gb.loadingPadrao();
+
+            if (value && value != null) {
+              await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
+              int index = gb.listAgenda.indexOf(agendamento);
+              if (index <= 0) {
+                gb.listAgenda.add(agendamento);
+                Get.back();
+              } else {
+                gb.listAgenda[gb.listAgenda.indexOf(agendamento)] = agendamento;
+                Get.back();
+              }
+
+              Get.snackbar('Sucesso', "Agendamento salvo",
+                  duration: Duration(seconds: 2),
+                  snackPosition: SnackPosition.TOP,
+                  isDismissible: true,
+                  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                  backgroundColor: Colors.white);
+            }
+          },
+        );
+        Timer(Duration(seconds: 2),
+            () => Get.back()); // 2 é para fechar o bottosheet
+      } else {
+        Get.snackbar(
+            'Atenção', "Hora Incial Não Pode Ser Maior ou Igual Hora Fim",
+            duration: Duration(seconds: 3),
+            snackPosition: SnackPosition.TOP,
+            isDismissible: true,
+            dismissDirection: SnackDismissDirection.HORIZONTAL,
+            backgroundColor: Colors.white);
+      }
     } else {
       Get.snackbar('Atenção', "Um ou mais campos vazios",
           duration: Duration(seconds: 2),
@@ -160,13 +176,22 @@ class AddEventoController extends GetxController {
         gb.listAgenda.remove(agenda);
         Get.back();
       }
-      Get.snackbar('Sucesso', "Agendamento salvo",
+      Get.snackbar('Sucesso', "Agendamento Excluido com Sucesso",
           duration: Duration(seconds: 2),
           snackPosition: SnackPosition.TOP,
           isDismissible: true,
           dismissDirection: SnackDismissDirection.HORIZONTAL,
           backgroundColor: Colors.white);
     });
-    Timer(Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
+    Timer(
+        Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
+  }
+
+  bool validaHoras() {
+    var inicio = agendamento.startTime.hour;
+    var fim = agendamento.endTime.hour;
+    if (inicio >= fim) return false;
+
+    return true;
   }
 }

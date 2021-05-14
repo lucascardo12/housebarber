@@ -40,7 +40,8 @@ class AddEventoPage extends GetView {
                           Icons.delete_forever,
                           color: Colors.red,
                         ),
-                        onPressed: () => controller.deletaEvento(agenda: agenda))
+                        onPressed: () =>
+                            controller.deletaEvento(agenda: agenda))
                     : IconButton(
                         icon: Icon(
                           Icons.delete_forever_outlined,
@@ -49,7 +50,10 @@ class AddEventoPage extends GetView {
                         onPressed: () {}),
                 Text(
                   'Cadastro de Agendamento',
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
                 ),
                 IconButton(
                     icon: Icon(
@@ -78,7 +82,8 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               controler: controller.dataControl,
               readOnly: true,
-              onTap: () async => controller.dataControl.text = await controller.addDataTime(date: true),
+              onTap: () async => controller.dataControl.text =
+                  await controller.addDataTime(date: true),
             ),
             CampoPadrao(
               label: 'Hora inicio:',
@@ -87,7 +92,8 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               controler: controller.inicioControl,
               readOnly: true,
-              onTap: () async => controller.inicioControl.text = await controller.addDataTime(date: false),
+              onTap: () async => controller.inicioControl.text =
+                  await controller.addDataTime(date: false),
             ),
             CampoPadrao(
               label: 'Hora Fim:',
@@ -96,7 +102,8 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               readOnly: true,
               controler: controller.fimControl,
-              onTap: () async => controller.fimControl.text = await controller.addDataTime(date: false),
+              onTap: () async => controller.fimControl.text =
+                  await controller.addDataTime(date: false),
             ),
             ButtonPadrao(
               label: 'Salvar',
