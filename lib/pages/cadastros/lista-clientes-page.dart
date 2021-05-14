@@ -95,13 +95,14 @@ class ListaClientes extends GetView {
                         ],
                       ),
                       IconButton(
-                          icon: Icon(
-                            Icons.clear_rounded,
-                            color: Colors.red,
-                          ),
-                          onPressed: () => {}),
-                      // onPressed: () => controller.deleta(
-                      //     prod: gb.listadeProdutoServico[index]),
+                        icon: Icon(
+                          Icons.clear_rounded,
+                          color: Colors.red,
+                        ),
+                        onPressed: () => controller.deleta(
+                          cliente: gb.listadeCliente[index],
+                        ),
+                      ),
                     ],
                   ),
                 ),
