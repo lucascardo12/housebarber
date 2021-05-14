@@ -8,6 +8,11 @@ class RegisterNewClientServiceController extends GetxController {
   final gb = Get.find<Global>();
   final formKey = GlobalKey<FormState>();
   Cliente cliente = Cliente();
+  @override
+  void onClose() {
+    cliente = Cliente();
+    super.onClose();
+  }
 
   Future<void> salvaAltera() async {
     if (formKey.currentState.validate()) {

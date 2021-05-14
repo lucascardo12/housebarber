@@ -3,16 +3,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/register-new-productService-controller.dart';
+import 'package:housebarber/model/produtoServico.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
 
 class RegisterNewProductServicePage extends GetView {
   final gb = Get.find<Global>();
-  final RegisterNewProductServiceController controller = Get.put(RegisterNewProductServiceController());
+  final RegisterNewProductServiceController controller = Get.find<RegisterNewProductServiceController>();
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) controller.produtoServico = Get.arguments;
+    Get.arguments != null
+        ? controller.produtoServico = Get.arguments
+        : controller.produtoServico = ProdutoServico(valor: 0.0);
     return new Scaffold(
       appBar: AppBar(
         title: Text('Cadastro de Produtos e Serviços'),

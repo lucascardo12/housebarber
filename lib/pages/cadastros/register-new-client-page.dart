@@ -3,18 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/register-new-client-controller.dart';
+import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
 
 class RegisterNewClientPage extends GetView {
   final gb = Get.find<Global>();
-  final RegisterNewClientServiceController controller =
-      Get.put(RegisterNewClientServiceController());
+  final RegisterNewClientServiceController controller = Get.find<RegisterNewClientServiceController>();
 
   @override
   Widget build(BuildContext context) {
-    if (Get.arguments != null) controller.cliente = Get.arguments;
+    Get.arguments != null ? controller.cliente = Get.arguments : controller.cliente = Cliente();
 
     return new Scaffold(
       appBar: AppBar(
@@ -39,9 +39,7 @@ class RegisterNewClientPage extends GetView {
               label: "Numero:",
               initValue: controller.cliente.numero,
               onChanged: (value) => controller.cliente.numero = value,
-              maskPadrao: [
-                TextInputMask(mask: '(99) 9 9999-9999', reverse: false)
-              ],
+              maskPadrao: [TextInputMask(mask: '(99) 9 9999-9999', reverse: false)],
             ),
             SizedBox(
               height: 10,

@@ -16,7 +16,8 @@ class RegisterNewProductServiceController extends GetxController {
       produtoServico.idUser = gb.user.id;
       await db.insertUpdate(objeto: produtoServico, tabela: "ProdutoServico").then((value) async {
         if (value != null) {
-          if (produtoServico.id == null) {
+          int index = gb.listadeProdutoServico.indexOf(produtoServico);
+          if (index < 0) {
             gb.listadeProdutoServico.add(produtoServico);
             await Future.delayed(Duration(seconds: 1)).then(
               (value) => Get.back(),
