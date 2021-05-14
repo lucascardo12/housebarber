@@ -7,6 +7,7 @@ import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/produtoServico.dart';
 import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/widgets/mensagem-confirmar.dart';
 
 // Não me orgulho desse controller mas é a vida nem tudo pode ser perfeito
 class AddEventoController extends GetxController {
@@ -75,7 +76,7 @@ class AddEventoController extends GetxController {
           if (value && value != null) {
             await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
             int index = gb.listAgenda.indexOf(agendamento);
-            if (index < 0) {
+            if (index <= 0) {
               gb.listAgenda.add(agendamento);
               Get.back();
             } else {
@@ -109,13 +110,13 @@ class AddEventoController extends GetxController {
   }
 
   Future<String> addDataTime({bool date = true}) async {
-    if (date) return Customfunctions.stringData(await showDate(context: Get.context));
-    return Customfunctions.stringHora(await showTime(context: Get.context));
+    if (date) return Customfunctions.stringData(await showDate());
+    return Customfunctions.stringHora(await showTime());
   }
 
-  Future<DateTime> showDate({BuildContext context}) async {
+  Future<DateTime> showDate() async {
     return await showDatePicker(
-      context: context,
+      context: Get.context,
       initialDate: DateTime.now(),
       firstDate: DateTime(DateTime.now().year - 5),
       lastDate: DateTime(DateTime.now().year + 5),
@@ -128,9 +129,9 @@ class AddEventoController extends GetxController {
     );
   }
 
-  Future<TimeOfDay> showTime({BuildContext context}) async {
+  Future<TimeOfDay> showTime() async {
     return await showTimePicker(
-        context: context,
+        context: Get.context,
         initialTime: TimeOfDay.now(),
         builder: (BuildContext context, Widget child) {
           return MediaQuery(
@@ -138,5 +139,39 @@ class AddEventoController extends GetxController {
             child: child,
           );
         });
+  }
+
+  Future<void> deletaEvento({Agendamento agenda}) async {
+    await showConfirme(
+      context: Get.context,
+      label: 'Atenção',
+      cancel: () => Get.back(),
+      confirme: () => deleta(agenda: agenda),
+    );
+  }
+
+  Future<void> deleta({Agendamento agenda}) async {
+    Get.back();
+    Get.back();
+    gb.loadingPadrao();
+    await Customfunctions.verificarConexao().then(
+      (value) async {
+        if (value && value != null) {
+          await db.delete(objeto: agenda, tabela: 'Agendamento');
+          int index = gb.listAgenda.indexOf(agenda);
+          if (index <= 0) {
+            gb.listAgenda.removeAt(index);
+            Get.back();
+          }
+          Get.snackbar('Sucesso', "Agendamento salvo",
+              duration: Duration(seconds: 2),
+              snackPosition: SnackPosition.TOP,
+              isDismissible: true,
+              dismissDirection: SnackDismissDirection.HORIZONTAL,
+              backgroundColor: Colors.white);
+        }
+      },
+    );
+    Timer(Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
   }
 }

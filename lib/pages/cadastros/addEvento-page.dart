@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/AddEvento-controller.dart';
 import 'package:housebarber/model/agendamento.dart';
+import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
@@ -30,14 +31,34 @@ class AddEventoPage extends GetView {
         child: ListView(
           padding: EdgeInsets.all(20),
           children: [
-            Center(
-                child: Text(
-              'Cadastro de Agendamento',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                agenda.id != null
+                    ? IconButton(
+                        icon: Icon(
+                          Icons.delete_forever,
+                          color: Colors.red,
+                        ),
+                        onPressed: () => controller.deletaEvento(agenda: agenda))
+                    : IconButton(
+                        icon: Icon(
+                          Icons.delete_forever_outlined,
+                          color: Colors.transparent,
+                        ),
+                        onPressed: () {}),
+                Text(
+                  'Cadastro de Agendamento',
+                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                IconButton(
+                    icon: Icon(
+                      Icons.delete_forever_outlined,
+                      color: Colors.transparent,
+                    ),
+                    onPressed: () {}),
+              ],
+            ),
             DropdownSearchPadrao(
               label: 'Cliente',
               selecItem: controller.selectCliente,
@@ -57,8 +78,7 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               controler: controller.dataControl,
               readOnly: true,
-              onTap: () async => controller.dataControl.text =
-                  await controller.addDataTime(date: true),
+              onTap: () async => controller.dataControl.text = await controller.addDataTime(date: true),
             ),
             CampoPadrao(
               label: 'Hora inicio:',
@@ -67,8 +87,7 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               controler: controller.inicioControl,
               readOnly: true,
-              onTap: () async => controller.inicioControl.text =
-                  await controller.addDataTime(date: false),
+              onTap: () async => controller.inicioControl.text = await controller.addDataTime(date: false),
             ),
             CampoPadrao(
               label: 'Hora Fim:',
@@ -77,8 +96,7 @@ class AddEventoPage extends GetView {
               corIcon: gb.secondary,
               readOnly: true,
               controler: controller.fimControl,
-              onTap: () async => controller.fimControl.text =
-                  await controller.addDataTime(date: false),
+              onTap: () async => controller.fimControl.text = await controller.addDataTime(date: false),
             ),
             ButtonPadrao(
               label: 'Salvar',
