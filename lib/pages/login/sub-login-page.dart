@@ -10,6 +10,7 @@ class SubLoginPage extends GetView {
   final LoginController controller = Get.find<LoginController>();
   @override
   Widget build(BuildContext context) {
+    controller.formKey = GlobalKey<FormState>();
     return Container(
         color: gb.primaryLight,
         child: ListView(

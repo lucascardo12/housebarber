@@ -11,7 +11,7 @@ class RegisterNewUserController extends GetxController {
   final gb = Get.find<Global>();
   User userRegister = User();
   RxBool showPassword = false.obs;
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey;
   @override
   void onClose() {
     super.onClose();

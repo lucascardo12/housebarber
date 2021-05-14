@@ -14,7 +14,7 @@ class LoginController extends GetxController {
   final gb = Get.find<Global>();
   User userlogin = User();
   RxBool showPassword = false.obs;
-  final formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey;
   @override
   void onInit() {
     userlogin.login = gb.prefs.getString('login') ?? '';
@@ -60,17 +60,14 @@ class LoginController extends GetxController {
   }
 
   Future<void> carregaListas() async {
-    await db.getData(
-        selector: {'idUser': gb.user.id},
-        tabela: "ProdutoServico").then((value) {
+    await db.getData(selector: {'idUser': gb.user.id}, tabela: "ProdutoServico").then((value) {
       value.forEach((element) {
         gb.listadeProdutoServico.add(
           ProdutoServico.fromJson(element),
         );
       });
     });
-    await db.getData(selector: {'idUser': gb.user.id}, tabela: "Cliente").then(
-        (value) {
+    await db.getData(selector: {'idUser': gb.user.id}, tabela: "Cliente").then((value) {
       value.forEach((element) {
         gb.listadeCliente.add(
           Cliente.fromJson(element),

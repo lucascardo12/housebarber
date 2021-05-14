@@ -12,6 +12,7 @@ class CadastroPage extends GetView {
 
   @override
   Widget build(BuildContext context) {
+    controller.formKey = GlobalKey<FormState>();
     return Container(
         color: gb.secondary,
         child: ListView(
