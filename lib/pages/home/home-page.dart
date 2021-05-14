@@ -33,7 +33,7 @@ class HomePage extends GetView {
             child: WillPopScope(
                 onWillPop: () => showConfirme(
                     context: context,
-                    label: "Tem certeza que quer sair vagabundo",
+                    label: "Tem certeza que quer sair do App?",
                     confirme: () => SystemNavigator.pop(),
                     cancel: () => Get.back()),
                 child: [

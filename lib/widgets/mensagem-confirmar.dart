@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:housebarber/services/global.dart';
+
+final Global gb = Get.find<Global>();
 
 Future<void> showConfirme(
     {BuildContext context,
@@ -20,7 +24,7 @@ Future<void> showConfirme(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(5),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: gb.primaryLight,
             ),
             child: Text(
               'Cancelar',
@@ -38,7 +42,7 @@ Future<void> showConfirme(
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(5),
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: gb.secondaryLight,
             ),
             onPressed: confirme,
           ),
