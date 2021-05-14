@@ -16,7 +16,7 @@ class Loading extends GetView {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
             Image.asset(
-              'assets/barber-shop.gif',
+              'assets/imagens/barber-shop.gif',
               height: 100,
               width: 100,
             ),
