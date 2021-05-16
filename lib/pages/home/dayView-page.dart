@@ -39,10 +39,12 @@ class DayView extends GetView {
         body: Obx(
           () => gb.listAgenda.length > -1
               ? SfCalendar(
+                  todayHighlightColor: Colors.amber,
                   controller: controller.controller,
                   onTap: (CalendarTapDetails details) async {
                     if (details.appointments != null &&
-                        details.targetElement.toString() == 'CalendarElement.appointment') {
+                        details.targetElement.toString() ==
+                            'CalendarElement.appointment') {
                       Get.bottomSheet(
                         AddEventoPage(
                           agenda: details.appointments.first,

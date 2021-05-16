@@ -28,7 +28,7 @@ class AddEventoController extends GetxController {
     fimControl.text = '';
     if (agendamento.startTime != null) {
       dataControl.text = Customfunctions.stringData(
-        agendamento.startTime,
+        agendamento.data,
       );
     }
     if (agendamento.startTime != null && agendamento.startTime.hour != 0) {
@@ -67,11 +67,18 @@ class AddEventoController extends GetxController {
         selectProduto != null &&
         selectCliente != null) {
       agendamento.idUser = gb.user.id;
+      agendamento.data = Customfunctions.dataString(data: dataControl.text);
       agendamento.idCliente = selectCliente.id;
       agendamento.idServico = selectProduto.id;
       agendamento.startTime =
           Customfunctions.dataStringHora(inicioControl.text);
       agendamento.endTime = Customfunctions.dataStringHora(fimControl.text);
+
+      agendamento.startTime =
+          ajustaDatas(data: agendamento.data, hora: agendamento.startTime);
+
+      agendamento.endTime =
+          ajustaDatas(data: agendamento.data, hora: agendamento.endTime);
 
       if (validaHoras()) {
         await Customfunctions.verificarConexao().then(
@@ -81,12 +88,14 @@ class AddEventoController extends GetxController {
 
             if (value && value != null) {
               await db.insertUpdate(tabela: 'Agendamento', objeto: agendamento);
-              int index = gb.listAgenda.indexOf(agendamento);
+              int index =
+                  gb.listAgenda.indexWhere((v) => v.id == agendamento.id);
               if (index <= 0) {
                 gb.listAgenda.add(agendamento);
                 Get.back();
               } else {
-                gb.listAgenda[gb.listAgenda.indexOf(agendamento)] = agendamento;
+                gb.listAgenda[gb.listAgenda
+                    .indexWhere((v) => v.id == agendamento.id)] = agendamento;
                 Get.back();
               }
 
@@ -130,6 +139,11 @@ class AddEventoController extends GetxController {
     return Customfunctions.stringHora(await showTime());
   }
 
+  DateTime ajustaDatas({DateTime data, DateTime hora}) {
+    return DateTime(
+        data.year, data.month, data.day, hora.hour, hora.minute, hora.second);
+  }
+
   Future<DateTime> showDate() async {
     return await showDatePicker(
       context: Get.context,
@@ -147,14 +161,15 @@ class AddEventoController extends GetxController {
 
   Future<TimeOfDay> showTime() async {
     return await showTimePicker(
-        context: Get.context,
-        initialTime: TimeOfDay.now(),
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
+      context: Get.context,
+      initialTime: TimeOfDay.now(),
+      builder: (BuildContext context, Widget child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child,
+        );
+      },
+    );
   }
 
   Future<void> deletaEvento({Agendamento agenda}) async {
@@ -170,19 +185,21 @@ class AddEventoController extends GetxController {
     Get.back();
     Get.back();
     gb.loadingPadrao();
-    await Customfunctions.verificarConexao().then((value) async {
-      if (value && value != null) {
-        await db.delete(objeto: agenda, tabela: 'Agendamento');
-        gb.listAgenda.remove(agenda);
-        Get.back();
-      }
-      Get.snackbar('Sucesso', "Agendamento Excluido com Sucesso",
-          duration: Duration(seconds: 2),
-          snackPosition: SnackPosition.TOP,
-          isDismissible: true,
-          dismissDirection: SnackDismissDirection.HORIZONTAL,
-          backgroundColor: Colors.white);
-    });
+    await Customfunctions.verificarConexao().then(
+      (value) async {
+        if (value && value != null) {
+          await db.delete(objeto: agenda, tabela: 'Agendamento');
+          gb.listAgenda.remove(agenda);
+          Get.back();
+        }
+        Get.snackbar('Sucesso', "Agendamento Excluido com Sucesso",
+            duration: Duration(seconds: 2),
+            snackPosition: SnackPosition.TOP,
+            isDismissible: true,
+            dismissDirection: SnackDismissDirection.HORIZONTAL,
+            backgroundColor: Colors.white);
+      },
+    );
     Timer(
         Duration(seconds: 2), () => Get.back()); // 2 é para fechar o bottosheet
   }

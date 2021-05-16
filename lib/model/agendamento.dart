@@ -1,3 +1,4 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Agendamento {
@@ -8,6 +9,7 @@ class Agendamento {
   int idServico;
   DateTime startTime;
   DateTime endTime;
+  DateTime data;
 
   Agendamento({
     this.idUser,
@@ -16,6 +18,7 @@ class Agendamento {
     this.id,
     this.endTime,
     this.startTime,
+    this.data,
   });
 
   Agendamento.fromJson(Map<String, dynamic> xjson) {
@@ -25,6 +28,7 @@ class Agendamento {
     id = xjson['_id'];
     endTime = xjson['endTime'];
     startTime = xjson['startTime'];
+    data = xjson['data'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -34,6 +38,7 @@ class Agendamento {
         '_id': id,
         'endTime': endTime,
         'startTime': startTime,
+        'data': data,
       };
   Agendamento.toMap(Map<String, dynamic> map) {
     map['idUser'] = idUser;
@@ -42,6 +47,7 @@ class Agendamento {
     map['_id'] = id;
     map['endTime'] = endTime;
     map['startTime'] = startTime;
+    map['data'] = data;
   }
 }
 
@@ -59,6 +65,10 @@ class AgendamentoDataSource extends CalendarDataSource {
 
   int getIds(int index) {
     return appointments[index].id;
+  }
+
+  int getdata(int index) {
+    return appointments[index].data;
   }
 
   @override
