@@ -22,7 +22,7 @@ class CadastroPage extends GetView {
             ),
             Center(
                 child: Text(
-              'House Barber Shop',
+              'Barbudos Agendamento',
               style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             )),
             SizedBox(

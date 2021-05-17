@@ -21,7 +21,7 @@ class SettingsPage extends GetView {
           child: Padding(
               padding: EdgeInsets.only(top: 20),
               child: Text(
-                'Perfil',
+                'Configurações',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 32,
@@ -32,8 +32,7 @@ class SettingsPage extends GetView {
         ),
         Center(
           child: ListView(
-            padding:
-                EdgeInsets.only(top: Get.height * 0.10, left: 15, right: 15),
+            padding: EdgeInsets.only(top: Get.height * 0.10, left: 15, right: 15),
             children: [
               GestureDetector(
                   onLongPress: () => controller.image = null,
@@ -43,10 +42,9 @@ class SettingsPage extends GetView {
                     backgroundColor: Colors.grey,
                     radius: 85,
                     child: Obx(() => CircleAvatar(
-                          backgroundImage:
-                              controller.image.value.path.isNotEmpty
-                                  ? FileImage(controller.image.value)
-                                  : null,
+                          backgroundImage: controller.image.value.path.isNotEmpty
+                              ? FileImage(controller.image.value)
+                              : null,
                           radius: 78.0,
                           child: controller.image.value.path.isEmpty
                               ? IconButton(

@@ -24,7 +24,7 @@ class MyApp extends GetView {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'House Barber',
+      title: 'Barbudos Agendamento',
       theme: ThemeData(
         backgroundColor: gb.primaryLight,
         brightness: Brightness.light,

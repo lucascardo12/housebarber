@@ -1,4 +1,4 @@
-package com.example.housebarber
+package com.lcm.housebarber
 
 import io.flutter.embedding.android.FlutterActivity
 
