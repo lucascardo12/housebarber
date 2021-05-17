@@ -8,6 +8,7 @@ import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/widgets/button-padrao.dart';
 
 class LoginController extends GetxController {
   final db = Get.find<MongoDB>();
@@ -24,7 +25,6 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     if (formKey.currentState.validate()) {
-      gb.loadingPadrao();
       await Customfunctions.verificarConexao().then(
         (value) async {
           if (value && value != null) {
@@ -40,8 +40,19 @@ class LoginController extends GetxController {
                   gb.prefs.setString('login', userlogin.login);
                   gb.prefs.setString('senha', userlogin.senha);
                   gb.user = User.fromJson(value.first);
-                  await carregaListas();
-                  Get.offAllNamed("/home");
+                  if (verificaPagamento()) {
+                    gb.loadingPadrao();
+                    await carregaListas();
+                    Get.offAllNamed("/home");
+                  } else {
+                    Get.defaultDialog(
+                        title: 'Atenção! ',
+                        confirm: ButtonPadrao(
+                          label: 'Ok',
+                          onPressed: () => Get.back(),
+                        ),
+                        content: Text("Pagamento da mensalidade não identificado"));
+                  }
                 } else {
                   Get.snackbar('Atenção', "Senha ou login invalidos",
                       duration: Duration(seconds: 1),
@@ -55,7 +66,6 @@ class LoginController extends GetxController {
           }
         },
       );
-      Timer(Duration(seconds: 1), () => Get.back());
     }
   }
 
@@ -92,5 +102,12 @@ class LoginController extends GetxController {
   String validaCampo(value, String label) {
     if (value.isEmpty) return "Campo $label não pode ser vazio";
     return null;
+  }
+
+  bool verificaPagamento() {
+    if (gb.user.dtPagamento == null) return true;
+    Duration dif = gb.user.dtPagamento.difference(DateTime.now());
+    if (dif.inDays >= 32) return false;
+    return true;
   }
 }
