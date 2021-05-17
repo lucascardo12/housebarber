@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,12 +24,16 @@ class Customfunctions {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         print('connected');
+
         return true;
       }
     } on SocketException catch (_) {
-      // EasyLoading.showError(
-      //   "Sem conexão",
-      // );
+      Get.snackbar('Atenção', "Sem conexão",
+          duration: Duration(seconds: 2),
+          snackPosition: SnackPosition.TOP,
+          isDismissible: true,
+          dismissDirection: SnackDismissDirection.HORIZONTAL,
+          backgroundColor: Colors.white);
       return false;
     }
   }
