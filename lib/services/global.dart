@@ -44,23 +44,27 @@ class MongoDB extends GetxService {
   Db db;
 
   Future<MongoDB> inicia() async {
-    db = await Db.create(
-        "$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
+    db = await Db.create("$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
     await db.open();
     return this;
   }
 
+  Future<void> verificaConexao() async {
+    if (!db.isConnected) {
+      await db.open();
+    }
+  }
+
   Future<dynamic> insertUpdate({dynamic objeto, String tabela}) async {
     try {
+      await verificaConexao();
       var collection = db.collection(tabela);
       var auxi = await collection.count();
       if (objeto.id == null) {
         if (auxi == 0) {
           objeto.id = 1;
         } else {
-          var i = await collection
-              .find(where.sortBy('_id', descending: true))
-              .first;
+          var i = await collection.find(where.sortBy('_id', descending: true)).first;
           objeto.id = i['_id'] + 1;
         }
         await collection.insert(objeto.toJson());
@@ -75,6 +79,7 @@ class MongoDB extends GetxService {
 
   Future<bool> delete({dynamic objeto, String tabela}) async {
     try {
+      await verificaConexao();
       var collection = db.collection(tabela);
       await collection.remove({'_id': objeto.id});
       return true;
@@ -83,10 +88,10 @@ class MongoDB extends GetxService {
     }
   }
 
-  Future<List<dynamic>> getData(
-      {dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData({dynamic selector, @required String tabela}) async {
     //{'_id': data.id} selector
     try {
+      await verificaConexao();
       List<dynamic> data = [];
       var collection = db.collection(tabela);
       await collection.find(selector).forEach(
