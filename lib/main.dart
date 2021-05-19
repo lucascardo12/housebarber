@@ -1,3 +1,4 @@
+import 'package:background_fetch/background_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -9,13 +10,19 @@ import 'package:housebarber/pages/cadastros/lista-clientes-page.dart';
 import 'package:housebarber/pages/cadastros/register-new-client-page.dart';
 import 'package:housebarber/pages/cadastros/register-new-productService-page.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/services/schedule.dart';
 import 'pages/login/login-page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Get.putAsync(() => Global().inicia());
-  await Get.putAsync(() => MongoDB().inicia());
+  if (GetPlatform.isMobile) await Schedule.initPlatformState();
+  if (GetPlatform.isMobile) await Get.putAsync(() => MongoDB().inicia());
   runApp(MyApp());
+  if (GetPlatform.isMobile)
+    BackgroundFetch.registerHeadlessTask(
+      Schedule.backgroundFetchHeadlessTask,
+    );
 }
 
 class MyApp extends GetView {

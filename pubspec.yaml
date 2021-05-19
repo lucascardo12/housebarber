@@ -22,7 +22,7 @@ dependencies:
   dropdown_search: ^0.6.1
   easy_mask: ^1.1.5
   image_picker: ^0.7.4
-  # background_fetch: ^1.0.0-nullsafety.2
+  background_fetch: ^0.7.2
   rxdart: ^0.27.0
   flutter_local_notifications: ^5.0.0
   get: ^4.1.4

@@ -27,7 +27,7 @@ class ReceivedNotification {
 
 class Notifications {
   static init() async {
-    var initializationSettingsAndroid = AndroidInitializationSettings('ic_launcher');
+    var initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/launcher_icon');
     var initializationSettingsIOS = IOSInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
