@@ -19,6 +19,9 @@ class RegisterNewUserController extends GetxController {
 
   Future<void> cadastro() async {
     if (formKey.currentState.validate()) {
+      userRegister.senha.trim();
+      userRegister.login.trim();
+      userRegister.senha = Customfunctions.textToMd5(userRegister.senha);
       gb.loadingPadrao();
       await Customfunctions.verificarConexao().then((value) async {
         if (value && value != null) {

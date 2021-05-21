@@ -25,6 +25,8 @@ class LoginController extends GetxController {
 
   Future<void> login() async {
     if (formKey.currentState.validate()) {
+      userlogin.login.trim();
+      userlogin.senha.trim();
       await Customfunctions.verificarConexao().then(
         (value) async {
           if (value && value != null) {

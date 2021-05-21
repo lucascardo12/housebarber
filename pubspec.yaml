@@ -2,7 +2,7 @@ name: housebarber
 description: Barbudos Agendamento.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -46,6 +46,7 @@ flutter:
     - assets/imagens/arraste_lados.gif
     - assets/imagens/barber-shop.gif
     - assets/imagens/barber-shop.png
+    - assets/imagens/fundo.png
 
   # fonts:
   #   - family: Schyler
