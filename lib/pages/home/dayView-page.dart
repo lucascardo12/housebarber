@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/dayView-controller.dart';
-import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
@@ -13,45 +12,30 @@ class DayView extends GetView {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: Card(
-            margin: EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
+          margin: EdgeInsets.all(0),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          color: gb.secondary,
+          child: IconButton(
+            padding: EdgeInsets.all(0),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
             ),
-            color: gb.secondary,
-            child: IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              color: Colors.blue,
-              iconSize: 38,
-              onPressed: () => Get.bottomSheet(
-                AddEventoPage(
-                  agenda: Agendamento(
-                    startTime: controller.controller.selectedDate != null
-                        ? controller.controller.selectedDate
-                        : null,
-                  ),
-                ),
-              ),
-            )),
+            color: Colors.blue,
+            iconSize: 38,
+            onPressed: () => controller.openCadastro(),
+          ),
+        ),
         body: Obx(
           () => gb.listAgenda.length > -1
               ? SfCalendar(
                   todayHighlightColor: Colors.amber,
                   controller: controller.controller,
-                  onTap: (CalendarTapDetails details) async {
-                    if (details.appointments != null &&
-                        details.targetElement.toString() ==
-                            'CalendarElement.appointment') {
-                      Get.bottomSheet(
-                        AddEventoPage(
-                          agenda: details.appointments.first,
-                        ),
-                      );
-                    }
-                  },
+                  onTap: (CalendarTapDetails details) async => controller.openAgendamento(
+                    details,
+                  ),
                   dataSource: AgendamentoDataSource(gb.listAgenda),
                   showNavigationArrow: true,
                   headerStyle: CalendarHeaderStyle(

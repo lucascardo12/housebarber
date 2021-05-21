@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:housebarber/controller/monthView-controller.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/pages/cadastros/addEvento-page.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class MonthViewPage extends GetView {
@@ -25,15 +24,7 @@ class MonthViewPage extends GetView {
                 Icons.add,
                 color: Colors.white,
               ),
-              onPressed: () => Get.bottomSheet(
-                AddEventoPage(
-                  agenda: Agendamento(
-                    startTime: controller.controller.selectedDate != null
-                        ? controller.controller.selectedDate
-                        : null,
-                  ),
-                ),
-              ),
+              onPressed: () => controller.openCadastro(),
               color: Colors.blue,
               iconSize: 38,
             )),
@@ -41,15 +32,7 @@ class MonthViewPage extends GetView {
             ? SfCalendar(
                 todayHighlightColor: Colors.amber,
                 controller: controller.controller,
-                onTap: (CalendarTapDetails details) async {
-                  if (details.appointments != null &&
-                      details.targetElement.toString() ==
-                          'CalendarElement.appointment') {
-                    Get.bottomSheet(AddEventoPage(
-                      agenda: details.appointments.first,
-                    ));
-                  }
-                },
+                onTap: (CalendarTapDetails details) async => controller.openAgendamento(details),
                 monthViewSettings: MonthViewSettings(
                   showAgenda: true,
                   monthCellStyle: MonthCellStyle(
