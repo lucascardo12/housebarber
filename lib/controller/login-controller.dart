@@ -27,47 +27,53 @@ class LoginController extends GetxController {
     if (formKey.currentState.validate()) {
       userlogin.login.trim();
       userlogin.senha.trim();
-      await Customfunctions.verificarConexao().then(
-        (value) async {
-          if (value && value != null) {
-            await db.getData(
-              selector: {
-                "login": userlogin.login,
-                "senha": Customfunctions.textToMd5(userlogin.senha),
-              },
-              tabela: "User",
-            ).then(
-              (value) async {
-                if (value.isNotEmpty) {
-                  gb.prefs.setString('login', userlogin.login);
-                  gb.prefs.setString('senha', userlogin.senha);
-                  gb.user = User.fromJson(value.first);
-                  if (verificaPagamento()) {
-                    gb.loadingPadrao();
-                    await carregaListas();
-                    Get.offAllNamed("/home");
-                  } else {
-                    Get.defaultDialog(
-                        title: 'Atenção! ',
-                        confirm: ButtonPadrao(
-                          label: 'Ok',
-                          onPressed: () => Get.back(),
-                        ),
-                        content: Text("Pagamento da mensalidade não identificado"));
-                  }
-                } else {
-                  Get.snackbar('Atenção', "Senha ou login invalidos",
-                      duration: Duration(seconds: 1),
-                      snackPosition: SnackPosition.TOP,
-                      isDismissible: true,
-                      dismissDirection: SnackDismissDirection.HORIZONTAL,
-                      backgroundColor: Colors.white);
-                }
-              },
-            );
-          }
-        },
-      );
+      gb.loadingPadrao();
+      if (await Customfunctions.verificarConexao()) {
+        await db.getData(
+          selector: {
+            "login": userlogin.login,
+            "senha": Customfunctions.textToMd5(userlogin.senha),
+          },
+          tabela: "User",
+        ).then(
+          (value) async {
+            if (value.isNotEmpty) {
+              gb.prefs.setString('login', userlogin.login);
+              gb.prefs.setString('senha', userlogin.senha);
+              gb.user = User.fromJson(value.first);
+              if (verificaPagamento()) {
+                await carregaListas();
+                Get.offAllNamed("/home");
+              } else {
+                Get.back();
+                Get.defaultDialog(
+                    title: 'Atenção! ',
+                    confirm: ButtonPadrao(
+                      label: 'Ok',
+                      onPressed: () => Get.back(),
+                    ),
+                    content: Text("Pagamento da mensalidade não identificado"));
+              }
+            } else {
+              Get.back();
+              Get.snackbar('Atenção', "Senha ou login invalidos",
+                  duration: Duration(seconds: 1),
+                  snackPosition: SnackPosition.TOP,
+                  isDismissible: true,
+                  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                  backgroundColor: Colors.white);
+            }
+          },
+        );
+      } else {
+        Get.back();
+        Get.snackbar('Atenção', "Sem conexão",
+            duration: Duration(seconds: 2),
+            snackPosition: SnackPosition.TOP,
+            isDismissible: true,
+            dismissDirection: SnackDismissDirection.HORIZONTAL,
+            backgroundColor: Colors.white);
+      }
     }
   }
 

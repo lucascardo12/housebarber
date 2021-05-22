@@ -23,17 +23,9 @@ class Customfunctions {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-
         return true;
       }
     } on SocketException catch (_) {
-      Get.snackbar('Atenção', "Sem conexão",
-          duration: Duration(seconds: 2),
-          snackPosition: SnackPosition.TOP,
-          isDismissible: true,
-          dismissDirection: SnackDismissDirection.HORIZONTAL,
-          backgroundColor: Colors.white);
       return false;
     }
   }
