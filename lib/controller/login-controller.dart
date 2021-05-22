@@ -109,7 +109,7 @@ class LoginController extends GetxController {
   bool verificaPagamento() {
     if (gb.user.dtPagamento == null) return true;
     Duration dif = gb.user.dtPagamento.difference(DateTime.now());
-    if (dif.inDays >= 32) return false;
+    if ((dif.inDays * -1) >= 31) return false;
     return true;
   }
 }

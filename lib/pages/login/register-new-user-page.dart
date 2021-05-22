@@ -105,7 +105,9 @@ class CadastroPage extends GetView {
                           label: "CPF/CNPJ:",
                           onChanged: (value) => controller.userRegister.cnpj = value,
                           cor: Colors.white,
-                          validator: (value) => controller.validaCpfCnpj(value),
+                          validator: (String value) {
+                            if (value.isNotEmpty) controller.validaCpfCnpj(value);
+                          },
                           maskPadrao: [
                             TextInputMask(mask: ['999.999.999-99', '99.999.999/9999-99'])
                           ],
