@@ -2,17 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_connect/connect.dart';
+import 'package:housebarber/services/senhas.dart';
 
 class ApiMongoDB extends GetConnect {
-  String login = 'AppsFoda';
-  String senha = '';
-  String loginDb = 'lucascardo12';
-  String senhaDb = 'fuckyuo12';
-  String hostDb = 'cluster0.p6s2p.mongodb.net';
-  String clusterDb = 'Cluster0';
-  String formatDb = 'mongodb+srv';
-  String host = '';
-
   Future<bool> insertUpdate({dynamic objeto, String tabela}) async {
     try {
       Map<String, String> headers = new Map<String, String>();
@@ -22,11 +14,11 @@ class ApiMongoDB extends GetConnect {
       headers['hostDb'] = hostDb;
       headers['loginDb'] = loginDb;
       headers['tabela'] = tabela;
-      headers['login'] = login;
-      headers['senha'] = senha;
+      headers['login'] = loginApi;
+      headers['senha'] = senhaApi;
 
       Response result = await post(
-        'http://$host/InsertUpdate',
+        'http://$hostApi/InsertUpdate',
         objeto.toJson(),
         headers: headers,
         contentType: "application/json",
@@ -48,11 +40,11 @@ class ApiMongoDB extends GetConnect {
       headers['loginDb'] = loginDb;
       headers['selector'] = '{"_id": ${objeto.id}';
       headers['tabela'] = tabela;
-      headers['login'] = login;
-      headers['senha'] = senha;
+      headers['login'] = loginApi;
+      headers['senha'] = senhaApi;
 
       Response result = await delete(
-        'http://$host/Delete',
+        'http://$hostApi/Delete',
         headers: headers,
         contentType: "application/json",
       );
@@ -73,11 +65,11 @@ class ApiMongoDB extends GetConnect {
       headers['loginDb'] = loginDb;
       headers['selector'] = selector;
       headers['tabela'] = tabela;
-      headers['login'] = login;
-      headers['senha'] = senha;
+      headers['login'] = loginApi;
+      headers['senha'] = senhaApi;
 
       Response result = await get(
-        'http://$host/GetData',
+        'http://$hostApi/GetData',
         headers: headers,
         contentType: "application/json",
       );

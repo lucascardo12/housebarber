@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/model/user.dart';
+import 'package:housebarber/services/senhas.dart';
 import 'package:housebarber/widgets/loading-widget.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,11 +37,6 @@ class Global extends GetxService {
 }
 
 class MongoDB extends GetxService {
-  String loginDb = 'lucascardo12';
-  String senhaDb = 'fuckyuo12';
-  String hostDb = 'cluster0.p6s2p.mongodb.net';
-  String clusterDb = 'Cluster0';
-  String formatDb = 'mongodb+srv';
   Db db;
 
   Future<MongoDB> inicia() async {
