@@ -25,8 +25,8 @@ class Agendamento {
     idCliente = xjson['idCliente'];
     idServico = xjson['idServico'];
     id = xjson['_id'];
-    endTime = xjson['endTime'];
-    startTime = xjson['startTime'];
+    endTime = DateTime.parse(xjson['endTime']);
+    startTime = DateTime.parse(xjson['startTime']);
     data = xjson['data'];
   }
 
@@ -35,8 +35,8 @@ class Agendamento {
         'idCliente': idCliente,
         'idServico': idServico,
         '_id': id,
-        'endTime': endTime,
-        'startTime': startTime,
+        'endTime': endTime.toString(),
+        'startTime': startTime.toString(),
         'data': data,
       };
   Agendamento.toMap(Map<String, dynamic> map) {
