@@ -35,3 +35,7 @@ doc/api/
 *.log
 
 senhas.dart
+
+.android/key
+
+.android/key.jks
