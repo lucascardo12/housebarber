@@ -6,6 +6,7 @@ class User {
   String numero;
   String cnpj;
   String email;
+  String tokenGotify;
   DateTime dtPagamento;
 
   User({
@@ -17,6 +18,7 @@ class User {
     this.cnpj,
     this.email,
     this.dtPagamento,
+    this.tokenGotify,
   });
 
   User.fromJson(Map<String, dynamic> xjson) {
@@ -28,6 +30,7 @@ class User {
     cnpj = xjson['cnpj'];
     email = xjson['email'];
     dtPagamento = xjson['dtPagamento'];
+    tokenGotify = xjson['tokenGotify'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +42,7 @@ class User {
         'cnpj': cnpj,
         'email': email,
         'dtPagamento': dtPagamento,
+        'tokenGotify': tokenGotify
       };
 
   User.toMap(Map<String, dynamic> map) {
@@ -50,5 +54,6 @@ class User {
     map['cnpj'] = cnpj;
     map['email'] = email;
     map['dtPagamento'] = dtPagamento;
+    map['tokenGotify'] = tokenGotify;
   }
 }
