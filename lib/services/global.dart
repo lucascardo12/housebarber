@@ -21,6 +21,7 @@ class Global extends GetxService {
   Color secondaryDark = new Color(0xFF0068bf);
   Color primaryText = new Color(0xFFffffff);
   Color secondaryText = new Color(0xFF000000);
+  String version = "version: 1.0.0+2";
 
   Future<Global> inicia() async {
     prefs = await SharedPreferences.getInstance();
@@ -40,7 +41,8 @@ class MongoDB extends GetxService {
   Db db;
 
   Future<MongoDB> inicia() async {
-    db = await Db.create("$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
+    db = await Db.create(
+        "$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
     await db.open();
     return this;
   }
@@ -60,7 +62,9 @@ class MongoDB extends GetxService {
         if (auxi == 0) {
           objeto.id = 1;
         } else {
-          var i = await collection.find(where.sortBy('_id', descending: true)).first;
+          var i = await collection
+              .find(where.sortBy('_id', descending: true))
+              .first;
           objeto.id = i['_id'] + 1;
         }
         await collection.insert(objeto.toJson());
@@ -84,7 +88,8 @@ class MongoDB extends GetxService {
     }
   }
 
-  Future<List<dynamic>> getData({dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData(
+      {dynamic selector, @required String tabela}) async {
     //{'_id': data.id} selector
     try {
       await verificaConexao();
