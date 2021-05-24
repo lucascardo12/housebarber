@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:housebarber/model/user.dart';
 import 'package:housebarber/pages/cadastros/lista-servico-page.dart';
 import 'package:housebarber/pages/home/home-page.dart';
 import 'package:housebarber/pages/home/new-registers-page.dart';
@@ -16,7 +17,8 @@ import 'pages/login/login-page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Get.putAsync(() => Global().inicia());
-  if (GetPlatform.isMobile) await Schedule.initPlatformState();
+  //if (GetPlatform.isMobile) await Schedule.initPlatformState();
+  if (false) await Schedule.initPlatformState();
   if (GetPlatform.isMobile) await Get.putAsync(() => MongoDB().inicia());
   runApp(MyApp());
   if (GetPlatform.isMobile)
@@ -27,8 +29,10 @@ void main() async {
 
 class MyApp extends GetView {
   final gb = Get.find<Global>();
+
   @override
   Widget build(BuildContext context) {
+    String autologin = gb.prefs.getBool("autoLogin") ? '/home' : '/login';
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Barbudos Agendamento',
@@ -53,7 +57,7 @@ class MyApp extends GetView {
         Locale('en', 'US'),
       ],
       locale: Get.deviceLocale,
-      initialRoute: '/login',
+      initialRoute: autologin,
       defaultTransition: Transition.leftToRightWithFade,
       getPages: [
         GetPage(

@@ -91,6 +91,22 @@ class SettingsPage extends GetView {
                 ],
                 cor: Colors.white,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Login Automático",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Obx(
+                    () => Switch(
+                      activeColor: gb.secondaryLight,
+                      value: controller.autoLogin.value,
+                      onChanged: (value) => controller.loginAutomatico(value),
+                    ),
+                  ),
+                ],
+              ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(

@@ -16,17 +16,18 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Builder(
-          builder: (context) => LiquidSwipe(
-                pages: pages,
-                waveType: WaveType.liquidReveal,
-                ignoreUserGestureWhileAnimating: true,
-                positionSlideIcon: 0.9,
-                slideIconWidget: Icon(
-                  Icons.arrow_back_ios,
-                  size: 30,
-                  color: Colors.white,
-                ),
-              )),
+        builder: (context) => LiquidSwipe(
+          pages: pages,
+          waveType: WaveType.liquidReveal,
+          ignoreUserGestureWhileAnimating: true,
+          positionSlideIcon: 0.9,
+          slideIconWidget: Icon(
+            Icons.arrow_back_ios,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 }

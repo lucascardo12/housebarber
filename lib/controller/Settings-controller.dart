@@ -10,11 +10,13 @@ class SettingsController extends GetxController {
   final picker = ImagePicker();
   final MongoDB db = Get.find<MongoDB>();
   final gb = Get.find<Global>();
+  RxBool autoLogin = true.obs;
 
   @override
   void onInit() {
     super.onInit();
     String path = gb.prefs.getString('image') ?? "";
+    autoLogin.value = gb.prefs.getBool("autoLogin") ?? true;
     if (path.isNotEmpty) image.value = File(path);
   }
 
@@ -29,14 +31,21 @@ class SettingsController extends GetxController {
   }
 
   Future<void> salvar() async {
-    await db.insertUpdate(tabela: "User", objeto: gb.user).then((value) {
-      if (value != null)
-        Get.snackbar('Sucesso', "Usuário alterado com sucesso!",
-            duration: Duration(seconds: 3),
-            snackPosition: SnackPosition.TOP,
-            isDismissible: true,
-            dismissDirection: SnackDismissDirection.HORIZONTAL,
-            backgroundColor: Colors.white);
-    });
+    await db.insertUpdate(tabela: "User", objeto: gb.user).then(
+      (value) {
+        if (value != null)
+          Get.snackbar('Sucesso', "Usuário alterado com sucesso!",
+              duration: Duration(seconds: 3),
+              snackPosition: SnackPosition.TOP,
+              isDismissible: true,
+              dismissDirection: SnackDismissDirection.HORIZONTAL,
+              backgroundColor: Colors.white);
+      },
+    );
+  }
+
+  Future<void> loginAutomatico(bool v) async {
+    await gb.prefs.setBool("autoLogin", v);
+    autoLogin.value = v;
   }
 }
