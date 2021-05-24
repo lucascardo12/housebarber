@@ -54,7 +54,8 @@ class ApiMongoDB extends GetConnect {
     }
   }
 
-  Future<List<dynamic>> getData({dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData(
+      {dynamic selector, @required String tabela}) async {
     //{'_id': data.id} selector
     try {
       Map<String, String> headers = new Map<String, String>();

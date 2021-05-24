@@ -24,26 +24,30 @@ class RegisterNewUserController extends GetxController {
       userRegister.senha = Customfunctions.textToMd5(userRegister.senha);
       userRegister.dtPagamento = DateTime.now();
       gb.loadingPadrao();
-      await Customfunctions.verificarConexao().then((value) async {
-        if (value && value != null) {
-          await db.getData(
-            selector: {"login": userRegister.login},
-            tabela: "User",
-          ).then((value) async {
-            if (value == null || value.isEmpty) {
-              await db.insertUpdate(tabela: 'User', objeto: userRegister);
-              Get.offAllNamed("/login");
-            } else {
-              Get.snackbar('Atenção', "Usuario já Cadastrado",
-                  duration: Duration(seconds: 1),
-                  snackPosition: SnackPosition.TOP,
-                  isDismissible: true,
-                  dismissDirection: SnackDismissDirection.HORIZONTAL,
-                  backgroundColor: Colors.white);
-            }
-          });
-        }
-      });
+      await Customfunctions.verificarConexao().then(
+        (value) async {
+          if (value && value != null) {
+            await db.getData(
+              selector: {"login": userRegister.login},
+              tabela: "User",
+            ).then(
+              (value) async {
+                if (value == null || value.isEmpty) {
+                  await db.insertUpdate(tabela: 'User', objeto: userRegister);
+                  Get.offAllNamed("/login");
+                } else {
+                  Get.snackbar('Atenção', "Usuario já Cadastrado",
+                      duration: Duration(seconds: 1),
+                      snackPosition: SnackPosition.TOP,
+                      isDismissible: true,
+                      dismissDirection: SnackDismissDirection.HORIZONTAL,
+                      backgroundColor: Colors.white);
+                }
+              },
+            );
+          }
+        },
+      );
       if (Get.isDialogOpen) {
         Timer(Duration(seconds: 1), () => Get.back());
       }
@@ -69,6 +73,13 @@ class RegisterNewUserController extends GetxController {
       if (!GetUtils.isCpf(value)) return "O CPF informado não é valido";
     }
 
+    return null;
+  }
+
+  String loginValido(String value) {
+    RegExp re = RegExp(r'^[a-zA-Z0-9]+$');
+    if (!re.hasMatch(value))
+      return "O login não pode conter caracteres especiais";
     return null;
   }
 }
