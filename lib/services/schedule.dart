@@ -1,16 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:background_fetch/background_fetch.dart';
-import 'package:get/get.dart';
-import 'package:housebarber/model/agendamento.dart';
-import 'package:housebarber/model/user.dart';
-import 'package:housebarber/services/custom-functions.dart';
-import 'package:housebarber/services/global.dart';
+import 'package:housebarber/model/notificacao.dart';
 import 'package:housebarber/services/notificaion.dart';
+import 'package:housebarber/services/senhas.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/io.dart';
 
 class Schedule {
   static Future<void> initPlatformState() async {
     try {
-      int status = await BackgroundFetch.configure(
+      await BackgroundFetch.configure(
           BackgroundFetchConfig(
             minimumFetchInterval: 15,
             stopOnTerminate: false,
@@ -25,26 +25,16 @@ class Schedule {
           ),
           _onBackgroundFetch,
           _onBackgroundFetchTimeout);
-      print('[BackgroundFetch] configure success: $status');
-      await BackgroundFetch.start().then((int status) {
-        print('[Schedule] Iniciado com sucesso: $status');
-      }).catchError((e) {
-        print('[Schedule] Falha ao iniciar: $e');
-      });
-      // Schedule a "one-shot" custom-task in 10000ms.
-      // // These are fairly reliable on Android (particularly with forceAlarmManager) but not iOS,
-      // // where device must be powered (and delay will be throttled by the OS).
+      await BackgroundFetch.start().then((int status) {}).catchError((e) {});
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "com.transistorsoft.customtask",
-          delay: 1000,
+          delay: 600000,
           periodic: true,
           forceAlarmManager: true,
           stopOnTerminate: false,
           startOnBoot: true,
           enableHeadless: true));
-    } catch (e) {
-      print('[BackgroundFetch] configure ERROR: $e');
-    }
+    } catch (e) {}
     return;
   }
 
@@ -53,26 +43,19 @@ class Schedule {
       await procuraAgendamento();
     }
     if (taskId == "flutter_background_fetch") {
-      // // Schedule a one-shot task when fetch event received (for testing).
-
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "com.transistorsoft.customtask",
-          delay: 1000,
+          delay: 600000,
           periodic: true,
           forceAlarmManager: true,
           stopOnTerminate: false,
           startOnBoot: true,
           enableHeadless: true));
     }
-
-    // IMPORTANT:  You must signal completion of your fetch task or the OS can punish your app
-    // for taking too long in the background.
     BackgroundFetch.finish(taskId);
   }
 
-  /// This event fires shortly before your task is about to timeout.  You must finish any outstanding work and call BackgroundFetch.finish(taskId).
   static void _onBackgroundFetchTimeout(String taskId) {
-    print("[BackgroundFetch] TIMEOUT: $taskId");
     BackgroundFetch.finish(taskId);
   }
 
@@ -83,14 +66,13 @@ class Schedule {
       await procuraAgendamento();
     }
     if (timeout) {
-      print("[BackgroundFetch] Headless task timed-out: $taskId");
       BackgroundFetch.finish(taskId);
       return;
     }
     if (taskId == 'flutter_background_fetch') {
       BackgroundFetch.scheduleTask(TaskConfig(
           taskId: "com.transistorsoft.customtask",
-          delay: 1000, //600000,
+          delay: 600000, //600000,
           periodic: true,
           forceAlarmManager: true,
           stopOnTerminate: false,
@@ -102,59 +84,32 @@ class Schedule {
 
   static Future<void> procuraAgendamento() async {
     await Notifications.init();
-    Global gb;
-    MongoDB db;
-    print('[schedule] iniciou o serviço');
-    try {
-      db = Get.find<MongoDB>();
-      gb = Get.find<Global>();
-    } catch (e) {
-      gb = await Get.putAsync(() => Global().inicia());
-      db = await Get.putAsync(() => MongoDB().inicia());
-    }
-
-    User userlogin = User();
-    List<Agendamento> listAgenda = [];
-    userlogin.login = gb.prefs.getString('login') ?? '';
-    userlogin.senha = gb.prefs.getString('senha') ?? '';
-    await db.getData(
-      selector: {
-        "login": userlogin.login,
-        "senha": Customfunctions.textToMd5(userlogin.senha),
-      },
-      tabela: "User",
-    ).then((value) async {
-      if (value != null) {
-        userlogin = User.fromJson(value.first);
-        await db.getData(
-          selector: {
-            'idUser': userlogin.id,
-            'data': DateTime(
-              DateTime.now().year,
-              DateTime.now().month,
-              DateTime.now().day,
-            )
-          },
-          tabela: 'Agendamento',
-        ).then(
-          (value) {
-            value.forEach(
-              (element) {
-                listAgenda.add(Agendamento.fromJson(element));
-              },
-            );
-          },
+    String token;
+    await SharedPreferences.getInstance().then(
+      (value) => token = value.getString('tokenGotify') ?? '',
+    );
+    if (token.isNotEmpty) {
+      try {
+        print('[schedule] iniciou o serviço');
+        IOWebSocketChannel channel = IOWebSocketChannel.connect(
+          Uri.parse(
+            'ws://$hostGotify/stream?token=$token',
+          ),
         );
+        await Notifications.init();
+        channel.stream.listen((message) {
+          print('[schedule] $message');
+          Notificacao note = Notificacao.fromJson(jsonDecode(message));
+          Notifications.showNotification(
+            id: note.id,
+            titulo: note.title,
+            conteudo: note.message,
+          );
+        });
+        print('[schedule] finalizou o serviço');
+      } catch (e) {
+        await procuraAgendamento();
       }
-    });
-    for (var i = 0; i < listAgenda.length; i++) {
-      print('[schedule] ${listAgenda[i].id}');
-      Notifications.showNotification(
-        id: listAgenda[i].id,
-        titulo: listAgenda[i].title,
-        conteudo: listAgenda[i].idServico.toString(),
-      );
     }
-    print('[schedule] finalizou o serviço');
   }
 }

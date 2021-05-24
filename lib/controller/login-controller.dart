@@ -40,6 +40,7 @@ class LoginController extends GetxController {
             if (value.isNotEmpty) {
               gb.prefs.setString('login', userlogin.login);
               gb.prefs.setString('senha', userlogin.senha);
+              gb.prefs.setString('tokenGotify', userlogin.tokenGotify ?? '');
               gb.user = User.fromJson(value.first);
               if (verificaPagamento()) {
                 await carregaListas();

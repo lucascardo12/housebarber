@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:money_formatter/money_formatter.dart';
@@ -18,7 +16,6 @@ class Customfunctions {
     return palavra.replaceFirst(palavra.substring(0, 1), up);
   }
 
-  // ignore: missing_return
   static Future<bool> verificarConexao() async {
     try {
       final result = await InternetAddress.lookup('google.com');
@@ -28,6 +25,7 @@ class Customfunctions {
     } on SocketException catch (_) {
       return false;
     }
+    return false;
   }
 
   //converte Data para String
