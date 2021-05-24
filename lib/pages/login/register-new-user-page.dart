@@ -25,7 +25,9 @@ class CadastroPage extends GetView {
               child: Text(
             'Barbudos Agendamento',
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                color: gb.primaryLight,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           )),
           SizedBox(
             height: 20,
@@ -41,7 +43,7 @@ class CadastroPage extends GetView {
                       child: Text(
                         'Cadastro',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: gb.primaryLight,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
                       )),
@@ -52,14 +54,16 @@ class CadastroPage extends GetView {
                     icone: Icons.people_alt,
                     label: "Nome:",
                     cor: Colors.white,
-                    corIcon: Colors.white,
+                    corLabel: gb.primaryLight,
+                    corIcon: gb.primaryLight,
                     onChanged: (value) => controller.userRegister.nome = value,
                   ),
                   CampoPadrao(
                     icone: Icons.people_alt,
                     label: "Login:",
                     cor: Colors.white,
-                    corIcon: Colors.white,
+                    corIcon: gb.primaryLight,
+                    corLabel: gb.primaryLight,
                     onChanged: (value) => controller.userRegister.login = value,
                     validator: (v) => controller.loginValido(v),
                   ),
@@ -74,21 +78,21 @@ class CadastroPage extends GetView {
                           controller.validaCampo(value, 'Senha'),
                       decoration: InputDecoration(
                         labelText: 'Senha:',
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.security,
-                          color: Colors.white,
+                          color: gb.primaryLight,
                           size: 28,
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
                             Icons.remove_red_eye,
-                            color: Colors.white,
+                            color: gb.primaryLight,
                           ),
                           onPressed: () => controller.showPassword.value =
                               !controller.showPassword.value,
                         ),
                         labelStyle: TextStyle(
-                          color: Colors.white,
+                          color: gb.primaryLight,
                           fontSize: 16,
                         ),
                       ),
@@ -98,9 +102,10 @@ class CadastroPage extends GetView {
                     height: 20,
                   ),
                   CampoPadrao(
-                    corIcon: Colors.white,
+                    corIcon: gb.primaryLight,
                     icone: Icons.phone,
                     label: "Numero:",
+                    corLabel: gb.primaryLight,
                     onChanged: (value) =>
                         controller.userRegister.numero = value,
                     cor: Colors.white,
@@ -112,8 +117,9 @@ class CadastroPage extends GetView {
                     height: 20,
                   ),
                   CampoPadrao(
-                    corIcon: Colors.white,
+                    corIcon: gb.primaryLight,
                     icone: Icons.people_alt,
+                    corLabel: gb.primaryLight,
                     label: "CPF/CNPJ:",
                     onChanged: (value) => controller.userRegister.cnpj = value,
                     cor: Colors.white,
@@ -129,9 +135,10 @@ class CadastroPage extends GetView {
                     height: 20,
                   ),
                   CampoPadrao(
-                    corIcon: Colors.white,
+                    corIcon: gb.primaryLight,
                     icone: Icons.email,
                     label: "E-mail:",
+                    corLabel: gb.primaryLight,
                     onChanged: (value) => controller.userRegister.email = value,
                     cor: Colors.white,
                     validator: (value) => controller.validaEmail(value),

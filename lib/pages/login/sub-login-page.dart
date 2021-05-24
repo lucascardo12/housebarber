@@ -1,9 +1,11 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/controller/login-controller.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 import 'package:housebarber/widgets/campoPadrao.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SubLoginPage extends GetView {
   final gb = Get.find<Global>();
@@ -22,7 +24,9 @@ class SubLoginPage extends GetView {
               child: Text(
             'Barbudos Agendamento',
             style: TextStyle(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                color: gb.secondaryLight,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
           )),
           SizedBox(
             height: 20,
@@ -38,7 +42,7 @@ class SubLoginPage extends GetView {
                       child: Text(
                         'Login',
                         style: TextStyle(
-                            color: Colors.white,
+                            color: gb.secondaryLight,
                             fontSize: 32,
                             fontWeight: FontWeight.bold),
                       )),
@@ -50,8 +54,9 @@ class SubLoginPage extends GetView {
                     onChanged: (v) => controller.userlogin.login = v,
                     icone: Icons.people_alt,
                     label: "Login:",
+                    corLabel: gb.secondaryLight,
                     cor: Colors.white,
-                    corIcon: Colors.white,
+                    corIcon: gb.secondaryLight,
                   ),
                   SizedBox(
                     height: 20,
@@ -66,9 +71,11 @@ class SubLoginPage extends GetView {
                           controller.validaCampo(value, "Senha"),
                       decoration: InputDecoration(
                         labelText: 'Senha:',
-                        prefixIcon: const Icon(
+                        labelStyle:
+                            TextStyle(color: gb.secondaryLight, fontSize: 16),
+                        prefixIcon: Icon(
                           Icons.security,
-                          color: Colors.white,
+                          color: gb.secondaryLight,
                           size: 28,
                         ),
                         suffixIcon: IconButton(
@@ -76,22 +83,44 @@ class SubLoginPage extends GetView {
                               controller.showPassword.value
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Colors.white,
+                              color: gb.secondaryLight,
                             ),
                             onPressed: () => controller.showPassword.value =
                                 !controller.showPassword.value),
-                        labelStyle: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
                       ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                            style: TextStyle(color: Colors.white),
+                            text: "Esqueci minha senha "),
+                        TextSpan(
+                          style: TextStyle(color: Colors.blue),
+                          text: " Click aqui",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () async {
+                              var url =
+                                  "https://www.youtube.com/channel/UCwxiHP2Ryd-aR0SWKjYguxw?view_as=subscriber";
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   ButtonPadrao(
-                    label: 'Login',
+                    label: 'Entrar',
                     onPressed: () => controller.login(),
                     backgroundColor: gb.secondary,
                   ),

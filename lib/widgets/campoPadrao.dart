@@ -15,6 +15,8 @@ class CampoPadrao extends StatelessWidget {
   final Color corIcon;
   final bool readOnly;
   final Function onTap;
+  final int fontsizeLabel;
+  final Color corLabel;
 
   CampoPadrao({
     Key key,
@@ -31,6 +33,8 @@ class CampoPadrao extends StatelessWidget {
     this.corIcon,
     this.readOnly,
     this.onTap,
+    this.fontsizeLabel,
+    this.corLabel,
   }) : super(key: key);
 
   @override
@@ -60,8 +64,8 @@ class CampoPadrao extends StatelessWidget {
               : null,
           prefixText: prefixText,
           labelStyle: TextStyle(
-            color: cor,
-            fontSize: 16,
+            color: corLabel ?? cor,
+            fontSize: fontsizeLabel ?? 16,
           ),
           hintStyle: TextStyle(color: cor)),
     );
