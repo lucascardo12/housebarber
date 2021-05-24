@@ -16,7 +16,7 @@ import 'pages/login/login-page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Get.putAsync(() => Global().inicia());
-  if (false) await Schedule.initPlatformState();
+  if (GetPlatform.isMobile) await Schedule.initPlatformState();
   if (GetPlatform.isMobile) await Get.putAsync(() => MongoDB().inicia());
   runApp(MyApp());
   if (GetPlatform.isMobile)
