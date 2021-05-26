@@ -23,10 +23,7 @@ class SubLoginPage extends GetView {
           Center(
               child: Text(
             'Barbudos Agendamento',
-            style: TextStyle(
-                color: gb.secondaryLight,
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(color: gb.secondaryLight, fontSize: 20, fontWeight: FontWeight.bold),
           )),
           SizedBox(
             height: 20,
@@ -41,10 +38,7 @@ class SubLoginPage extends GetView {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Login',
-                        style: TextStyle(
-                            color: gb.secondaryLight,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold),
+                        style: TextStyle(color: gb.secondaryLight, fontSize: 32, fontWeight: FontWeight.bold),
                       )),
                   SizedBox(
                     height: 20,
@@ -67,12 +61,10 @@ class SubLoginPage extends GetView {
                       style: TextStyle(color: Colors.white),
                       initialValue: controller.userlogin.senha,
                       onChanged: (value) => controller.userlogin.senha = value,
-                      validator: (value) =>
-                          controller.validaCampo(value, "Senha"),
+                      validator: (value) => controller.validaCampo(value, "Senha"),
                       decoration: InputDecoration(
                         labelText: 'Senha:',
-                        labelStyle:
-                            TextStyle(color: gb.secondaryLight, fontSize: 16),
+                        labelStyle: TextStyle(color: gb.secondaryLight, fontSize: 16),
                         prefixIcon: Icon(
                           Icons.security,
                           color: gb.secondaryLight,
@@ -80,13 +72,10 @@ class SubLoginPage extends GetView {
                         ),
                         suffixIcon: IconButton(
                             icon: Icon(
-                              controller.showPassword.value
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
+                              controller.showPassword.value ? Icons.visibility : Icons.visibility_off,
                               color: gb.secondaryLight,
                             ),
-                            onPressed: () => controller.showPassword.value =
-                                !controller.showPassword.value),
+                            onPressed: () => controller.showPassword.value = !controller.showPassword.value),
                       ),
                     ),
                   ),
@@ -96,16 +85,13 @@ class SubLoginPage extends GetView {
                   RichText(
                     text: TextSpan(
                       children: [
-                        TextSpan(
-                            style: TextStyle(color: Colors.white),
-                            text: "Esqueci minha senha "),
+                        TextSpan(style: TextStyle(color: Colors.white), text: "Esqueci minha senha "),
                         TextSpan(
                           style: TextStyle(color: Colors.blue),
                           text: " Click aqui",
                           recognizer: TapGestureRecognizer()
                             ..onTap = () async {
-                              var url =
-                                  "https://www.youtube.com/channel/UCwxiHP2Ryd-aR0SWKjYguxw?view_as=subscriber";
+                              var url = "https://pub.dev/packages/url_launcher";
                               if (await canLaunch(url)) {
                                 await launch(url);
                               } else {

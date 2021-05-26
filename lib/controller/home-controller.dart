@@ -16,15 +16,14 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    userlogin.login = gb.prefs.getString('login') ?? '';
-    userlogin.senha = gb.prefs.getString('senha') ?? '';
+    userlogin.login = gb.box.get('login', defaultValue: '');
+    userlogin.senha = gb.box.get('senha', defaultValue: '');
 
     logado();
     super.onInit();
   }
 
   Future<void> logado() async {
-    //gb.loadingPadrao();
     if (await Customfunctions.verificarConexao()) {
       gb.loadingPadrao();
       await db.getData(
@@ -64,8 +63,7 @@ class HomeController extends GetxController {
 
   Future<void> carregaListas() async {
     gb.listadeProdutoServico.clear();
-    await db.getData(
-        selector: {'idUser': gb.user.id}, tabela: "ProdutoServico").then(
+    await db.getData(selector: {'idUser': gb.user.id}, tabela: "ProdutoServico").then(
       (value) {
         value.forEach(
           (element) {

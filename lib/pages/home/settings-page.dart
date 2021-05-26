@@ -32,8 +32,7 @@ class SettingsPage extends GetView {
         ),
         Center(
           child: ListView(
-            padding:
-                EdgeInsets.only(top: Get.height * 0.10, left: 15, right: 15),
+            padding: EdgeInsets.only(top: Get.height * 0.10, left: 15, right: 15),
             children: [
               GestureDetector(
                   onLongPress: () => controller.image = null,
@@ -43,10 +42,9 @@ class SettingsPage extends GetView {
                     backgroundColor: Colors.grey,
                     radius: 85,
                     child: Obx(() => CircleAvatar(
-                          backgroundImage:
-                              controller.image.value.path.isNotEmpty
-                                  ? FileImage(controller.image.value)
-                                  : null,
+                          backgroundImage: controller.image.value.path.isNotEmpty
+                              ? FileImage(controller.image.value)
+                              : null,
                           radius: 78.0,
                           child: controller.image.value.path.isEmpty
                               ? IconButton(
@@ -107,6 +105,13 @@ class SettingsPage extends GetView {
                   ),
                 ],
               ),
+              Text(
+                gb.version,
+                style: TextStyle(color: Colors.white),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: Text(
@@ -114,10 +119,6 @@ class SettingsPage extends GetView {
                   style: TextStyle(color: Colors.red),
                 ),
                 onTap: () => Get.offAllNamed('/login'),
-              ),
-              Text(
-                gb.version,
-                style: TextStyle(color: Colors.white),
               ),
               SizedBox(
                 height: 10,

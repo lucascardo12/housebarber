@@ -4,7 +4,6 @@ import 'package:background_fetch/background_fetch.dart';
 import 'package:housebarber/model/notificacao.dart';
 import 'package:housebarber/services/notificaion.dart';
 import 'package:housebarber/services/senhas.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/io.dart';
 
 class Schedule {
@@ -84,10 +83,7 @@ class Schedule {
 
   static Future<void> procuraAgendamento() async {
     await Notifications.init();
-    String token;
-    await SharedPreferences.getInstance().then(
-      (value) => token = value.getString('tokenGotify') ?? '',
-    );
+    String token = '';
     if (token.isNotEmpty) {
       try {
         print('[schedule] iniciou o serviço');

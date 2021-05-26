@@ -15,8 +15,14 @@ class SettingsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    String path = gb.prefs.getString('image') ?? "";
-    autoLogin.value = gb.prefs.getBool("autoLogin") ?? true;
+    String path = gb.box.get(
+      'image',
+      defaultValue: '',
+    );
+    autoLogin.value = gb.box.get(
+      "autoLogin",
+      defaultValue: true,
+    );
     if (path.isNotEmpty) image.value = File(path);
   }
 
@@ -24,7 +30,7 @@ class SettingsController extends GetxController {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       image.value = File(pickedFile.path);
-      gb.prefs.setString('image', image.value.path);
+      gb.box.put('image', image.value.path);
     } else {
       print('No image selected.');
     }
@@ -45,7 +51,7 @@ class SettingsController extends GetxController {
   }
 
   Future<void> loginAutomatico(bool v) async {
-    await gb.prefs.setBool("autoLogin", v);
+    await gb.box.put("autoLogin", v);
     autoLogin.value = v;
   }
 }

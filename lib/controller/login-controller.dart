@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/global.dart';
@@ -14,8 +13,8 @@ class LoginController extends GetxController {
   GlobalKey<FormState> formKey;
   @override
   void onInit() {
-    userlogin.login = gb.prefs.getString('login') ?? '';
-    userlogin.senha = gb.prefs.getString('senha') ?? '';
+    userlogin.login = gb.box.get('login', defaultValue: '');
+    userlogin.senha = gb.box.get('senha', defaultValue: '');
     super.onInit();
   }
 
@@ -34,6 +33,15 @@ class LoginController extends GetxController {
         ).then(
           (value) async {
             if (value.isNotEmpty) {
+              gb.box.put(
+                "autoLogin",
+                gb.box.get(
+                  'autoLogin',
+                  defaultValue: true,
+                ),
+              );
+              gb.box.put('login', userlogin.login);
+              gb.box.put('senha', userlogin.senha);
               Get.offAllNamed("/home");
             } else {
               Get.back();

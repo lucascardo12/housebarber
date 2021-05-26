@@ -32,7 +32,7 @@ class MyApp extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    String autologin = gb.prefs.getBool("autoLogin") ? '/home' : '/login';
+    String autologin = gb.box.get("autoLogin", defaultValue: false) ? '/home' : '/login';
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Barbudos Agendamento',
