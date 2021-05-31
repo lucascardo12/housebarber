@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "338911072044",
+    "project_id": "housebarber-a6696",
+    "storage_bucket": "housebarber-a6696.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338911072044:android:375ce67624a01c7a8c2689",
+        "android_client_info": {
+          "package_name": "com.lcm.housebarber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338911072044-cqpjqi4029b6bnjmftl189dd9pkfg802.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtLmeAgmWejdTmYfuFr31nXjyi2Tur0TU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338911072044-cqpjqi4029b6bnjmftl189dd9pkfg802.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

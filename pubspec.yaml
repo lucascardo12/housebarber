@@ -21,9 +21,6 @@ dependencies:
   dropdown_search: ^0.6.1
   easy_mask: ^1.1.5
   image_picker: ^0.7.4
-  background_fetch: ^0.7.2
-  rxdart: ^0.27.0
-  flutter_local_notifications: ^5.0.0
   get: ^4.1.4
   flutter_localizations:
     sdk: flutter
@@ -33,6 +30,8 @@ dependencies:
   url_launcher: ^6.0.4
   hive_flutter: ^1.0.0
   hive: ^2.0.4
+  awesome_notifications: ^0.0.6+7
+  firebase_messaging: ^10.0.0
 
 dev_dependencies:
   flutter_test:

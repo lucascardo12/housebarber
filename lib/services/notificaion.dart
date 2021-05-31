@@ -1,17 +1,22 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-class Notification extends GetxService {
-  Future<Notification> inicia() async {
+class NotificFCM extends GetxService {
+  String token;
+  Stream<String> tokenStream;
+  Future<NotificFCM> inicia() async {
+    await Firebase.initializeApp();
     await AwesomeNotifications().initialize(
         // set the icon to null if you want to use the default app icon
         'resource://drawable/launcher_icon',
         [
           NotificationChannel(
-              channelKey: 'basic_channel',
-              channelName: 'Basic notifications',
-              channelDescription: 'Notification channel for basic tests',
+              channelKey: 'Geral',
+              channelName: 'Notificações em geral',
+              channelDescription: 'Notificações Basicas em geral',
               defaultColor: Colors.white,
               ledColor: Colors.white)
         ]);
@@ -23,7 +28,7 @@ class Notification extends GetxService {
         await AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
-
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     return this;
   }
 
@@ -31,7 +36,7 @@ class Notification extends GetxService {
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
-        channelKey: 'basic_channel',
+        channelKey: 'Geral',
         title: title,
         body: body,
       ),
@@ -45,5 +50,37 @@ class Notification extends GetxService {
       } // your page params. I recommend to you to pass all *receivedNotification* object
           );
     });
+  }
+
+  void setToken(String ptoken) {
+    print('FCM Token: $token');
+    token = ptoken;
+  }
+
+  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    // If you're going to use other Firebase services in the background, such as Firestore,
+    // make sure you call `initializeApp` before using other Firebase services.
+    await Firebase.initializeApp();
+
+    print("Handling a background message: ${message.messageId}");
+  }
+
+  firebaseMessaging() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      if (message.notification != null) {
+        showFullScreenNotification(
+            title: message.notification.title, body: message.notification.body, id: 31);
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+  }
+
+  Future<void> gettoken() async {
+    await FirebaseMessaging.instance.getToken().then(setToken);
+    tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+    tokenStream.listen(setToken);
   }
 }
