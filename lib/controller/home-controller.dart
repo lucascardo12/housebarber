@@ -6,11 +6,13 @@ import 'package:housebarber/model/produtoServico.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:housebarber/services/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
+import 'package:housebarber/services/notificaion.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
 
 class HomeController extends GetxController {
   final gb = Get.find<Global>();
   final db = Get.find<MongoDB>();
+  final notific = Get.find<NotificFCM>();
   final User userlogin = User();
   var pag = 0.obs;
 
@@ -20,6 +22,7 @@ class HomeController extends GetxController {
     userlogin.senha = gb.box.get('senha', defaultValue: '');
 
     logado();
+
     super.onInit();
   }
 
@@ -37,6 +40,7 @@ class HomeController extends GetxController {
           gb.user = User.fromJson(value.first);
           if (verificaPagamento()) {
             await carregaListas();
+            verificaToken();
             Get.back();
           } else {
             Get.offAllNamed("/login");
@@ -106,5 +110,15 @@ class HomeController extends GetxController {
     Duration dif = gb.user.dtPagamento.difference(DateTime.now());
     if ((dif.inDays * -1) >= 31) return false;
     return true;
+  }
+
+  verificaToken() async {
+    String token = gb.box.get('tokenGotify${gb.user.id}', defaultValue: '');
+    gb.box.put('tokenGotify${gb.user.id}', token);
+    if (token.isEmpty) {
+      await notific.gettoken();
+      gb.user.tokenFCM = notific.token;
+      db.insertUpdate(objeto: gb.user, tabela: 'User');
+    }
   }
 }

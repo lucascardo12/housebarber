@@ -29,6 +29,7 @@ class NotificFCM extends GetxService {
       }
     });
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    firebaseMessaging();
     return this;
   }
 
@@ -68,11 +69,11 @@ class NotificFCM extends GetxService {
   firebaseMessaging() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      print('Message data: ${message.data['msgId']}');
 
       if (message.notification != null) {
         showFullScreenNotification(
-            title: message.notification.title, body: message.notification.body, id: 31);
+            title: message.notification.title, body: message.notification.body, id: message.data['msgId']);
         print('Message also contained a notification: ${message.notification}');
       }
     });
