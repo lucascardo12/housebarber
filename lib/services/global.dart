@@ -22,7 +22,7 @@ class Global extends GetxService {
   Color secondaryDark = new Color(0xFF0068bf);
   Color primaryText = new Color(0xFFffffff);
   Color secondaryText = new Color(0xFF000000);
-  String version = "version: 1.0.0+2";
+  String version = "version: 1.0.1";
 
   Future<Global> inicia() async {
     await Hive.initFlutter();

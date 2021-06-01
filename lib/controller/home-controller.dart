@@ -114,10 +114,10 @@ class HomeController extends GetxController {
 
   verificaToken() async {
     String token = gb.box.get('tokenGotify${gb.user.id}', defaultValue: '');
-    gb.box.put('tokenGotify${gb.user.id}', token);
-    if (token.isEmpty) {
+    if (token.isEmpty || token != gb.user.tokenFCM) {
       await notific.gettoken();
       gb.user.tokenFCM = notific.token;
+      gb.box.put('tokenGotify${gb.user.id}', notific.token);
       db.insertUpdate(objeto: gb.user, tabela: 'User');
     }
   }
