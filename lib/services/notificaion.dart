@@ -73,7 +73,9 @@ class NotificFCM extends GetxService {
 
       if (message.notification != null) {
         showFullScreenNotification(
-            title: message.notification.title, body: message.notification.body, id: message.data['msgId']);
+            title: message.notification.title,
+            body: message.notification.body,
+            id: int.parse(message.data['msgId']));
         print('Message also contained a notification: ${message.notification}');
       }
     });
