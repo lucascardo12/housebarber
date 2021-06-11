@@ -4,7 +4,7 @@ import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/produtoServico.dart';
 import 'package:housebarber/model/user.dart';
-import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/utils/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/services/notificaion.dart';
 import 'package:housebarber/widgets/button-padrao.dart';
@@ -67,7 +67,8 @@ class HomeController extends GetxController {
 
   Future<void> carregaListas() async {
     gb.listadeProdutoServico.clear();
-    await db.getData(selector: {'idUser': gb.user.id}, tabela: "ProdutoServico").then(
+    await db.getData(
+        selector: {'idUser': gb.user.id}, tabela: "ProdutoServico").then(
       (value) {
         value.forEach(
           (element) {

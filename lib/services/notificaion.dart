@@ -21,7 +21,9 @@ class NotificFCM extends GetxService {
               ledColor: Colors.white)
         ]);
 
-    await AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
+    await AwesomeNotifications()
+        .isNotificationAllowed()
+        .then((isAllowed) async {
       if (!isAllowed) {
         // Insert here your friendly dialog box before call the request method
         // This is very important to not harm the user experience
@@ -33,7 +35,8 @@ class NotificFCM extends GetxService {
     return this;
   }
 
-  Future<void> showFullScreenNotification({int id, String title, String body}) async {
+  Future<void> showFullScreenNotification(
+      {int id, String title, String body}) async {
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
@@ -58,7 +61,8 @@ class NotificFCM extends GetxService {
     token = ptoken;
   }
 
-  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  static Future<void> firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();

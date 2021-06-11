@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/model/user.dart';
-import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/utils/custom-functions.dart';
 
 class LoginController extends GetxController {
   final db = Get.find<MongoDB>();

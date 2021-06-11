@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:housebarber/api/api-mongoDB.dart';
 import 'package:housebarber/model/user.dart';
 import 'package:housebarber/services/senhas.dart';
 import 'package:housebarber/widgets/loading-widget.dart';
@@ -41,10 +42,14 @@ class Global extends GetxService {
 
 class MongoDB extends GetxService {
   Db db;
-
+  ApiMongoDB api = ApiMongoDB();
   Future<MongoDB> inicia() async {
-    db = await Db.create("$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
-    await db.open();
+    if (!GetPlatform.isWeb) {
+      db = await Db.create(
+          "$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
+      await db.open();
+    }
+
     return this;
   }
 
@@ -56,21 +61,29 @@ class MongoDB extends GetxService {
 
   Future<dynamic> insertUpdate({dynamic objeto, String tabela}) async {
     try {
-      await verificaConexao();
-      var collection = db.collection(tabela);
-      var auxi = await collection.count();
-      if (objeto.id == null) {
-        if (auxi == 0) {
-          objeto.id = 1;
+      if (!GetPlatform.isWeb) {
+        await verificaConexao();
+        var collection = db.collection(tabela);
+        var auxi = await collection.count();
+        if (objeto.id == null) {
+          if (auxi == 0) {
+            objeto.id = 1;
+          } else {
+            var i = await collection
+                .find(where.sortBy('_id', descending: true))
+                .first;
+            objeto.id = i['_id'] + 1;
+          }
+          await collection.insert(objeto.toJson());
         } else {
-          var i = await collection.find(where.sortBy('_id', descending: true)).first;
-          objeto.id = i['_id'] + 1;
+          await collection.save(objeto.toJson());
         }
-        await collection.insert(objeto.toJson());
+        return objeto;
       } else {
-        await collection.save(objeto.toJson());
+        var res = await api.insertUpdate(objeto: objeto, tabela: tabela);
+        if (res) return objeto;
+        return null;
       }
-      return objeto;
     } catch (e) {
       return null;
     }
@@ -87,16 +100,22 @@ class MongoDB extends GetxService {
     }
   }
 
-  Future<List<dynamic>> getData({dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData(
+      {dynamic selector, @required String tabela}) async {
     //{'_id': data.id} selector
     try {
-      await verificaConexao();
-      List<dynamic> data = [];
-      var collection = db.collection(tabela);
-      await collection.find(selector).forEach(
-            (element) => data.add(element),
-          );
-      return data;
+      if (!GetPlatform.isWeb) {
+        await verificaConexao();
+        List<dynamic> data = [];
+        var collection = db.collection(tabela);
+        await collection.find(selector).forEach(
+              (element) => data.add(element),
+            );
+        return data;
+      } else {
+        var res = await api.getData(selector: selector, tabela: tabela);
+        return res;
+      }
     } catch (e) {
       print(e);
       return null;

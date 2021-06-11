@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:money_formatter/money_formatter.dart';
@@ -18,6 +19,7 @@ class Customfunctions {
 
   static Future<bool> verificarConexao() async {
     try {
+      if (GetPlatform.isWeb) return true;
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         return true;
@@ -40,7 +42,9 @@ class Customfunctions {
 
   static String stringHora(TimeOfDay hora) {
     if (hora != null) {
-      return hora.hour.toString().padLeft(2, '0') + ":" + hora.minute.toString().padLeft(2, '0');
+      return hora.hour.toString().padLeft(2, '0') +
+          ":" +
+          hora.minute.toString().padLeft(2, '0');
     } else {
       return null;
     }
@@ -50,7 +54,11 @@ class Customfunctions {
   static DateTime dataString({@required String data}) {
     DateTime date;
 
-    String datt = data.substring(6, 10) + '-' + data.substring(3, 5) + '-' + data.substring(0, 2);
+    String datt = data.substring(6, 10) +
+        '-' +
+        data.substring(3, 5) +
+        '-' +
+        data.substring(0, 2);
     date = DateTime.parse(datt);
 
     return date;
@@ -76,7 +84,11 @@ class Customfunctions {
   }
 
   static DateTime dataStringHora(String horario) {
-    return DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day,
-        int.tryParse(horario.substring(0, 2)), int.tryParse(horario.substring(3, 5)));
+    return DateTime(
+        DateTime.now().year,
+        DateTime.now().month,
+        DateTime.now().day,
+        int.tryParse(horario.substring(0, 2)),
+        int.tryParse(horario.substring(3, 5)));
   }
 }

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:housebarber/model/agendamento.dart';
 import 'package:housebarber/model/cliente.dart';
 import 'package:housebarber/model/produtoServico.dart';
-import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/utils/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/widgets/mensagem-confirmar.dart';
 

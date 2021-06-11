@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:housebarber/services/custom-functions.dart';
+import 'package:housebarber/utils/custom-functions.dart';
 import 'package:housebarber/services/global.dart';
 import 'package:housebarber/controller/register-new-productService-controller.dart';
 
