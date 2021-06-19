@@ -27,7 +27,7 @@ class Agendamento {
     id = xjson['_id'];
     endTime = DateTime.parse(xjson['endTime']);
     startTime = DateTime.parse(xjson['startTime']);
-    data = xjson['data'];
+    data = xjson['data'] is String ? DateTime.parse(xjson['data']) : xjson['data'];
   }
 
   Map<String, dynamic> toJson() => {

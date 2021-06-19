@@ -1,13 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/connect.dart';
+import 'package:get/get.dart';
 import 'package:housebarber/services/senhas.dart';
 
 class ApiMongoDB extends GetConnect {
-  Future<bool> insertUpdate({dynamic objeto, String tabela}) async {
+  Future<bool> insertUpdate({
+    dynamic objeto,
+    String tabela,
+  }) async {
     try {
-      Map<String, String> headers = new Map<String, String>();
+      Map<String, String> headers = Map<String, String>();
       headers['senhaDb'] = senhaDb;
       headers['clusterDb'] = clusterDb;
       headers['formatDb'] = formatDb;
@@ -21,18 +23,20 @@ class ApiMongoDB extends GetConnect {
         'http://$hostApi/InsertUpdate',
         objeto.toJson(),
         headers: headers,
-        contentType: "application/json",
       );
-
-      return result.isOk;
+      if (result.statusCode == 200) return true;
+      return false;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> deleta({dynamic objeto, String tabela}) async {
+  Future<bool> deleta({
+    dynamic objeto,
+    String tabela,
+  }) async {
     try {
-      Map<String, String> headers = new Map<String, String>();
+      Map<String, String> headers = Map<String, String>();
       headers['senhaDb'] = senhaDb;
       headers['clusterDb'] = clusterDb;
       headers['formatDb'] = formatDb;
@@ -44,27 +48,29 @@ class ApiMongoDB extends GetConnect {
       headers['senha'] = senhaApi;
 
       Response result = await delete(
-        'http://$hostApi/Delete',
+        'http://$hostApi/teste',
         headers: headers,
-        contentType: "application/json",
       );
-      return result.isOk;
+      if (result.statusCode == 200) return true;
+      return false;
     } catch (e) {
       return false;
     }
   }
 
-  Future<List<dynamic>> getData(
-      {dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData({
+    dynamic selector,
+    @required String tabela,
+  }) async {
     //{'_id': data.id} selector
     try {
-      Map<String, String> headers = new Map<String, String>();
+      Map<String, String> headers = Map<String, String>();
       headers['senhaDb'] = senhaDb;
       headers['clusterDb'] = clusterDb;
       headers['formatDb'] = formatDb;
       headers['hostDb'] = hostDb;
       headers['loginDb'] = loginDb;
-      headers['selector'] = selector;
+      headers['selector'] = json.encode(selector);
       headers['tabela'] = tabela;
       headers['login'] = loginApi;
       headers['senha'] = senhaApi;
@@ -72,12 +78,11 @@ class ApiMongoDB extends GetConnect {
       Response result = await get(
         'http://$hostApi/GetData',
         headers: headers,
-        contentType: "application/json",
       );
       return jsonDecode(result.bodyString)["data"];
     } catch (e) {
       print(e);
-      return null;
+      return [];
     }
   }
 }

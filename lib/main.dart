@@ -16,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Get.putAsync(() => Global().inicia());
   await Get.putAsync(() => MongoDB().inicia());
-  if (GetPlatform.isMobile) await Get.putAsync(() => NotificFCM().inicia());
+  await Get.putAsync(() => NotificFCM().inicia());
   runApp(MyApp());
 }
 
@@ -24,8 +24,7 @@ class MyApp extends GetView {
   final gb = Get.find<Global>();
   @override
   Widget build(BuildContext context) {
-    String autologin =
-        gb.box.get("autoLogin", defaultValue: false) ? '/home' : '/login';
+    String autologin = gb.box.get("autoLogin", defaultValue: false) ? '/home' : '/login';
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Barbudos Agendamento',

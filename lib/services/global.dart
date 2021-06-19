@@ -45,8 +45,7 @@ class MongoDB extends GetxService {
   ApiMongoDB api = ApiMongoDB();
   Future<MongoDB> inicia() async {
     if (!GetPlatform.isWeb) {
-      db = await Db.create(
-          "$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
+      db = await Db.create("$formatDb://$loginDb:$senhaDb@$hostDb/$clusterDb?retryWrites=true&w=majority");
       await db.open();
     }
 
@@ -69,9 +68,7 @@ class MongoDB extends GetxService {
           if (auxi == 0) {
             objeto.id = 1;
           } else {
-            var i = await collection
-                .find(where.sortBy('_id', descending: true))
-                .first;
+            var i = await collection.find(where.sortBy('_id', descending: true)).first;
             objeto.id = i['_id'] + 1;
           }
           await collection.insert(objeto.toJson());
@@ -100,8 +97,7 @@ class MongoDB extends GetxService {
     }
   }
 
-  Future<List<dynamic>> getData(
-      {dynamic selector, @required String tabela}) async {
+  Future<List<dynamic>> getData({dynamic selector, @required String tabela}) async {
     //{'_id': data.id} selector
     try {
       if (!GetPlatform.isWeb) {
@@ -113,12 +109,12 @@ class MongoDB extends GetxService {
             );
         return data;
       } else {
-        var res = await api.getData(selector: selector, tabela: tabela);
+        var res = await api.getData(selector: selector, tabela: tabela,);
         return res;
       }
     } catch (e) {
       print(e);
-      return null;
+      return [];
     }
   }
 }

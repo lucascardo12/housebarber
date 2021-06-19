@@ -9,34 +9,33 @@ class NotificFCM extends GetxService {
   Stream<String> tokenStream;
   Future<NotificFCM> inicia() async {
     await Firebase.initializeApp();
-    await AwesomeNotifications().initialize(
-        // set the icon to null if you want to use the default app icon
-        'resource://drawable/launcher_icon',
-        [
-          NotificationChannel(
-              channelKey: 'Geral',
-              channelName: 'Notificações em geral',
-              channelDescription: 'Notificações Basicas em geral',
-              defaultColor: Colors.white,
-              ledColor: Colors.white)
-        ]);
+    if (!GetPlatform.isWeb) {
+      await AwesomeNotifications().initialize(
+          // set the icon to null if you want to use the default app icon
+          'resource://drawable/launcher_icon',
+          [
+            NotificationChannel(
+                channelKey: 'Geral',
+                channelName: 'Notificações em geral',
+                channelDescription: 'Notificações Basicas em geral',
+                defaultColor: Colors.white,
+                ledColor: Colors.white)
+          ]);
 
-    await AwesomeNotifications()
-        .isNotificationAllowed()
-        .then((isAllowed) async {
-      if (!isAllowed) {
-        // Insert here your friendly dialog box before call the request method
-        // This is very important to not harm the user experience
-        await AwesomeNotifications().requestPermissionToSendNotifications();
-      }
-    });
+      await AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
+        if (!isAllowed) {
+          // Insert here your friendly dialog box before call the request method
+          // This is very important to not harm the user experience
+          await AwesomeNotifications().requestPermissionToSendNotifications();
+        }
+      });
+    }
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     firebaseMessaging();
     return this;
   }
 
-  Future<void> showFullScreenNotification(
-      {int id, String title, String body}) async {
+  Future<void> showFullScreenNotification({int id, String title, String body}) async {
     AwesomeNotifications().createNotification(
       content: NotificationContent(
         id: id,
@@ -61,8 +60,7 @@ class NotificFCM extends GetxService {
     token = ptoken;
   }
 
-  static Future<void> firebaseMessagingBackgroundHandler(
-      RemoteMessage message) async {
+  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     // If you're going to use other Firebase services in the background, such as Firestore,
     // make sure you call `initializeApp` before using other Firebase services.
     await Firebase.initializeApp();
